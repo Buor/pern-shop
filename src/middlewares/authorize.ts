@@ -4,19 +4,19 @@ import jwt from 'jsonwebtoken';
 require('dotenv').config();
 
 const authorizeMiddleware: RequestHandler = (req, res, next) => {
-    const token = req.header("jwt_token");
-
-    if (!token) {
-        return res.status(403).json({msg: "authorization denied"});
-    }
-
     try {
-        const verify: any = jwt.verify(token, process.env.JWT_SECRET);
+        const token = req.header("jwt_token");
 
-        req.user = verify.user;
+        if (!token) {
+            return res.status(403).json({msg: "authorization denied"});
+        }
+
+        const payload: any = jwt.verify(token, process.env.JWT_SECRET as string);
+
+        req.user = payload.user;
         next();
     } catch (err) {
-        res.status(401).json({msg: "Token is not valid"});
+        res.status(403).json({msg: "Not Authorize"});
     }
 
 }
