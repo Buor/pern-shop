@@ -4,6 +4,7 @@ import User from "../entities/User"
 import bcrypt from 'bcrypt'
 import {generateAccessToken, generateRefreshToken} from "../utils/jwtGenerator"
 import authorize from '../middlewares/authorize'
+import jwt, {JwtPayload} from 'jsonwebtoken'
 
 const JwtRouter = Router()
 JwtRouter.post('/register', async (req, res) => {
@@ -60,6 +61,21 @@ JwtRouter.get('/is-verify', authorize, async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json("Server error!")
+    }
+})
+
+JwtRouter.get('/refresh-token', async (req, res) => {
+    const refreshToken: string = req.cookies.jid
+    console.log(refreshToken)
+
+    try {
+        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as JwtPayload
+        const newAccessToken = generateAccessToken(+payload.user.id)
+
+        res.json({accessToken: newAccessToken})
+    } catch (err) {
+        console.log(err)
+        res.status(500).json(err.message)
     }
 })
 

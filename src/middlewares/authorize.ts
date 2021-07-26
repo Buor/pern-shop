@@ -12,7 +12,7 @@ const authorizeMiddleware: RequestHandler = (req, res, next) => {
         }
 
         const payload: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-
+        console.log(payload)
         req.user = payload.user;
         next();
     } catch (err) {

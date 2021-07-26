@@ -1,7 +1,6 @@
 import {Express} from "express"
-import JwtRouter from "./jwtAuth"
-
+import AuthRouter from "./auth.router"
 
 export function applyRouters(app: Express) {
-    app.use('auth',JwtRouter);
+    app.use('/auth',AuthRouter);
 }
