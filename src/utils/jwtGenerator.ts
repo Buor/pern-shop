@@ -1,14 +1,23 @@
 import jwt from 'jsonwebtoken';
 require("dotenv").config()
 
-function jwtGenerator(userId: number) {
+export function generateAccessToken(userId: number) {
     const payload = {
         user: {
             id: userId
         }
     }
 
-    return jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "1h"})
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: "15m"})
 }
 
-export default jwtGenerator;
+export function generateRefreshToken(userId: number) {
+    const payload = {
+        user: {
+            id: userId
+        }
+    }
+
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {expiresIn: "1m"})
+}
+

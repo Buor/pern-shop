@@ -5,20 +5,19 @@ require('dotenv').config();
 
 const authorizeMiddleware: RequestHandler = (req, res, next) => {
     try {
-        const token = req.header("jwt_token");
+        const accessToken = req.headers.authorization?.split(' ')[1];
 
-        if (!token) {
+        if (!accessToken) {
             return res.status(403).json({msg: "authorization denied"});
         }
 
-        const payload: any = jwt.verify(token, process.env.JWT_SECRET as string);
+        const payload: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
 
         req.user = payload.user;
         next();
     } catch (err) {
         res.status(403).json({msg: "Not Authorize"});
     }
-
 }
 
 export default authorizeMiddleware;
