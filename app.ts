@@ -13,9 +13,10 @@ const cookieParser = require('cookie-parser');
     await createConnection({
         url: pool,
         type: "postgres",
-        ssl: {
-            rejectUnauthorized: false,
-        },
+        //todo
+        // ssl: {
+        //     rejectUnauthorized: false,
+        // },
         entities: [User],
         synchronize: true
     })

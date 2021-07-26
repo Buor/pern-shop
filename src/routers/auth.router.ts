@@ -6,7 +6,6 @@ import {generateAccessToken, generateRefreshToken} from "../utils/jwtGenerator"
 import authorize from '../middlewares/authorize'
 import jwt, {JwtPayload} from 'jsonwebtoken'
 import {ILoginResponseDTO} from "../../types/DTOs"
-import {log} from "util"
 
 const JwtRouter = Router()
 JwtRouter.post('/register', async (req, res) => {
@@ -35,12 +34,10 @@ JwtRouter.post('/login', async (req, res) => {
 
         const user = await manager.findOne(User, {email})
         if (!user) {
-            console.log(req.body);
             return res.status(401).json("Password or email is incorrect!")
         }
 
         const validPassword = await bcrypt.compare(password, user.password)
-
         if (!validPassword) {
             return res.status(401).json("Password of email is incorrect!")
         }
@@ -77,7 +74,6 @@ JwtRouter.get('/is-verify', authorize, async (req, res) => {
 
 JwtRouter.get('/refresh-token', async (req, res) => {
     const refreshToken: string = req.cookies.jid
-    console.log(refreshToken)
 
     try {
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string) as JwtPayload

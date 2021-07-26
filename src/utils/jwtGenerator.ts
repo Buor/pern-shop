@@ -18,6 +18,6 @@ export function generateRefreshToken(userId: number) {
         }
     }
 
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {expiresIn: "1m"})
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET as string, {expiresIn: 60*60*24*30})
 }
 

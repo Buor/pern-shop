@@ -26,7 +26,7 @@ const LoginPage: React.FC<IProps> = ({setUserData}) => {
                     const result = await login(values)
                     if (result) {
                         //todo setUserData
-                        history.push('/')
+                        history.push('/userPage')
                     }
                 }}
             >
@@ -44,7 +44,6 @@ const LoginPage: React.FC<IProps> = ({setUserData}) => {
     )
 }
 
-export default connect(() => {
-}, {
+export default connect(() => ({}), {
     setUserData
 })(LoginPage)

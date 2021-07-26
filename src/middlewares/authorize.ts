@@ -5,10 +5,11 @@ require('dotenv').config();
 
 const authorizeMiddleware: RequestHandler = (req, res, next) => {
     try {
+
         const accessToken = req.headers.authorization?.split(' ')[1];
 
         if (!accessToken) {
-            return res.status(403).json({msg: "authorization denied"});
+            return res.json(false);
         }
 
         const payload: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
