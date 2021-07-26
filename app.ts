@@ -13,10 +13,10 @@ const cookieParser = require('cookie-parser');
     await createConnection({
         url: pool,
         type: "postgres",
-        //todo enable
-        // ssl: {
-        //     rejectUnauthorized: false,
-        // },
+
+        ssl: {
+            rejectUnauthorized: false,
+        },
         entities: [User],
         synchronize: true
     })
@@ -25,11 +25,11 @@ const cookieParser = require('cookie-parser');
 
     app.use(express.json())
 
-    app.use(cors({
-        origin: 'http://localhost:3000',
-        methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'PATCH'],
-        credentials: true
-    }))
+    // app.use(cors({
+    //     origin: 'http://localhost:3000',
+    //     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'PATCH'],
+    //     credentials: true
+    // }))
 
     app.use(cookieParser())
 
