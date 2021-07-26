@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import {generateAccessToken, generateRefreshToken} from "../utils/jwtGenerator"
 import authorize from '../middlewares/authorize'
 import jwt, {JwtPayload} from 'jsonwebtoken'
+import {ILoginResponseDTO} from "../../types/DTOs"
 
 const JwtRouter = Router()
 JwtRouter.post('/register', async (req, res) => {
@@ -47,7 +48,15 @@ JwtRouter.post('/login', async (req, res) => {
         const refreshToken = generateRefreshToken(user.id)
         res.cookie('jid', refreshToken)
 
-        res.json({accessToken})
+        const responseDTO: ILoginResponseDTO = {
+            accessToken,
+            userData: {
+                name: user.name,
+                email: user.email
+            }
+        }
+
+        res.json(responseDTO)
 
     } catch (err) {
         console.log(err)

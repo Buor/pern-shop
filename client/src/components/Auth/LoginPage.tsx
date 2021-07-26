@@ -1,18 +1,32 @@
 import {Formik, Field, Form} from "formik"
-import { Flex } from "../../styledComponents/baseStyledComponents"
+import {Flex} from "../../styledComponents/baseStyledComponents"
 import {login} from "../../DAL/auth/authApi"
+import {useHistory} from "react-router-dom"
+import {connect} from "react-redux"
+import {setUserData} from "../../redux/auth/authReducer"
 
-export const LoginPage = () => {
+interface IProps {
+    setUserData: Function
+}
+
+const LoginPage: React.FC<IProps> = ({setUserData}) => {
+
+    const history = useHistory()
 
     return (
         <div>
+            Login form
             <Formik
                 initialValues={{
                     email: "",
                     password: ""
                 }}
-                onSubmit={values => {
-                    login(values)
+                onSubmit={async values => {
+                    const result = await login(values)
+                    if (result) {
+                        //todo setUserData
+                        history.push('/')
+                    }
                 }}
             >
                 <Form>
@@ -28,3 +42,8 @@ export const LoginPage = () => {
         </div>
     )
 }
+
+export default connect(() => {
+}, {
+    setUserData
+})(LoginPage)
