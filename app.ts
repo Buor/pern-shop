@@ -13,10 +13,10 @@ const cookieParser = require('cookie-parser');
     await createConnection({
         url: pool,
         type: "postgres",
-
-        ssl: {
-            rejectUnauthorized: false,
-        },
+        //todo
+        // ssl: {
+        //     rejectUnauthorized: false,
+        // },
         entities: [User],
         synchronize: true
     })
@@ -25,16 +25,16 @@ const cookieParser = require('cookie-parser');
 
     app.use(express.json())
 
-    // app.use(cors({
-    //     origin: 'http://localhost:3000',
-    //     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'PATCH'],
-    //     credentials: true
-    // }))
-
     app.use(cookieParser())
 
     if (process.env.NODE_ENV === "production") {
         app.use(express.static(path.join(__dirname, "client/build")))
+    } else {
+        app.use(cors({
+            origin: 'http://localhost:3000',
+            methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD', 'DELETE', 'PATCH'],
+            credentials: true,
+        }))
     }
 
     applyRouters(app)
