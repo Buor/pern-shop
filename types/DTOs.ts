@@ -14,3 +14,4 @@ export interface ILoginRequestDTO {
 export interface IRegisterRequest extends ILoginRequestDTO {
     name: string
 }
+//Comment
