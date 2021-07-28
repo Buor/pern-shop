@@ -25,3 +25,15 @@ export const Container = styled.div<IContainer>`
   max-width: ${props => props.maxWidth}px;
   padding: 0 ${props => props.safePadding}px;
 `
+
+interface ICard {
+    border?: string
+    padding?: string
+    borderRadius?: string
+}
+
+export const Card = styled.div<ICard>`
+  ${props => props.border ? `border: ${props.border};` : `border: 1px solid black;`}
+  ${props => props.padding ? `padding: ${props.padding};` : `padding: 10px;`}
+  ${props => props.borderRadius ? `border-radius: ${props.borderRadius};` : `border-radius: 10px;`}
+`
