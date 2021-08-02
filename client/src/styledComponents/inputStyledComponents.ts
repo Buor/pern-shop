@@ -10,7 +10,7 @@ interface IButton {
     height?: number
 }
 
-export const Button = styled.button<IButton>`
+export const SButton = styled.button<IButton>`
   background-color: ${props => props.backgroundColor || props.theme.palette.success};
   color: ${props => props.color || props.theme.palette.primary};
   
@@ -33,14 +33,39 @@ interface IInput {
     margin?: string
     padding?: string
     border?: string
+    hint?: boolean
 }
 
-export const Input = styled.input<IInput>`
+export const SInput = styled.input<IInput>`
   border-radius: ${props => props.borderRadius || 0}px;
   
   ${props => props.margin ? `margin: ${props.margin};` : ""}
   ${props => props.padding ? `padding: ${props.padding};` : ""}
   ${props => props.border ? `border: ${props.border};` : `border: 0;`}
-
+  
   outline: none;
 `
+
+interface IFormWrapper {
+    type?: string
+}
+export const SForm = styled.div<IFormWrapper>`
+    ${props => {
+        switch(props.type) {
+          case "default" : default: return `
+            input {
+                background-color: black
+            }
+          `;
+          case "modern": return `
+            input {
+                background-color: orange
+            }
+          `
+        }
+    }}
+`
+
+export const SInputHint = `
+    
+`;

@@ -7,7 +7,7 @@ interface IFlex {
     width?: number;
 }
 
-export const Flex = styled.div<IFlex>`
+export const SFlex = styled.div<IFlex>`
   display: flex;
   justify-content: ${props => props.justify || "flex-start"};
   align-items: ${props => props.align || "stretch"};;
@@ -20,7 +20,7 @@ interface IContainer {
     safePadding?: number,
 }
 
-export const Container = styled.div<IContainer>`
+export const SContainer = styled.div<IContainer>`
   margin: 0 auto;
   max-width: ${props => props.maxWidth}px;
   padding: 0 ${props => props.safePadding}px;
@@ -32,7 +32,7 @@ interface ICard {
     borderRadius?: string
 }
 
-export const Card = styled.div<ICard>`
+export const SCard = styled.div<ICard>`
   ${props => props.border ? `border: ${props.border};` : `border: 1px solid black;`}
   ${props => props.padding ? `padding: ${props.padding};` : `padding: 10px;`}
   ${props => props.borderRadius ? `border-radius: ${props.borderRadius};` : `border-radius: 10px;`}

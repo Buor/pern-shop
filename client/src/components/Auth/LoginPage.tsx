@@ -1,13 +1,13 @@
 import React, {useRef} from 'react'
 import {Formik, Field, Form} from "formik"
-import {Card, Flex} from "../../styledComponents/baseStyledComponents"
+import {SCard, SFlex} from "../../styledComponents/baseStyledComponents"
 import {login} from "../../DAL/auth/authApi"
 import {useHistory} from "react-router-dom"
 import {connect} from "react-redux"
 import {setUserData} from "../../redux/auth/authReducer"
-import {Button} from '../../styledComponents/inputStyledComponents'
-import {Input} from '../../styledComponents/inputStyledComponents'
-import {H2} from "../../styledComponents/titleStyles"
+import {SButton, SForm} from '../../styledComponents/inputStyledComponents'
+import {SInput} from '../../styledComponents/inputStyledComponents'
+import {SH2} from "../../styledComponents/titleStyles"
 
 interface IProps {
     setUserData: Function
@@ -25,8 +25,6 @@ const LoginPage: React.FC<IProps> = ({setUserData}) => {
     })
 
     return (
-
-
         <Formik
             initialValues={{
                 email: "",
@@ -43,42 +41,47 @@ const LoginPage: React.FC<IProps> = ({setUserData}) => {
             }}
         >
             <Form>
-                <Flex flexDirection={'column'} align={'center'}>
-                    <Card>
-                        <Flex flexDirection={'column'} width={500}>
-                            <H2 style={{textAlign: "center"}}>
-                                Login Form
-                            </H2>
-                            <Field
-                                name={'email'}
-                                type={'text'}
+                <SForm>
+                    <SFlex flexDirection={'column'} align={'center'}>
+                        <SCard>
+                            <SFlex flexDirection={'column'} width={500}>
+                                <SH2 style={{textAlign: "center"}}>
+                                    Login Form
+                                </SH2>
+                                <SFlex flexDirection={'column'}>
+                                    <Field
+                                        name={'email'}
+                                        type={'text'}
 
-                                as={Input}
-                                {...inputStyles.current}
-                            />
+                                        as={SInput}
+                                        {...inputStyles.current}
+                                    />
 
-                            <Field name={'password'}
-                                   type={'password'}
+                                    <Field name={'password'}
+                                           type={'password'}
 
-                                   as={Input}
-                                   {...inputStyles.current}
-                            />
+                                           as={SInput}
+                                           {...inputStyles.current}
+                                    />
+                                </SFlex>
 
-                            <Button type={'submit'}
-                                    hover={"base"}
-                                    borderRadius={20}
-                                    color={'white'}
-                                    padding={'10px 15px'}
-                                    width={150}
-                                    style={{alignSelf: 'center'}}
-                            >
-                                Submit
-                            </Button>
+                                <SButton type={'submit'}
+                                         hover={"base"}
+                                         borderRadius={20}
+                                         color={'white'}
+                                         padding={'10px 15px'}
+                                         width={150}
+                                         style={{alignSelf: 'center'}}
+                                >
+                                    Submit
+                                </SButton>
 
-                        </Flex>
-                    </Card>
+                            </SFlex>
+                        </SCard>
 
-                </Flex>
+                    </SFlex>
+                </SForm>
+
             </Form>
         </Formik>
 
