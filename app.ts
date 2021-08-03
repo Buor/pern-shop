@@ -1,10 +1,10 @@
-import pool from "./src/utils/pool"
+import pool from "./src/Utils/pool"
 import {createConnection} from "typeorm"
-import User from "./src/entities/User"
+import User from "./src/Entities/User"
 import express from 'express'
 import path from 'path'
 import cors from 'cors'
-import {applyRouters} from "./src/routers/applyRouters"
+import {applyRouters} from "./src/Routers/applyRouters"
 
 const cookieParser = require('cookie-parser');
 

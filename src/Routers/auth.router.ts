@@ -1,9 +1,9 @@
 import Router from 'express'
 import {getConnection} from "typeorm"
-import User from "../entities/User"
+import User from "../Entities/User"
 import bcrypt from 'bcrypt'
-import {generateAccessToken, generateRefreshToken} from "../utils/jwtGenerator"
-import authorize from '../middlewares/authorize'
+import {generateAccessToken, generateRefreshToken} from "../Utils/jwtGenerator"
+import authorize from '../Middlewares/authorize'
 import jwt, {JwtPayload} from 'jsonwebtoken'
 import {ILoginResponseDTO} from "../../types/DTOs"
 

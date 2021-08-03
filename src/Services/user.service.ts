@@ -1,5 +1,5 @@
 import {getConnection} from "typeorm";
-import User from "../entities/User";
+import User from "../Entities/User";
 
 export const getUser: (email: string) => Promise<User | undefined> = async (email) => {
     const manager = getConnection().manager;

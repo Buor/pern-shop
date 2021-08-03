@@ -3,7 +3,7 @@ import {Field, Form, Formik} from "formik"
 import {login} from "../../DAL/auth/authApi"
 import {useHistory} from "react-router-dom"
 import {connect} from "react-redux"
-import {setUserData} from "../../redux/auth/authReducer"
+import {setUserData} from "../../Redux/auth/authReducer"
 
 interface IProps {
     setUserData: Function
