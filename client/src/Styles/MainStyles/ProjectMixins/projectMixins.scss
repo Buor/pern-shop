@@ -1,0 +1,41 @@
+@import './../../Utils/CommonMixins/buttons';
+@import './../vars';
+//BUTTONS
+@mixin btn_base() {
+  padding: 10px 15px;
+  background-color: $col_green_dark;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  &:hover {
+    background-color: $col_green;
+  }
+}
+
+//INPUTS
+@mixin input_base() {
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 7px 12px;
+}
+
+//COLORS
+@mixin color_gray() {
+  color: black;
+  opacity: 0.8;
+}
+
+@mixin shadow_base() {
+  -webkit-box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+  -moz-box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+  box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+}
+
+//DECO
+@mixin deco_gray_line($h: 1px) {
+  width: 100%;
+  height: $h;
+  background-color: rgba(0,0,0,0.4);
+  @include color_gray;
+}

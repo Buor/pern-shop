@@ -1,0 +1,9 @@
+//CSS RESET
+@import "../Utils/Reset/reset.css";
+//SET UP PROJECT BASE STYLES
+@import "baseStyles";
+//INCLUDE FONTS
+@import "fonts";
+//INCLUDE PAGES
+@import "../Pages/Auth/loginPage";
+@import "../Pages/Main/mainPage";
