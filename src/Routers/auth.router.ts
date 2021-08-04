@@ -29,7 +29,7 @@ JwtRouter.post('/register', async (req, res) => {
 JwtRouter.post('/login', async (req, res) => {
     try {
         const {email, password} = req.body
-
+        console.log(email,password)
         const manager = getConnection().manager
 
         const user = await manager.findOne(User, {email})

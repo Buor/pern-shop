@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useState} from 'react'
 import {Field, Form, Formik, ErrorMessage} from "formik"
 import {login} from "../../DAL/auth/authApi"
 import {useHistory} from "react-router-dom"
@@ -12,10 +12,11 @@ interface IProps {
 }
 
 
-
 const LoginPage: React.FC<IProps> = () => {
 
     const history = useHistory()
+
+    const [loginError, setLoginError] = useState("");
 
     return (
         <div className={'login_page'}>
@@ -26,54 +27,65 @@ const LoginPage: React.FC<IProps> = () => {
                 }}
                 validationSchema={LoginSchema}
                 onSubmit={async values => {
+
+                    if (Object.values(values).some(val => val === "")) {
+                        setLoginError("All field must be filled!")
+                        return
+                    }
+
                     const result = await login(values)
-                    if (result) {
-                        //todo setUserData
+                    if (result === true) {
                         history.push('/userPage')
                         return
                     }
-                    console.log('login error!')
+                    setLoginError(result);
                 }}
             >
                 {({errors, touched}) =>
                     <Form>
-                        <div className={'login_form'}>
-                            <h2 className={'title_first'}>
-                                Welcome!
-                            </h2>
-                            <div className="deco_gray"/>
-                            <h3 className={'title_second'}>
-                                Login Form
-                            </h3>
+                        <h2 className={'title_first'}>
+                            Welcome!
+                        </h2>
+                        <div className="deco_gray"/>
+                        <h3 className={'title_second'}>
+                            Login Form
+                        </h3>
 
-                            <div className="input_wrapper">
-                                <div className="input_desc">
-                                    Email
-                                </div>
-                                <Field
-                                    name={'email'}
-                                    type={'text'}
-                                />
-                                {errors.email ? <div className={'input_error_message'}>
-                                    <ErrorMessage name={'email'}/>
-                                </div> : ""}
+                        <div className="input_wrapper">
+                            <div className="input_desc">
+                                Email
                             </div>
-
-                            <div className="input_wrapper">
-                                <div className="input_desc">
-                                    Password
-                                </div>
-                                <Field
-                                    name={'password'}
-                                    type={'password'}
-                                />
-                            </div>
-
-                            <button type={'submit'}>
-                                Submit
-                            </button>
-
+                            <Field
+                                name={'email'}
+                                type={'text'}
+                            />
+                            {errors.email && touched.email ? <div className={'input_error_message'}>
+                                <ErrorMessage name={'email'}/>
+                            </div> : ""}
                         </div>
+
+                        <div className="input_wrapper">
+                            <div className="input_desc">
+                                Password
+                            </div>
+                            <Field
+                                name={'password'}
+                                type={'password'}
+                            />
+                            {errors.password && touched.password ? <div className={'input_error_message'}>
+                                <ErrorMessage name={'password'}/>
+                            </div> : ""}
+                        </div>
+
+                        {
+                            loginError && <div className={'login_error_message'}>
+                                {loginError}
+                            </div>
+                        }
+
+                        <button type={'submit'}>
+                            Submit
+                        </button>
 
 
                     </Form>

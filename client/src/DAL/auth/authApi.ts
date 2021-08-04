@@ -31,8 +31,8 @@ export const login = async (loginData: ILoginRequestDTO) => {
         console.log(responseData)
         return true
     } catch (err) {
-        console.log(err.response.data)
-        return false
+        if(err.response.status === 401) return "Wrong email or password"
+        return "Server error occurred, try again later"
     }
 }
 
@@ -47,15 +47,18 @@ export const register = async (registerData: IRegisterRequest) => {
 
 export const getIsVerified = async () => {
     try {
+        //Get access token and check it
         let success = (await getIsVerifiedReq()).data
         if(success) return true
 
+        //If access token wrong, refresh it
         let newAccessToken = (await getRefreshAccessToken()).data.accessToken
         if (!newAccessToken) return false
 
         setAccessToken(newAccessToken)
         return true
     } catch (err) {
-        console.log(err.response.data)
+        console.log(err.response)
+        return false
     }
 }
