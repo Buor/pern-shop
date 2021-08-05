@@ -39,3 +39,22 @@
   background-color: rgba(0,0,0,0.4);
   @include color_gray;
 }
+
+//BUTTONS
+@mixin btn_second($c: white, $p: 7px, $bgcol: $col_pink, $bgcol_dark: $col_pink_dark) {
+  color: $c;
+  background-color: $bgcol;
+  padding: $p;
+  border-radius: 5px;
+  &:hover {
+    background-color: $bgcol_dark;
+  }
+}
+@mixin btn_hover($hover_bgcol: rgba(128,128,128,0.77)) {
+  background-color: transparent;
+  transition: 0.3s ease-in-out background-color;
+  padding: 5px;
+  &:hover {
+    background-color: $hover_bgcol;
+  }
+}

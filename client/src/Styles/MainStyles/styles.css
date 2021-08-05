@@ -1,4 +1,59 @@
-@import "../Utils/Reset/reset.css";
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-size: inherit;
+  vertical-align: baseline;
+  line-height: 100%;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
   font-family: Arial, serif;
   font-size: 16px;
@@ -34,6 +89,11 @@ h3 {
 h1, h2, h3, h4, h5, h6 {
   line-height: 110%;
   font-weight: 500;
+}
+
+img, button {
+  background-color: transparent;
+  font-size: 16px;
 }
 
 .deco_gray {
@@ -131,4 +191,136 @@ h1, h2, h3, h4, h5, h6 {
 .login_page form .login_error_message {
   color: red;
   margin-bottom: 10px;
+}
+
+header.main_header {
+  background-color: #151313;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  min-height: 70px;
+}
+header.main_header .header_wrapper {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+}
+header.main_header .header_wrapper .btn_burger_menu img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+  width: 25px;
+  height: 25px;
+}
+header.main_header .header_wrapper .logo_link {
+  margin-left: 15px;
+}
+header.main_header .header_wrapper .logo_link img {
+  width: 50px;
+  height: 50px;
+}
+header.main_header .header_wrapper .btn_categories {
+  color: white;
+  background-color: #ff3377;
+  padding: 7px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-left: 35px;
+}
+header.main_header .header_wrapper .btn_categories:hover {
+  background-color: #cc295f;
+}
+header.main_header .header_wrapper .btn_categories img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+  width: 30px;
+  height: 30px;
+}
+header.main_header .header_wrapper .btn_categories:hover {
+  background-color: #cc295f;
+}
+header.main_header .header_wrapper .btn_text {
+  padding-left: 10px;
+}
+header.main_header .header_wrapper .search_wrapper {
+  position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 50%;
+          flex: 1 0 50%;
+  margin-left: 20px;
+}
+header.main_header .header_wrapper .search_wrapper .search_icon {
+  position: absolute;
+  left: 7px;
+  width: 17px;
+  height: 17px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+header.main_header .header_wrapper .search_wrapper input {
+  padding: 12.5px 25px 12.5px 35px;
+  width: 80%;
+  font-size: 16px;
+  border-radius: 5px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+header.main_header .header_wrapper .search_wrapper button {
+  color: white;
+  background-color: #ff3377;
+  padding: 7px;
+  border-radius: 5px;
+  padding: 12.5px 25px;
+  border-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+header.main_header .header_wrapper .search_wrapper button:hover {
+  background-color: #cc295f;
+}
+header.main_header .header_wrapper .btn_orders, header.main_header .header_wrapper .btn_login {
+  background-color: transparent;
+  -webkit-transition: 0.3s ease-in-out background-color;
+  transition: 0.3s ease-in-out background-color;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+}
+header.main_header .header_wrapper .btn_orders:hover, header.main_header .header_wrapper .btn_login:hover {
+  background-color: rgba(128, 128, 128, 0.77);
+}
+header.main_header .header_wrapper .btn_orders img, header.main_header .header_wrapper .btn_login img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+  width: 100%;
+  height: 100%;
+}
+header.main_header .header_wrapper .btn_shopping_card {
+  background-color: transparent;
+  -webkit-transition: 0.3s ease-in-out background-color;
+  transition: 0.3s ease-in-out background-color;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  margin-left: 20px;
+}
+header.main_header .header_wrapper .btn_shopping_card:hover {
+  background-color: rgba(128, 128, 128, 0.77);
+}
+header.main_header .header_wrapper .btn_shopping_card img {
+  -webkit-filter: invert(1);
+          filter: invert(1);
+  width: 100%;
+  height: 100%;
 }

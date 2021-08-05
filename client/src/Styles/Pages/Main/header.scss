@@ -1,0 +1,113 @@
+@import '../../MainStyles/vars';
+@import '../../MainStyles/ProjectMixins/projectMixins';
+
+header.main_header {
+  background-color: $col_dark;
+  display: flex;
+  width: 100%;
+  min-height: 70px;
+
+
+  .header_wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: white;
+
+    .btn_burger_menu {
+      img {
+        filter: invert(1);
+        width: 25px;
+        height: 25px;
+      }
+    }
+
+    .logo_link {
+      margin-left: 15px;
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .btn_categories {
+      @include btn_second();
+      display: flex;
+      align-items: center;
+
+      img {
+        filter: invert(1);
+        width: 30px;
+        height: 30px;
+      }
+
+      &:hover {
+        background-color: $col_pink_dark;
+      }
+
+      margin-left: 35px;
+    }
+
+    .btn_text {
+      padding-left: 10px;
+    }
+
+    .search_wrapper {
+      position: relative;
+      flex: 1 0 50%;
+      margin-left: 20px;
+
+      .search_icon {
+        position: absolute;
+        left: 7px;
+        width: 17px;
+        height: 17px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      input {
+        padding: 12.5px 25px 12.5px 35px;
+
+        width: 80%;
+        font-size: 16px;
+        border-radius: 5px;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      button {
+        @include btn_second();
+        padding: 12.5px 25px;
+        border-radius: 5px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+      }
+    }
+
+    .btn_orders,.btn_login {
+      @include btn_hover();
+      width: 40px;
+      height: 40px;
+      img {
+        filter: invert(1);
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .btn_shopping_card {
+      @include btn_hover();
+      width: 40px;
+      height: 40px;
+      margin-left: 20px;
+      img {
+        filter: invert(1);
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+}
