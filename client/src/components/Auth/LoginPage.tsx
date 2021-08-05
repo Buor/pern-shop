@@ -6,6 +6,7 @@ import {connect} from "react-redux"
 import {setIsAuth, setUserData} from "../../Redux/auth/authReducer"
 import * as Yup from 'yup';
 import {LoginSchema} from "../../Utils/YupSchemes";
+import useIsVerified from "../../Utils/CustomHooks/useIsVerified";
 
 interface IProps {
     setUserData: Function,
@@ -15,8 +16,12 @@ interface IProps {
 const LoginPage: React.FC<IProps> = ({setIsAuth}) => {
 
     const history = useHistory()
-
+    const isVerified = useIsVerified();
     const [loginError, setLoginError] = useState("");
+
+    if(isVerified === "pending") return null;
+
+    if (isVerified === "true") history.push('/');
 
     return (
         <div className={'login_page'}>

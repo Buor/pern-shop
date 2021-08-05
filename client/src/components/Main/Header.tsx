@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({isAuth}) => {
                     <button>Search</button>
                 </div>
 
-                {isVerified || isAuth
+                {isVerified === "true" || isAuth
                     ? <button className={'btn_orders'}>
                         <img src={orders} alt="orders"/>
                     </button>
