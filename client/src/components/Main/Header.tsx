@@ -8,16 +8,21 @@ import orders from "./../../Styles/Images/Icons/orders.svg"
 import shopping_cart from "./../../Styles/Images/Icons/shopping_cart.svg"
 import user from "./../../Styles/Images/Icons/user.svg"
 import useIsVerified from "../../Utils/CustomHooks/useIsVerified";
+import {connect} from "react-redux";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    isAuth: boolean
+}
+
+const Header: React.FC<HeaderProps> = ({isAuth}) => {
 
     const isVerified = useIsVerified();
     const history = useHistory();
 
     const handleLoginBtnClick = () => {
-        history.push('/login')
+        history.push('/login');
     }
-    console.log(isVerified)
+
     return (
         <header className={'main_header'}>
             <div className={'header_wrapper container'}>
@@ -39,7 +44,7 @@ const Header: React.FC = () => {
                     <button>Search</button>
                 </div>
 
-                {isVerified
+                {isVerified || isAuth
                     ? <button className={'btn_orders'}>
                         <img src={orders} alt="orders"/>
                     </button>
@@ -56,4 +61,9 @@ const Header: React.FC = () => {
     )
 }
 
-export default Header
+export default connect(
+    (state: any) => {
+        console.log(state)
+        return {isAuth: state.auth.isAuth}
+    }
+)(Header)

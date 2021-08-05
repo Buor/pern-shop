@@ -15,3 +15,5 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
+
+export type RootState = ReturnType<typeof store.getState>

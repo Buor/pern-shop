@@ -105,6 +105,7 @@ img, button {
 }
 
 .login_page {
+  margin-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

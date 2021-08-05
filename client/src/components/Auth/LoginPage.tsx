@@ -3,16 +3,16 @@ import {Field, Form, Formik, ErrorMessage} from "formik"
 import {login} from "../../DAL/auth/authApi"
 import {useHistory} from "react-router-dom"
 import {connect} from "react-redux"
-import {setUserData} from "../../Redux/auth/authReducer"
+import {setIsAuth, setUserData} from "../../Redux/auth/authReducer"
 import * as Yup from 'yup';
 import {LoginSchema} from "../../Utils/YupSchemes";
 
 interface IProps {
-    setUserData: Function
+    setUserData: Function,
+    setIsAuth: Function
 }
 
-
-const LoginPage: React.FC<IProps> = () => {
+const LoginPage: React.FC<IProps> = ({setIsAuth}) => {
 
     const history = useHistory()
 
@@ -36,6 +36,7 @@ const LoginPage: React.FC<IProps> = () => {
                     const result = await login(values)
                     if (result === true) {
                         history.push('/userPage')
+                        setIsAuth(true)
                         return
                     }
                     setLoginError(result);
@@ -99,5 +100,6 @@ const LoginPage: React.FC<IProps> = () => {
 }
 
 export default connect(() => ({}), {
-    setUserData
+    setUserData,
+    setIsAuth
 })(LoginPage)
