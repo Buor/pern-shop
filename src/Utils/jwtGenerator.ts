@@ -8,7 +8,7 @@ export function generateAccessToken(userId: number) {
         }
     }
 
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: 5})
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {expiresIn: '15m'})
 }
 
 export function generateRefreshToken(userId: number) {
