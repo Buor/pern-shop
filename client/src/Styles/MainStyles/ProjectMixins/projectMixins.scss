@@ -36,7 +36,7 @@
 @mixin deco_gray_line($h: 1px) {
   width: 100%;
   height: $h;
-  background-color: rgba(0,0,0,0.4);
+  background-color: $col_gray_light;
   @include color_gray;
 }
 
@@ -57,4 +57,14 @@
   &:hover {
     background-color: $hover_bgcol;
   }
+}
+//LINKS
+@mixin a_base() {
+  &:hover {
+    @include a_base_hover();
+  }
+}
+@mixin a_base_hover() {
+    color: $col_pink;
+    text-decoration: underline;
 }

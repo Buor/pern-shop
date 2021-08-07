@@ -4,8 +4,31 @@
 .main_page  {
   .sidebar {
     width: 300px;
-
+    padding: 0 10px;
     height: 500px;
+    border-right: 1px solid rgba(173, 173, 173, 0.58);
 
+    .categories_wrapper {
+
+    }
+    .category_item {
+
+      padding: 5px 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        .category_link {
+          @include a_base_hover();
+        }
+      }
+    }
+    .category_image {
+      width: 50px;
+      height: 50px;
+    }
+    .category_link {
+      margin-left: 10px;
+    }
   }
 }

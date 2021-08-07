@@ -1,4 +1,5 @@
 @import "./ProjectMixins/projectMixins";
+@import "./../MainStyles/vars";
 body {
   font-family: Arial, serif;
   font-size: 16px;
@@ -32,6 +33,10 @@ h1,h2,h3,h4,h5,h6 {
 img,button {
   background-color: transparent;
   font-size: 16px;
+}
+a {
+  text-decoration: none;
+  color: $col_blue;
 }
 //GLOBAL CLASSES
 .deco_gray {
