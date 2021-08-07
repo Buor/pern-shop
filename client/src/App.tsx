@@ -6,7 +6,6 @@ import UserPage from "./Components/User/UserPage"
 import MainPage from "./Components/Main/MainPage/MainPage";
 
 const App: React.FC = () => {
-
     return (
         <>
             <Header/>
