@@ -1,0 +1,78 @@
+@import '../../MainStyles/vars';
+@import '../../MainStyles/ProjectMixins/projectMixins';
+
+.login_page {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  form {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 15px;
+    padding: 10px;
+    flex: 0 1 350px;
+    @include shadow_base;
+
+    button {
+      @include btn_base();
+    }
+
+    .title_first {
+      margin: 10px 0;
+
+    }
+
+    .title_second {
+      margin-top: 10px;
+    }
+
+
+    .deco_gray {
+      width: 107.5%;
+    }
+
+    .input_wrapper {
+      width: 100%;
+      margin-bottom: 15px;
+
+      display: flex;
+      flex-direction: column;
+
+      .input_desc {
+        text-indent: 10px;
+        @include color_gray;
+      }
+
+      input {
+        @include input_base();
+
+        padding: 7px 12px;
+        box-sizing: border-box;
+      }
+
+      .input_error_message {
+        margin-top: 5px;
+        text-indent: 3px;
+        color: red;
+      }
+
+      &:last-child {
+        margin-bottom: 80px;
+        background-color: #0be100;
+      }
+
+    }
+
+    .login_error_message {
+      color: red;
+      margin-bottom: 10px;
+    }
+
+  }
+}

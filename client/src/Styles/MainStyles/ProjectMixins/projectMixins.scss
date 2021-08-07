@@ -1,0 +1,70 @@
+@import './../../Utils/CommonMixins/buttons';
+@import './../vars';
+//BUTTONS
+@mixin btn_base() {
+  padding: 10px 15px;
+  background-color: $col_green_dark;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  &:hover {
+    background-color: $col_green;
+  }
+}
+
+//INPUTS
+@mixin input_base() {
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 7px 12px;
+}
+
+//COLORS
+@mixin color_gray() {
+  color: black;
+  opacity: 0.8;
+}
+
+@mixin shadow_base() {
+  -webkit-box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+  -moz-box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+  box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
+}
+
+//DECO
+@mixin deco_gray_line($h: 1px) {
+  width: 100%;
+  height: $h;
+  background-color: $col_gray_light;
+  @include color_gray;
+}
+
+//BUTTONS
+@mixin btn_second($c: white, $p: 7px, $bgcol: $col_pink, $bgcol_dark: $col_pink_dark) {
+  color: $c;
+  background-color: $bgcol;
+  padding: $p;
+  border-radius: 5px;
+  &:hover {
+    background-color: $bgcol_dark;
+  }
+}
+@mixin btn_hover($hover_bgcol: rgba(128,128,128,0.77)) {
+  background-color: transparent;
+  transition: 0.3s ease-in-out background-color;
+  padding: 5px;
+  &:hover {
+    background-color: $hover_bgcol;
+  }
+}
+//LINKS
+@mixin a_base() {
+  &:hover {
+    @include a_base_hover();
+  }
+}
+@mixin a_base_hover() {
+    color: $col_pink;
+    text-decoration: underline;
+}
