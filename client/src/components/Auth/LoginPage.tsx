@@ -1,10 +1,9 @@
-import React, {useRef, useState} from 'react'
+import React, { useState} from 'react'
 import {Field, Form, Formik, ErrorMessage} from "formik"
 import {login} from "../../DAL/auth/authApi"
 import {useHistory} from "react-router-dom"
 import {connect} from "react-redux"
 import {setIsAuth, setUserData} from "../../Redux/auth/authReducer"
-import * as Yup from 'yup';
 import {LoginSchema} from "../../Utils/YupSchemes";
 import useIsVerified from "../../Utils/CustomHooks/useIsVerified";
 
