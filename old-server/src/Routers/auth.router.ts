@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 import {generateAccessToken, generateRefreshToken} from "../Utils/jwtGenerator"
 import authorize from '../Middlewares/authorize'
 import jwt, {JwtPayload} from 'jsonwebtoken'
-import {ILoginResponseDTO} from "../../types/DTOs"
+import {ILoginResponseDTO} from "../../../types/DTOs"
 
 const JwtRouter = Router()
 JwtRouter.post('/register', async (req, res) => {
