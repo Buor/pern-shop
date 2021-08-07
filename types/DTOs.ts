@@ -1,7 +1,6 @@
 export interface ILoginResponseDTO {
     accessToken: string,
     userData: {
-        name: string
         email: string
     }
 }

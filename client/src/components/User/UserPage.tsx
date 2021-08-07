@@ -3,14 +3,7 @@ import {getIsVerified} from "../../DAL/auth/authApi"
 
 const UserPage: React.FC = () => {
 
-    const [isVerified, seIsVerified] = useState(false);
-
-    useEffect(() => {
-        getIsVerified().then(res => {
-            if (res) seIsVerified(true);
-            else console.log("Error!");
-        })
-    }, [])
+    const isVerified = useState(false);
 
     if (!isVerified) return <div>"Error! You don't have permission to this page!"</div>;
 

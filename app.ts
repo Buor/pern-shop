@@ -5,6 +5,13 @@ import express from 'express'
 import path from 'path'
 import cors from 'cors'
 import {applyRouters} from "./src/Routers/applyRouters"
+import Basket from "./src/Entities/Basket";
+import Brand from "./src/Entities/Brand";
+import Product from "./src/Entities/Product";
+import ProductInfo from "./src/Entities/ProductInfo";
+import Rating from "./src/Entities/Rating";
+import Type from "./src/Entities/Type";
+import UserData from "./src/Entities/UserData";
 
 const cookieParser = require('cookie-parser');
 
@@ -17,7 +24,7 @@ const cookieParser = require('cookie-parser');
         // ssl: {
         //     rejectUnauthorized: false,
         // },
-        entities: [User],
+        entities: [User, Basket, Brand, Product, ProductInfo, Rating, Type, UserData],
         synchronize: true
     })
 

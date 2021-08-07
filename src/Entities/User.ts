@@ -1,16 +1,27 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import UserData from "./UserData";
+import Basket from "./Basket";
+import Rating from "./Rating";
 
-@Entity('users')
+@Entity('user')
 export default class User {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
-
-    @Column()
-    name: string;
 
     @Column()
     email: string;
 
     @Column()
     password: string;
+
+    @OneToOne(() => UserData, userData => userData.user)
+    @JoinTable()
+    userData: UserData
+
+    @OneToOne(() => Basket, basket => basket.user)
+    @JoinTable()
+    basket: Basket
+
+    @OneToMany(() => Rating, rating => rating.user)
+    ratings: Rating[]
 }

@@ -18,7 +18,7 @@ JwtRouter.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const bcryptPassword = await bcrypt.hash(password, salt)
 
-        let newUser = manager.create(User, {email, name, password: bcryptPassword})
+        let newUser = manager.create(User, {email, password: bcryptPassword})
         await manager.save(newUser)
 
     } catch (e) {
@@ -50,7 +50,6 @@ JwtRouter.post('/login', async (req, res) => {
         const responseDTO: ILoginResponseDTO = {
             accessToken,
             userData: {
-                name: user.name,
                 email: user.email
             }
         }
