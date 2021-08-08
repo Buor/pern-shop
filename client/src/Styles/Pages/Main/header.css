@@ -1,8 +1,0 @@
-header.main_header {
-  background-color: #221f1f;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  min-height: 150px;
-}

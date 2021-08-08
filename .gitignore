@@ -6,7 +6,8 @@ client/build
 client/node_modules
 /.env
 prepros.config
-
+*.css
+!styles.css
 # Logs
 logs
 *.log
