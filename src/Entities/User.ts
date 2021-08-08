@@ -1,7 +1,7 @@
-import {Column, Entity, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import UserData from "./UserData";
-import Basket from "./Basket";
-import Rating from "./Rating";
+import { Column, Entity, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import UserData from './UserData'
+import Basket from './Basket'
+import Rating from './Rating'
 
 @Entity('user')
 export default class User {
