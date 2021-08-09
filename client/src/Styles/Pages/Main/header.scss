@@ -29,7 +29,7 @@ header.main_header {
         width: 50px;
         height: 50px;
       }
-      @media(max-width: 756px) {
+      @media(max-width: 773px) {
         display: none;
       }
     }
@@ -83,7 +83,7 @@ header.main_header {
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
 
-        @media(max-width: 756px) {
+        @media(max-width: 773px) {
           width: 100%;
           border-radius: 5px;
         }
@@ -96,7 +96,7 @@ header.main_header {
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
 
-        @media(max-width: 756px) {
+        @media(max-width: 773px) {
           display: none;
         }
       }
@@ -113,7 +113,7 @@ header.main_header {
         height: 100%;
       }
 
-      @media(max-width: 756px) {
+      @media(max-width: 773px) {
         display: none;
       }
     }

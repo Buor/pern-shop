@@ -279,6 +279,11 @@ a {
 .main_page .main_content .main_section .items_wrapper .item .item_image {
   max-width: 100%;
 }
+@media (max-width: 500px) {
+  .main_page .main_content .main_section .items_wrapper .item .item_image {
+    max-width: 70px;
+  }
+}
 .main_page .main_content .main_section .items_wrapper .item .item_name {
   margin-top: 10px;
   color: black;
@@ -314,8 +319,44 @@ a {
   font-size: 12px;
   color: rgba(0, 0, 0, 0.4);
 }
+@media (max-width: 1020px) {
+  .main_page .main_content .main_section .items_wrapper .item .item_stock {
+    position: relative;
+  }
+}
 .main_page .main_content .main_section .items_wrapper .item:hover {
   border: 2px solid black;
+}
+@media (max-width: 1200px) {
+  .main_page .main_content .main_section .items_wrapper .item {
+    width: 20%;
+  }
+}
+@media (max-width: 1020px) {
+  .main_page .main_content .main_section .items_wrapper .item {
+    width: 25%;
+  }
+}
+@media (max-width: 500px) {
+  .main_page .main_content .main_section .items_wrapper .item {
+    width: 50%;
+  }
+}
+.main_page .main_content .main_section .items_wrapper + .items_wrapper {
+  margin-top: 35px;
+}
+.main_page .main_content section + section {
+  margin-top: 35px;
+}
+@media (max-width: 1020px) {
+  .main_page .main_content {
+    padding-left: 20px;
+  }
+}
+@media (max-width: 500px) {
+  .main_page .main_content {
+    padding-left: 5px;
+  }
 }
 
 .main_page {
@@ -355,7 +396,7 @@ header.main_header .header_wrapper .logo_link img {
   width: 50px;
   height: 50px;
 }
-@media (max-width: 756px) {
+@media (max-width: 773px) {
   header.main_header .header_wrapper .logo_link {
     display: none;
   }
@@ -417,7 +458,7 @@ header.main_header .header_wrapper .search_wrapper input {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
-@media (max-width: 756px) {
+@media (max-width: 773px) {
   header.main_header .header_wrapper .search_wrapper input {
     width: 100%;
     border-radius: 5px;
@@ -436,7 +477,7 @@ header.main_header .header_wrapper .search_wrapper button {
 header.main_header .header_wrapper .search_wrapper button:hover {
   background-color: #cc295f;
 }
-@media (max-width: 756px) {
+@media (max-width: 773px) {
   header.main_header .header_wrapper .search_wrapper button {
     display: none;
   }
@@ -458,7 +499,7 @@ header.main_header .header_wrapper .btn_orders img, header.main_header .header_w
   width: 100%;
   height: 100%;
 }
-@media (max-width: 756px) {
+@media (max-width: 773px) {
   header.main_header .header_wrapper .btn_orders, header.main_header .header_wrapper .btn_login {
     display: none;
   }

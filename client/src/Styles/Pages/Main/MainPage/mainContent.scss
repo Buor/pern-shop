@@ -36,6 +36,9 @@
 
           .item_image {
             max-width: 100%;
+            @media(max-width: 500px) {
+              max-width: 70px;
+            }
           }
 
           .item_name {
@@ -74,13 +77,40 @@
             position: absolute;
             font-size: 12px;
             color: $col_gray_light;
+            @media(max-width: 1020px) {
+              position: relative;
+            }
           }
           border: 1px solid gray;
           &:hover {
             border: 2px solid black;
           }
+
+          @media(max-width: 1200px) {
+            width: percentage(math.div(1, 5));
+          }
+          @media(max-width: 1020px) {
+            width: percentage(math.div(1, 4));
+          }
+          @media(max-width: 500px) {
+            width: percentage(math.div(1, 2));
+          }
         }
       }
+      .items_wrapper+.items_wrapper {
+        margin-top: 35px;
+      }
+    }
+
+    section+section {
+      margin-top: 35px;
+    }
+
+    @media(max-width: 1020px) {
+      padding-left: 20px;
+    }
+    @media(max-width: 500px) {
+      padding-left: 5px;
     }
   }
 }
