@@ -1,8 +1,86 @@
+@use "sass:math";
 @import '../../../MainStyles/vars';
 @import '../../../MainStyles/ProjectMixins/projectMixins';
 
-.main_page  {
+.main_page {
   .main_content {
+    padding-top: 20px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
 
+    .main_section {
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-weight: 500;
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+
+      .items_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+
+
+        .item {
+          position: relative;
+          cursor: pointer;
+          width: percentage(math.div(1, 6));
+          padding: 16px;
+
+          .item_head {
+            height: 20px;
+          }
+
+          .item_image {
+            max-width: 100%;
+          }
+
+          .item_name {
+            margin-top: 10px;
+            @include a_base();
+            color: black;
+          }
+
+          .item_discount {
+            position: absolute;
+            margin: 10px 0 10px;
+            color: gray;
+            text-decoration: line-through;
+            .item_cost {
+              padding-right: 3px;
+            }
+          }
+
+          .item_discount+.item_cost_wrapper{
+            color: $col_pink;
+          }
+
+          .item_cost_wrapper {
+            margin-top: 35px;
+            .item_cost {
+              font-size: 22px;
+              padding-right: 5px;
+            }
+            .item_currency {
+              font-size: 18px;
+            }
+          }
+
+
+          .item_stock {
+            position: absolute;
+            font-size: 12px;
+            color: $col_gray_light;
+          }
+          border: 1px solid gray;
+          &:hover {
+            border: 2px solid black;
+          }
+        }
+      }
+    }
   }
 }

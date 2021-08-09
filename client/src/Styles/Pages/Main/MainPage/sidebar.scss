@@ -3,8 +3,9 @@
 
 .main_page  {
   .sidebar {
-    width: 300px;
-    padding: 0 10px;
+
+    flex: 0 0 300px;
+    padding: 20px 10px 0;
     height: 500px;
     border-right: 1px solid rgba(173, 173, 173, 0.58);
 
@@ -29,6 +30,10 @@
     }
     .category_link {
       margin-left: 10px;
+    }
+
+    @media(max-width: 1020px) {
+      display: none;
     }
   }
 }
