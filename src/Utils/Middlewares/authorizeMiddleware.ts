@@ -8,7 +8,7 @@ export class AuthorizeMiddleware implements NestMiddleware{
     use(req: ProjectRequest, res: Response, next: NextFunction) {
         try {
             const accessToken = req.headers.authorization?.split(' ')[1];
-
+            
             if (!accessToken) {
                 return res.status(401).json(false);
             }

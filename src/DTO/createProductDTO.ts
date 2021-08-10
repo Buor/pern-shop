@@ -1,4 +1,15 @@
-import { IsArray, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { Type } from 'class-transformer'
+
+type TProductInfo = [string, string]
+
+class ProductInfo {
+    @IsString()
+    name: string
+
+    @IsString()
+    description: string
+}
 
 export class CreateProductDTO {
     @IsString()
@@ -15,8 +26,10 @@ export class CreateProductDTO {
     @IsString()
     img: string
 
-    @IsArray({ each: true })
-    productsInfo: Array<[string, string]>
+    @IsArray()
+    @ValidateNested({each: true})
+    @Type(() => ProductInfo)
+    productsInfo: Array<TProductInfo>
 
     @IsString()
     brand
