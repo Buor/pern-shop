@@ -1,5 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express'
-import jwt from 'jsonwebtoken';
+import {verify} from 'jsonwebtoken';
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { ProjectRequest } from '../../../@types/types'
 
@@ -10,15 +10,15 @@ export class AuthorizeMiddleware implements NestMiddleware{
             const accessToken = req.headers.authorization?.split(' ')[1];
 
             if (!accessToken) {
-                return res.json(false);
+                return res.status(401).json(false);
             }
 
-            const payload: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
-            console.log(payload)
+            const payload: any = verify(accessToken, (process.env.ACCESS_TOKEN_SECRET as string) || 'ihifHf38v8W&*v2');
 
             req.user = payload.user;
             next();
         } catch (err) {
+            console.log(err)
             res.status(403).json({msg: "Not Authorize"});
         }
     }

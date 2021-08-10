@@ -16,10 +16,12 @@ import Rating from '../Entities/Rating'
 import Type from '../Entities/Type'
 import { ConfigModule } from '@nestjs/config'
 import { AuthorizeMiddleware } from '../Utils/Middlewares/authorizeMiddleware'
+import { ProductModule } from './product.module'
 
 @Module({
     imports: [
         AuthModule,
+        ProductModule,
         TypeOrmModule.forRoot({
             url: pool,
             type: 'postgres',
@@ -39,6 +41,6 @@ import { AuthorizeMiddleware } from '../Utils/Middlewares/authorizeMiddleware'
 export class MainModule implements NestModule {
     configure(consumer: MiddlewareConsumer): any {
         consumer.apply(AuthorizeMiddleware)
-            .forRoutes('/api/auth')
+            .forRoutes('/product')
     }
 }

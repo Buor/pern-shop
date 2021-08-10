@@ -7,7 +7,7 @@ import { generateAccessToken, generateRefreshToken } from '../Utils/jwtGenerator
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { InjectRepository } from '@nestjs/typeorm'
 
-@Controller('/api/auth')
+@Controller('/auth')
 export class AuthController {
 
     constructor(
@@ -78,7 +78,7 @@ export class AuthController {
     }
 
     @Post('/register')
-    async register(@Req() req, @Res() res) {
+    async register(@Req() req, @Res() res) : Promise<boolean> {
         const { email, password } = req.body
         try {
             const user = await this.usersRepository.findOne({ where: { email } })
@@ -89,7 +89,7 @@ export class AuthController {
 
             let newUser = this.usersRepository.create({ email, password: bcryptPassword })
             await this.usersRepository.save(newUser)
-
+            res.json(true)
         } catch (e) {
             console.log(e)
         }
