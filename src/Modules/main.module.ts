@@ -20,8 +20,6 @@ import { ProductModule } from './product.module'
 
 @Module({
     imports: [
-        AuthModule,
-        ProductModule,
         TypeOrmModule.forRoot({
             url: pool,
             type: 'postgres',
@@ -32,6 +30,8 @@ import { ProductModule } from './product.module'
             //   rejectUnauthorized: false
             // }
         }),
+        AuthModule,
+        ProductModule,
         ServeStaticModule.forRoot({
             rootPath: join(__dirname, '..', '..', '..', 'client/build'),
         }),
@@ -41,6 +41,6 @@ import { ProductModule } from './product.module'
 export class MainModule implements NestModule {
     configure(consumer: MiddlewareConsumer): any {
         consumer.apply(AuthorizeMiddleware)
-            .forRoutes('/product')
+            .forRoutes('/product', '/auth/is-verify')
     }
 }

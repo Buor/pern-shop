@@ -1,28 +1,30 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req, Res, UnauthorizedException } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import User from '../../old-server/src/Entities/User'
-import {genSalt, compare, hash} from 'bcrypt'
+import { genSalt, compare, hash } from 'bcrypt'
 import { ILoginResponseDTO } from '../../types/DTOs'
 import { generateAccessToken, generateRefreshToken } from '../Utils/jwtGenerator'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { InjectRepository } from '@nestjs/typeorm'
+import UserData, { UserRole } from '../Entities/UserData'
 
 @Controller('/auth')
 export class AuthController {
 
     constructor(
         @InjectRepository(User)
-        private usersRepository: Repository<User>,
-    ) {
-    }
+        private readonly userRepository: Repository<User>,
+        @InjectRepository(UserData)
+        private readonly userDataRepository: Repository<UserData>,
+    ) {}
 
     @Get('/is-verify')
-    async isVerify(@Req() req, @Res() res) {
+    async isVerify() {
         try {
-            res.json(true)
+            return true
         } catch (err) {
             console.log(err)
-            res.status(500).json('Server error!')
+            return 'Server error!'
         }
     }
 
@@ -42,53 +44,60 @@ export class AuthController {
     }
 
     @Post('/login')
-    async login(@Req() req, @Res() res) {
-        try {
-            const { email, password } = req.body
-            console.log(email, password)
+    async login(@Body() reqBody, @Res() res) {
 
-            const user = await this.usersRepository.findOne({ email })
-            if (!user) {
-                return res.status(401).json('Password or email is incorrect!')
-            }
+        const { email, password } = reqBody
+        console.log(email, password)
 
-            const validPassword = await compare(password, user.password)
-            if (!validPassword) {
-                return res.status(401).json('Password of email is incorrect!')
-            }
-
-            const accessToken = generateAccessToken(user.id)
-
-            const refreshToken = generateRefreshToken(user.id)
-            res.cookie('jid', refreshToken)
-
-            const responseDTO: ILoginResponseDTO = {
-                accessToken,
-                userData: {
-                    email: user.email,
-                },
-            }
-
-            res.json(responseDTO)
-
-        } catch (err) {
-            console.log(err)
-            res.status(500).send('Server error!')
+        const user = await this.userRepository.findOne({ email })
+        if (!user) {
+            throw new UnauthorizedException('Password or email is incorrect!')
         }
+
+        const validPassword = await compare(password, user.password)
+        if (!validPassword) {
+            throw new UnauthorizedException('Password or email is incorrect!')
+        }
+
+        const accessToken = generateAccessToken(user.id)
+
+        const refreshToken = generateRefreshToken(user.id)
+        res.cookie('jid', refreshToken)
+
+        const responseDTO: ILoginResponseDTO = {
+            accessToken,
+            userData: {
+                email: user.email,
+            },
+        }
+
+        return res.json(responseDTO)
     }
 
     @Post('/register')
-    async register(@Req() req, @Res() res) : Promise<boolean> {
-        const { email, password } = req.body
+    async register(@Body() reqBody, @Res() res): Promise<boolean> {
+        const { email, password } = reqBody
         try {
-            const user = await this.usersRepository.findOne({ where: { email } })
+            const user = await this.userRepository.findOne({ where: { email } })
             if (user) return res.status(401).json('User already exists!')
 
             const salt = await genSalt(10)
             const bcryptPassword = await hash(password, salt)
 
-            let newUser = this.usersRepository.create({ email, password: bcryptPassword })
-            await this.usersRepository.save(newUser)
+
+            //Creating UserData
+            let userData = this.userDataRepository.create({
+                firstName: "",
+                phoneNumber: "",
+                secondName: "",
+                role: UserRole.User
+            })
+            await this.userDataRepository.save(userData)
+
+            let newUser = this.userRepository.create({ email, password: bcryptPassword, userData })
+
+            await this.userRepository.save(newUser)
+
             res.json(true)
         } catch (e) {
             console.log(e)

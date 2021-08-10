@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import UserData from './UserData'
 import Basket from './Basket'
 import Rating from './Rating'
@@ -15,11 +15,11 @@ export default class User {
     password: string;
 
     @OneToOne(() => UserData, userData => userData.user)
-    @JoinTable()
+    @JoinColumn()
     userData: UserData
 
     @OneToOne(() => Basket, basket => basket.user)
-    @JoinTable()
+    @JoinColumn()
     basket: Basket
 
     @OneToMany(() => Rating, rating => rating.user)

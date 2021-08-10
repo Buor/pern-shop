@@ -9,6 +9,9 @@ export class ProductService {
     constructor(@InjectRepository(Product) productRepo: Repository<Product>) {}
 
     async createProduct(createProductDTO: CreateProductDTO) {
+
+
+
         return {}
     }
 }

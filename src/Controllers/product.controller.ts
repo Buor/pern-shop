@@ -7,13 +7,13 @@ export class ProductController {
 
     constructor(private productService: ProductService) {}
 
-    @Get('/')
+    @Get()
     async getProduct(@Body() reqBody) {
         console.log(reqBody);
         return 'Success'
     }
 
-    @Post('/')
+    @Post()
     async createProduct(@Body() createProductDTO: CreateProductDTO) {
         console.log(createProductDTO)
         return await this.productService.createProduct(createProductDTO);
