@@ -14,6 +14,12 @@ export default class Product {
     name: string;
 
     @Column()
+    cost: number;
+
+    @Column({nullable: true})
+    discountCost: number;
+
+    @Column({nullable: true})
     img: string;
 
     @OneToMany(() => Rating, rating => rating.product)
