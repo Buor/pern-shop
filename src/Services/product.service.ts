@@ -8,16 +8,33 @@ import Product from '../Entities/Product'
 @Injectable()
 export class ProductService {
 
+    async getProduct(value: string) {
+        if (Number.isInteger(+value)) {
+            return await Product.findOne(+value)
+        }
+        return await Product.findOne({ where: { name: value } })
+    }
+
+    async getAllProducts() {
+        return await Product.find();
+    }
+
     async createProduct(createProductDTO: CreateProductDTO) {
 
+        //Check if product with given name exists
+        const product = await Product.findOne({ where: { name: createProductDTO.name } })
+        if (product) {
+            throw new HttpException(`Product with name ${createProductDTO.name} already exists!`, 400)
+        }
+
         //Check if type exists
-        const type = await Type.findOne({ where: { type: createProductDTO.type } })
+        const type = await Type.findOne({ where: { type: createProductDTO.type.toLowerCase() } })
         if (!type) {
             throw new HttpException(`Type ${createProductDTO.type} not found!`, 400)
         }
 
         //Check if brand exists
-        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand } })
+        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
         if (!brand) {
             throw new HttpException(`Brand ${createProductDTO.brand} not found!`, 400)
         }
@@ -43,4 +60,6 @@ export class ProductService {
             throw new HttpException(e.message, 500)
         }
     }
+
+
 }

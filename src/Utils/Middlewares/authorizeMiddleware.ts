@@ -1,11 +1,14 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express'
-import {verify} from 'jsonwebtoken';
+import { NextFunction, Response } from 'express'
+import { verify } from 'jsonwebtoken'
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { ProjectRequest } from '../../../@types/types'
 
 @Injectable()
 export class AuthorizeMiddleware implements NestMiddleware{
     use(req: ProjectRequest, res: Response, next: NextFunction) {
+        //todo delete return statement. This made only for development.
+        return next();
+
         try {
             const accessToken = req.headers.authorization?.split(' ')[1];
             
