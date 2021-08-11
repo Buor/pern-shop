@@ -6,8 +6,6 @@ import { ProjectRequest } from '../../../@types/types'
 @Injectable()
 export class AuthorizeMiddleware implements NestMiddleware{
     use(req: ProjectRequest, res: Response, next: NextFunction) {
-        //todo delete return statement. This made only for development.
-        return next();
 
         try {
             const accessToken = req.headers.authorization?.split(' ')[1];
