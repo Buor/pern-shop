@@ -7,15 +7,15 @@ export class ProductController {
 
     constructor(private productService: ProductService) {}
 
-    @Get('/:id_or_name')
-    async getProduct(@Param('id_or_name') param: string) {
-        return await this.productService.getProduct(param)
-    }
-
     @Get('/all')
     async getAllProducts() {
         console.log('here')
         return await this.productService.getAllProducts()
+    }
+
+    @Get('/:id_or_name')
+    async getProduct(@Param('id_or_name') param: string) {
+        return await this.productService.getProduct(param)
     }
 
     @Post()
