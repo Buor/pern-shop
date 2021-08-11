@@ -1,7 +1,5 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer'
-
-type TProductInfo = [string, string]
 
 class ProductInfo {
     @IsString()
@@ -29,12 +27,12 @@ export class CreateProductDTO {
     @IsArray()
     @ValidateNested({each: true})
     @Type(() => ProductInfo)
-    productsInfo: Array<TProductInfo>
+    productInfos: Array<ProductInfo>
 
     @IsString()
-    brand
+    brand: string
 
     @IsString()
-    type
+    type: string
 
 }

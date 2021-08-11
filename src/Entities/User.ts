@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import UserData from './UserData'
 import Basket from './Basket'
 import Rating from './Rating'
 
 @Entity('user')
-export default class User {
+export default class User extends BaseEntity {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
 

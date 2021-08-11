@@ -1,9 +1,9 @@
-import {Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import { BaseEntity, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import User from "./User";
 import Product from "./Product";
 
 @Entity('basket')
-export default class Basket {
+export default class Basket extends BaseEntity {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
 
