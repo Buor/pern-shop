@@ -4,7 +4,7 @@ import Type from '../Entities/Type'
 import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
-
+import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
 @Injectable()
 export class ProductService {
 
@@ -15,8 +15,15 @@ export class ProductService {
         return await Product.findOne({ where: { name: value } })
     }
 
-    async getAllProducts() {
-        return await Product.find();
+    async getAllProducts(): Promise<GetAllProductsDTO[]> {
+        const allProducts = await Product.find()
+        return allProducts.map(product => ({
+            count: product.count,
+            img: product.img,
+            cost: product.cost,
+            discountCost: product.discountCost,
+            name: product.name
+        }))
     }
 
     async createProduct(createProductDTO: CreateProductDTO) {
@@ -52,6 +59,7 @@ export class ProductService {
                 cost: createProductDTO.cost,
                 discountCost: createProductDTO.discountCost,
                 img: createProductDTO.img,
+                count: createProductDTO.count,
                 brand,
                 type,
                 productInfos,

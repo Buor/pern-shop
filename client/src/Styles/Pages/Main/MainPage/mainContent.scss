@@ -33,18 +33,36 @@
           .item_head {
             height: 20px;
           }
+          a {
+            width: 100%;
+            .item_image_wrapper {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 120px;
+              width: 100%;
+              .item_image {
 
-          .item_image {
-            max-width: 100%;
-            @media(max-width: 500px) {
-              max-width: 90px;
-              text-align: center;
+                width: 100%;
+                max-width: 140px;
+                max-height: 120px;
+                @media(max-width: 500px) {
+                  max-width: 90px;
+                  text-align: center;
+                }
+              }
+              @media(max-width: 1020px) {
+                height: 100px;
+              }
             }
           }
 
+
+
           .item_name {
-            margin-top: 10px;
+            margin-top: 15px;
             @include a_base();
+            text-align: center;
             color: black;
           }
 
@@ -66,7 +84,7 @@
           }
 
           .item_cost_wrapper {
-            margin-top: 35px;
+            margin-top: 25px;
             .item_cost {
               font-size: 22px;
               padding-right: 5px;
@@ -83,6 +101,10 @@
             position: absolute;
             font-size: 12px;
             color: $col_gray_light;
+            min-height: 12px;
+            &.finishes {
+              color: orange;
+            }
 
             @media(max-width: 1020px) {
               position: relative;

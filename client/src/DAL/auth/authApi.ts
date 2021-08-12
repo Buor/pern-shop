@@ -4,21 +4,21 @@ import {ILoginRequestDTO, ILoginResponseDTO, IRegisterRequest} from "../../../..
 
 //Requests
 export const sendLoginData = (loginData: ILoginRequestDTO) => {
-    return axiosInstance.post('/auth/login', loginData, {withCredentials: true})
+    return axiosInstance.post('/auth/login', loginData)
 }
 
 export const sendRegisterData = (registerData: IRegisterRequest) => {
-    return axiosInstance.post('/auth/register', registerData, {withCredentials: true})
+    return axiosInstance.post('/auth/register', registerData)
 }
 
 export const getIsVerifiedReq = () => {
     let accessToken = getAccessToken()
     console.log(accessToken)
-    return axiosInstance.get('/auth/is-verify', {headers: {"Authorization": "Bearer " + accessToken}, withCredentials: true})
+    return axiosInstance.get('/auth/is-verify', {headers: {"Authorization": "Bearer " + accessToken}})
 }
 
 export const getRefreshAccessToken = () => {
-    return axiosInstance.get('/auth/refresh-token',{ withCredentials: true})
+    return axiosInstance.get('/auth/refresh-token')
 }
 
 //Handlers

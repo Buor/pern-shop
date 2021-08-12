@@ -16,6 +16,9 @@ export class CreateProductDTO {
     @IsNumber()
     cost: number
 
+    @IsNumber()
+    count: number
+
     @IsOptional()
     @IsNumber()
     discountCost: number
