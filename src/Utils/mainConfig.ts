@@ -16,6 +16,7 @@ import { BrandModule } from '../Modules/brand.module'
 import { RatingModule } from '../Modules/rating.module'
 import { ProductModule } from '../Modules/product.module'
 import { TypeModule } from '../Modules/type.module'
+import { TypeData } from '../Entities/TypeData'
 
 export function getRouteModules() {
     return [AuthModule, BrandModule, RatingModule, TypeModule, ProductModule]
@@ -27,7 +28,7 @@ export function getConfigModules() {
         url: pool,
         type: 'postgres',
         synchronize: true,
-        entities: [User, UserData, Basket, Brand, Product, ProductInfo, Rating, Type],
+        entities: [User, UserData, Basket, Brand, Product, ProductInfo, Rating, Type, TypeData],
         ssl: process.env.NODE_ENV === 'production'
             ? {
                 rejectUnauthorized: false

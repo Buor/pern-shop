@@ -34,6 +34,9 @@ export default class Product extends BaseEntity {
     @Column({nullable: true})
     img: string;
 
+    @Column({nullable: true, type: 'jsonb'})
+    typeEntries: object;
+
     @OneToMany(() => Rating, rating => rating.product, {
         eager: true
     })
