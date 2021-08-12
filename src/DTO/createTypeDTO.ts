@@ -3,13 +3,13 @@ import { IsJSON, IsObject, IsOptional, IsString } from 'class-validator'
 export class CreateTypeDTO {
 
     @IsString()
-    type: string
+    name: string
 
     @IsOptional()
     @IsString()
     typeLogo: string
 
     @IsObject({each: true})
-    typeData: object[]
+    typeEntries: Array<{name: string, values: string[]}>
 
 }

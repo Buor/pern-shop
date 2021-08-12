@@ -5,6 +5,7 @@ import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
 import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
+
 @Injectable()
 export class ProductService {
 
@@ -34,17 +35,23 @@ export class ProductService {
             throw new HttpException(`Product with name ${createProductDTO.name} already exists!`, 400)
         }
 
+        //Check if brand exists
+        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
+        if (!brand) {
+            throw new HttpException(`Brand ${createProductDTO.brand} not found!`, 400)
+        }
+
         //Check if type exists
         const type = await Type.findOne({ where: { type: createProductDTO.type.toLowerCase() } })
         if (!type) {
             throw new HttpException(`Type ${createProductDTO.type} not found!`, 400)
         }
 
-        //Check if brand exists
-        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
-        if (!brand) {
-            throw new HttpException(`Brand ${createProductDTO.brand} not found!`, 400)
-        }
+        //Check typeEntries
+        // const typeData = type.typeData;
+        // createProductDTO.typeEntries.forEach(entry => {
+        //
+        // })
 
         try {
             //Create product infos

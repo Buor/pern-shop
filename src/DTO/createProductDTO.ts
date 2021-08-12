@@ -9,6 +9,14 @@ class ProductInfo {
     description: string
 }
 
+class TypeEntry {
+    @IsString()
+    name: string
+
+    @IsString({each: true})
+    values: string[]
+}
+
 export class CreateProductDTO {
     @IsString()
     name: string
@@ -38,4 +46,8 @@ export class CreateProductDTO {
     @IsString()
     type: string
 
+    @IsArray()
+    @ValidateNested({each: true})
+    @Type(() => TypeEntry)
+    typeEntries: Array<TypeEntry>
 }
