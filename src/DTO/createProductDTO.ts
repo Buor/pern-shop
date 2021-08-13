@@ -13,8 +13,8 @@ class TypeEntry {
     @IsString()
     name: string
 
-    @IsString({each: true})
-    values: string[]
+    @IsString()
+    value: string
 }
 
 export class CreateProductDTO {

@@ -5,6 +5,7 @@ import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
 import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
+import { TypeEntry } from '../Entities/TypeEntry'
 
 @Injectable()
 export class ProductService {
@@ -48,10 +49,21 @@ export class ProductService {
         }
 
         //Check typeEntries
-        // const typeData = type.typeData;
-        // createProductDTO.typeEntries.forEach(entry => {
-        //
-        // })
+        const typeEntries = type.typeEntries;
+        const productTypeEntries: TypeEntry[] = []
+        createProductDTO.typeEntries.forEach(entry => {
+            //Find type entry in entries of current type
+            const typeEntry = typeEntries.find(ent => ent.name === entry.name.toLowerCase())
+            if(!typeEntry) {
+                throw new HttpException(`There's no entry with name ${entry.name} in ${type.name} type entries!`, 400)
+            }
+            //Check if value is there
+            const typeEntryValue = typeEntry.values.find(value => value === entry.value)
+            if(!typeEntryValue) {
+                throw new HttpException(`There's no value ${entry.value} in ${typeEntry.name} type entry!`, 400)
+            }
+            productTypeEntries.push(typeEntry)
+        })
 
         try {
             //Create product infos
@@ -70,6 +82,7 @@ export class ProductService {
                 brand,
                 type,
                 productInfos,
+                typeEntries: productTypeEntries
             }).save()
         } catch (e) {
             throw new HttpException(e.message, 500)

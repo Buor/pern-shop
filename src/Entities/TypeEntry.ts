@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import Type from './Type'
+import Product from './Product'
 
 @Entity('type_data')
 export class TypeEntry extends BaseEntity {
@@ -18,4 +19,7 @@ export class TypeEntry extends BaseEntity {
 
     @ManyToOne(() => Type, type => type.typeEntries)
     type: Type
+
+    @ManyToMany(() => Product, product => product.typeEntries)
+    products: Product[]
 }

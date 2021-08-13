@@ -13,6 +13,7 @@ import Brand from './Brand'
 import Type from './Type'
 import ProductInfo from './ProductInfo'
 import Basket from './Basket'
+import { TypeEntry } from './TypeEntry'
 
 @Entity('product')
 export default class Product extends BaseEntity {
@@ -34,8 +35,9 @@ export default class Product extends BaseEntity {
     @Column({nullable: true})
     img: string;
 
-    @Column({nullable: true, type: 'jsonb'})
-    typeEntries: object;
+    @ManyToMany(() => TypeEntry, typeEntry => typeEntry.products)
+    @JoinTable()
+    typeEntries: TypeEntry[];
 
     @OneToMany(() => Rating, rating => rating.product, {
         eager: true
