@@ -1,16 +1,7 @@
-import {
-    BaseEntity,
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToMany,
-    ManyToOne, OneToMany,
-    OneToOne,
-    PrimaryGeneratedColumn
-} from 'typeorm'
+import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import Product from './Product'
 import Brand from './Brand'
-import { TypeEntry } from './TypeEntry'
+import { TypeProperty } from './TypeProperty'
 
 @Entity('type')
 export default class Type extends BaseEntity {
@@ -23,10 +14,10 @@ export default class Type extends BaseEntity {
     @Column({nullable: true})
     typeLogo: string
 
-    @OneToMany(() => TypeEntry, typeData => typeData.type, {
+    @OneToMany(() => TypeProperty, typeProperty => typeProperty.type, {
         eager: true
     })
-    typeEntries: TypeEntry[]
+    typeProperties: TypeProperty[]
 
     @ManyToOne(() => Product, product => product.type)
     products: Product[]

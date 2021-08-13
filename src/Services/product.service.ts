@@ -5,7 +5,8 @@ import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
 import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
-import { TypeEntry } from '../Entities/TypeEntry'
+import { TypeProperty } from '../Entities/TypeProperty'
+import { TypePropertyValue } from '../Entities/TypePropertyValue'
 
 @Injectable()
 export class ProductService {
@@ -43,34 +44,41 @@ export class ProductService {
         }
 
         //Check if type exists
-        const type = await Type.findOne({ where: { type: createProductDTO.type.toLowerCase() } })
+        const type = await Type.findOne({ where: { name: createProductDTO.type.toLowerCase() } })
         if (!type) {
             throw new HttpException(`Type ${createProductDTO.type} not found!`, 400)
         }
 
-        //Check typeEntries
-        const typeEntries = type.typeEntries;
-        const productTypeEntries: TypeEntry[] = []
-        createProductDTO.typeEntries.forEach(entry => {
-            //Find type entry in entries of current type
-            const typeEntry = typeEntries.find(ent => ent.name === entry.name.toLowerCase())
-            if(!typeEntry) {
-                throw new HttpException(`There's no entry with name ${entry.name} in ${type.name} type entries!`, 400)
+        //Check if typePropertyValues correct
+        const typeProperties = type.typeProperties
+        const typePropertyValues: TypePropertyValue[] = []
+
+        for(let i = 0; i < createProductDTO.typeProperties.length; ++i) {
+            let property = createProductDTO.typeProperties[i]
+
+            //Check if typeProperty exists
+            const prop = typeProperties.find(prop => prop.name === property.name.toLowerCase())
+            const typeProperty = await TypeProperty.findOne(prop.id);
+            console.log("TP: ",typeProperty)
+            if (!typeProperty) {
+                throw new HttpException(`There is no "${property.name}" type property on "${type.name}" type!`, 400)
             }
-            //Check if value is there
-            const typeEntryValue = typeEntry.values.find(value => value === entry.value)
-            if(!typeEntryValue) {
-                throw new HttpException(`There's no value ${entry.value} in ${typeEntry.name} type entry!`, 400)
+
+            //Check if typePropertyValue exists on typeProperty
+            const typePropertyValue = typeProperty.typePropertyValues.find(typePropertyValue => typePropertyValue.name === property.value.toLowerCase())
+            if (!typePropertyValue) {
+                throw new HttpException(`There is no "${property.value}" property value on "${typeProperty.name}" typeProperty!`, 400)
             }
-            productTypeEntries.push(typeEntry)
-        })
+
+            typePropertyValues.push(typePropertyValue)
+        }
 
         try {
             //Create product infos
             const productInfos = await Promise.all(createProductDTO.productInfos.map(info => ProductInfo.create({
                     name: info.name,
-                    description: info.description,
-                }).save(),
+                    description: info.description
+                }).save()
             ))
 
             return await Product.create({
@@ -82,7 +90,7 @@ export class ProductService {
                 brand,
                 type,
                 productInfos,
-                typeEntries: productTypeEntries
+                typePropertyValues
             }).save()
         } catch (e) {
             throw new HttpException(e.message, 500)

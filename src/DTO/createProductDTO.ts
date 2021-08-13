@@ -9,7 +9,7 @@ class ProductInfo {
     description: string
 }
 
-class TypeEntry {
+class TypeProperty {
     @IsString()
     name: string
 
@@ -48,6 +48,6 @@ export class CreateProductDTO {
 
     @IsArray()
     @ValidateNested({each: true})
-    @Type(() => TypeEntry)
-    typeEntries: Array<TypeEntry>
+    @Type(() => TypeProperty)
+    typeProperties: Array<TypeProperty>
 }
