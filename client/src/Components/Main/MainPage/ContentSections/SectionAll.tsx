@@ -56,7 +56,6 @@ export const SectionAll: React.FC = () => {
                     }
                 </div>
             })}
-
         </div>
     </section>
 }

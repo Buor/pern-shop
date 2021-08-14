@@ -6,6 +6,13 @@ import { TypePropertyValue } from '../Entities/TypePropertyValue'
 
 @Injectable()
 export class TypeService {
+
+    async getType(value: number | string) {
+        if(Number.isInteger(+value))
+            return await Type.findOne(value)
+        return await Type.findOne({where: {name: value}})
+    }
+
     async createType(createTypeDTO: CreateTypeDTO) {
 
         //Check if this type already exists
