@@ -3,6 +3,7 @@ import Type from '../Entities/Type'
 import { CreateTypeDTO } from '../DTO/createTypeDTO'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
+import { GetTypesDTO } from '../../@types/DTO/typeDTOs'
 
 @Injectable()
 export class TypeService {
@@ -11,6 +12,15 @@ export class TypeService {
         if(Number.isInteger(+value))
             return await Type.findOne(value)
         return await Type.findOne({where: {name: value}})
+    }
+
+    async getTypes(): Promise<GetTypesDTO[]> {
+        const types = await Type.find();
+        return types.map(type => ({
+            name: type.name,
+            typeLogo: type.typeLogo,
+            id: type.id
+        }))
     }
 
     async createType(createTypeDTO: CreateTypeDTO) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getTypeData } from '../../DAL/type/typeAPI'
+import { getType } from '../../DAL/type/typeAPI'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
 import { CategoryPageContent } from './Sections/CategoryPageContent'
@@ -11,7 +11,7 @@ export const CategoryPage: React.FC = () => {
     const [type, setType] = useState<GetTypeDTO | null>(null)
     useEffect(() => {
         (async () => {
-            let typeData: GetTypeDTO = await getTypeData(history.location.pathname.split('/').pop() as string)
+            let typeData: GetTypeDTO = await getType(history.location.pathname.split('/').pop() as string)
             setType(typeData)
         })()
     }, [])

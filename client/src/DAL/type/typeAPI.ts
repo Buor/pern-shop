@@ -1,8 +1,13 @@
 import axiosInstance from '../axiosInstance'
-import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
+import { GetTypeDTO, GetTypesDTO } from '../../../../@types/DTO/typeDTOs'
 
-export const getType = (typeNameOrId: string) => axiosInstance.get(`/type/${typeNameOrId}`)
+export const reqGetType = (typeNameOrId: string) => axiosInstance.get(`/type/${typeNameOrId}`)
+export const reqGetTypes = () => axiosInstance.get(`/type/all`)
 
-export const getTypeData = async (typeNameOrId: string) : Promise<GetTypeDTO> => {
-    return (await getType(typeNameOrId)).data
+export const getType = async (typeNameOrId: string) : Promise<GetTypeDTO> => {
+    return (await reqGetType(typeNameOrId)).data
+}
+
+export const getTypes = async (): Promise<GetTypesDTO[]> => {
+    return (await reqGetTypes()).data;
 }

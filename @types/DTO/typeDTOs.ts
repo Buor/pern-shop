@@ -1,7 +1,10 @@
-export interface GetTypeDTO {
-    'id': number,
-    'name': string,
-    'typeLogo': string | null,
+export interface GetTypesDTO {
+    id: number,
+    name: string,
+    typeLogo: string | null
+}
+
+export interface GetTypeDTO extends GetTypesDTO {
     'typeProperties': Array<{
         id: number,
         name: string,
@@ -14,3 +17,4 @@ export interface ITypeProperty {
     id: number,
     name: string
 }
+

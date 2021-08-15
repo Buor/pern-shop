@@ -7,6 +7,11 @@ export class TypeController {
 
     constructor(private readonly typeService: TypeService) {}
 
+    @Get('/all')
+    async getTypes() {
+        return await this.typeService.getTypes()
+    }
+
     @Get(':idOrName')
     async getType(@Param('idOrName') idOrName: string) {
         return await this.typeService.getType(idOrName)
