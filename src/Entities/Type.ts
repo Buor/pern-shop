@@ -15,7 +15,8 @@ export default class Type extends BaseEntity {
     typeLogo: string
 
     @OneToMany(() => TypeProperty, typeProperty => typeProperty.type, {
-        eager: true
+        eager: true,
+        onDelete: "CASCADE"
     })
     typeProperties: TypeProperty[]
 

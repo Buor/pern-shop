@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
 import { TypeService } from '../Services/type.service'
 import { CreateTypeDTO } from '../DTO/createTypeDTO'
 
@@ -10,6 +10,11 @@ export class TypeController {
     @Get('/all')
     async getTypes() {
         return await this.typeService.getTypes()
+    }
+
+    @Delete('/all')
+    async deleteTypes() {
+        return await this.typeService.deleteTypes()
     }
 
     @Get(':idOrName')

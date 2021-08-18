@@ -9,6 +9,7 @@ export const CategoryPage: React.FC = () => {
 
     const history = useHistory()
     const [type, setType] = useState<GetTypeDTO | null>(null)
+
     useEffect(() => {
         (async () => {
             let typeData: GetTypeDTO = await getType(history.location.pathname.split('/').pop() as string)
@@ -16,8 +17,6 @@ export const CategoryPage: React.FC = () => {
         })()
     }, [])
 
-    console.log('History', history)
-    console.log('Type', type)
     if (type === null) return null
 
     return <div className={'category_page'}>

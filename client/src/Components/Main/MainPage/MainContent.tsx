@@ -6,7 +6,6 @@ const MainContent: React.FC = () => {
         <div className={'main_content'}>
             <div className={'main_section'}>
                 <SectionAll/>
-
             </div>
         </div>
     )

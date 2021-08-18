@@ -1,6 +1,8 @@
 # pern-tea-shop
 ## Description
 Pern tea shop is a fullstack project, that uses PERN stack. Nest js is used as backend Node js framework. Project also has deployment on heroku, where you can try it out.
+### Pay attention!
+Almost every project image is included via url, so you may see empty or alt images somewhere.
 
 ## Database map
 <img alt='db_map' src="https://github.com/Buor/pern-tea-shop/blob/master/Project%20Assets/databaseMap.png"/>

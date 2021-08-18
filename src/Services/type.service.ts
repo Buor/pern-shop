@@ -4,9 +4,13 @@ import { CreateTypeDTO } from '../DTO/createTypeDTO'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { GetTypesDTO } from '../../@types/DTO/typeDTOs'
+import { Connection } from 'typeorm'
 
 @Injectable()
 export class TypeService {
+
+    constructor(private readonly connection: Connection) {
+    }
 
     async getType(value: number | string) {
         if(Number.isInteger(+value))
@@ -26,7 +30,8 @@ export class TypeService {
     async createType(createTypeDTO: CreateTypeDTO) {
 
         //Check if this type already exists
-        const type = await Type.findOne({ where: { name: createTypeDTO.name } })
+        const type = await Type.findOne({ where: { name: createTypeDTO.name.toLowerCase() } })
+        console.log(type)
         if (type) {
             console.log(type)
             throw new HttpException(`Type with name ${createTypeDTO.name} already exists!`, 400)
@@ -43,7 +48,7 @@ export class TypeService {
                 }))
 
                 //Create typeProperty
-                return TypeProperty.create({
+                return await  TypeProperty.create({
                     name: property.name.toLowerCase(),
                     typePropertyValues
                 }).save()
@@ -59,5 +64,15 @@ export class TypeService {
             typeLogo: createTypeDTO.typeLogo,
             typeProperties
         }).save()
+    }
+
+    async deleteTypes() {
+        try {
+            await this.connection.createQueryBuilder().delete().from(TypePropertyValue).execute()
+            await this.connection.createQueryBuilder().delete().from(TypeProperty).execute()
+            await this.connection.createQueryBuilder().delete().from(Type).execute()
+        } catch(e) {
+            console.log(e)
+        }
     }
 }
