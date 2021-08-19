@@ -1,5 +1,4 @@
 import { HttpException, Injectable } from '@nestjs/common'
-import { CreateProductDTO } from '../DTO/createProductDTO'
 import Type from '../Entities/Type'
 import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
@@ -7,6 +6,7 @@ import Product from '../Entities/Product'
 import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
+import { CreateProductDTO } from '../DTO/productDTOs'
 
 @Injectable()
 export class ProductService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { CreateBrandDTO } from '../DTO/createBrandDTO'
 import Brand from '../Entities/Brand'
+import { CreateBrandDTO } from '../DTO/brandDTOs'
 
 @Injectable()
 export class BrandService {

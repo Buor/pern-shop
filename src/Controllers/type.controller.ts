@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { TypeService } from '../Services/type.service'
-import { CreateTypeDTO } from '../DTO/createTypeDTO'
+import { CreateTypeDTO, UpdateTypeDTO } from '../DTO/typeDTOs'
 
 @Controller('/type')
 export class TypeController {
@@ -20,6 +20,11 @@ export class TypeController {
     @Get(':idOrName')
     async getType(@Param('idOrName') idOrName: string) {
         return await this.typeService.getType(idOrName)
+    }
+
+    @Patch(':id')
+    async updateType(@Body() updateTypeDTO: UpdateTypeDTO, @Param('id') id: string) {
+        return await this.typeService.updateType(updateTypeDTO, +id)
     }
 
     @Post()
