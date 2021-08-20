@@ -12,10 +12,13 @@ import { CreateProductDTO } from '../DTO/productDTOs'
 export class ProductService {
 
     async getProduct(value: string) {
-        if (Number.isInteger(+value)) {
-            return await Product.findOne(+value)
-        }
-        return await Product.findOne({ where: { name: value } })
+        let product: Product
+        if (Number.isInteger(+value))
+            product = await Product.findOne(+value)
+        else
+            product = await Product.findOne({ where: { name: value } })
+
+        if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
     }
 
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
@@ -53,21 +56,21 @@ export class ProductService {
         const typeProperties = type.typeProperties
         const typePropertyValues: TypePropertyValue[] = []
 
-        for(let i = 0; i < createProductDTO.typeProperties.length; ++i) {
+        for (let i = 0; i < createProductDTO.typeProperties.length; ++i) {
             let property = createProductDTO.typeProperties[i]
 
             //Check if typeProperty exists
             const prop = typeProperties.find(prop => prop.name === property.name.toLowerCase())
-            const typeProperty = await TypeProperty.findOne(prop.id);
-            console.log("TP: ",typeProperty)
-            if (!typeProperty) {
-                throw new HttpException(`There is no "${property.name}" type property on "${type.name}" type!`, 400)
+            if (!prop) {
+                throw new HttpException(`There is no '${property.name}' type property on '${type.name}' type! Maybe you were looking for ${typeProperties.map(prop => '\'' + prop.name + '\'').slice(0, 6).join(',')}?`, 400)
             }
+
+            const typeProperty = await TypeProperty.findOne(prop.id)
 
             //Check if typePropertyValue exists on typeProperty
             const typePropertyValue = typeProperty.typePropertyValues.find(typePropertyValue => typePropertyValue.name === property.value.toLowerCase())
             if (!typePropertyValue) {
-                throw new HttpException(`There is no "${property.value}" property value on "${typeProperty.name}" typeProperty!`, 400)
+                throw new HttpException(`There is no '${property.value}' property value on '${typeProperty.name}' typeProperty!`, 400)
             }
 
             typePropertyValues.push(typePropertyValue)

@@ -12,9 +12,15 @@ export class TypeService {
     constructor(private readonly connection: Connection) {}
 
     async getType(value: number | string) {
+        let type: Type;
+
         if (Number.isInteger(+value))
-            return await Type.findOne(value)
-        return await Type.findOne({ where: { name: value } })
+            type = await Type.findOne(value)
+        else
+            type = await Type.findOne({ where: { name: value } })
+
+        if(!type) throw new HttpException(`Type with id or name ${value} not found!`,400)
+        return type
     }
 
     async getTypes(): Promise<GetTypesDTO[]> {
@@ -73,6 +79,7 @@ export class TypeService {
         } catch (e) {
             console.log(e)
         }
+        return "All types successfully deleted!"
     }
 
     async updateType(updateTypeDTO: UpdateTypeDTO, id: number) {
@@ -86,14 +93,14 @@ export class TypeService {
             throw new HttpException(`Cannot find type with id ${id}!`, 400)
         }
 
-        type.name = updateTypeDTO.name || type.name
+        type.name = updateTypeDTO.name || type.name.toLowerCase()
         type.typeLogo = updateTypeDTO.typeLogo || type.typeLogo
 
         //Deal with type properties
         if (updateTypeDTO.typeProperties) {
             for (let typeProp of updateTypeDTO.typeProperties) {
                 //Find type Prop
-                let typeProperty = type.typeProperties.find(typeProperty => typeProperty.name === typeProp.name)
+                let typeProperty = type.typeProperties.find(typeProperty => typeProperty.name === typeProp.name.toLowerCase())
 
                 if (!typeProperty) {
                     typeProperty = TypeProperty.create({
