@@ -18,16 +18,79 @@
     select {
       padding: 5px;
       border-radius: 3px;
-
     }
   }
 
   .category_wrapper {
     display: flex;
-    padding: 0 30px;
-
     aside.sidebar {
-      flex: 0 0 250px;
+      border: 1px solid gray;
+      flex: 0 0 225px;
+      margin-right: 25px;
+
+      padding: 10px;
+      height: fit-content;
+      .list {
+        user-select: none;
+        position: relative;
+        text-transform: capitalize;
+        .list_title {
+          cursor: pointer;
+          .name {
+            font-weight: bold;
+          }
+          .count {
+            color: gray;
+            margin-left: 5px;
+          }
+
+          margin-bottom: 5px;
+        }
+        .list_select {
+          .list_option {
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+            text-indent: 25px;
+            &:hover {
+              background-color: rgba(241, 80, 145, 0.51);
+            }
+            &::before {
+              position: absolute;
+              content: "";
+              border: 2px solid black;
+              width: 10px;
+              height: 10px;
+              border-radius: 10px;
+              left: 2px;
+              top: 6px;
+            }
+            &.__selected {
+              &:before {
+                background-color: $col_green_light;
+              }
+            }
+          }
+          &.__hidden {
+            display: none;
+          }
+        }
+
+      }
+      .list+.list {
+        margin-top: 20px;
+      }
+      //.list+.list {
+      //  &::before {
+      //    position: absolute;
+      //    width: 100%;
+      //    background-color: gray;
+      //    height: 1px;
+      //    content: "";
+      //    top: -9px;
+      //    left: 10px;
+      //  }
+      //}
 
       @media (max-width: 900px) {
         display: none;

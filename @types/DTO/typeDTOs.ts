@@ -5,15 +5,17 @@ export interface GetTypesDTO {
 }
 
 export interface GetTypeDTO extends GetTypesDTO {
-    'typeProperties': Array<{
-        id: number,
-        name: string,
-        typePropertyValues: Array<ITypeProperty[]>
-    }>,
+    'typeProperties': ITypeProperty[],
     brands: Array<any>
 }
 
 export interface ITypeProperty {
+    id: number,
+    name: string,
+    typePropertyValues: ITypePropertyValue[]
+}
+
+export interface ITypePropertyValue {
     id: number,
     name: string
 }
