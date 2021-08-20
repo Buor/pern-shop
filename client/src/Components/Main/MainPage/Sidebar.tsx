@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
         <div className={'sidebar'}>
             <ul className={'categories_wrapper'}>
                 {types && types?.map(type => {
-                    return <li className={'category_item'} onClick={() => goToProductPage(type.name)}>
+                    return <li key={type.id} className={'category_item'} onClick={() => goToProductPage(type.name)}>
                         <img className={'category_image'} src={type.typeLogo || 'https://image.flaticon.com/icons/png/512/25/25333.png'} alt='cat_image' />
                         <NavLink className={'category_link'} to={'/category/' + type.name}>{type.name}</NavLink>
                     </li>
