@@ -13,28 +13,27 @@ import Brand from './Brand'
 import Type from './Type'
 import ProductInfo from './ProductInfo'
 import Basket from './Basket'
-import { TypeProperty } from './TypeProperty'
 import { TypePropertyValue } from './TypePropertyValue'
 
 @Entity('product')
 export default class Product extends BaseEntity {
-    @PrimaryGeneratedColumn({type: "integer"})
-    id: number;
+    @PrimaryGeneratedColumn({ type: 'integer' })
+    id: number
 
     @Column()
-    name: string;
+    name: string
 
     @Column()
-    cost: number;
+    cost: number
 
-    @Column({default: 0})
-    count: number;
+    @Column({ default: 0 })
+    count: number
 
-    @Column({nullable: true})
-    discountCost: number;
+    @Column({ nullable: true })
+    discountCost: number
 
-    @Column({nullable: true})
-    img: string;
+    @Column({ nullable: true })
+    img: string
 
     @OneToMany(() => Rating, rating => rating.product, {
         eager: true
@@ -56,11 +55,11 @@ export default class Product extends BaseEntity {
     })
     type: Type
 
-    @ManyToMany(() => Basket, basket => basket.products, {eager: true})
+    @ManyToMany(() => Basket, basket => basket.products, { eager: true })
     @JoinTable()
     baskets: Basket[]
 
-    @ManyToMany(() => TypePropertyValue, typePropertyValue => typePropertyValue.products, {eager: true})
+    @ManyToMany(() => TypePropertyValue, typePropertyValue => typePropertyValue.products, { eager: true })
     @JoinTable()
     typePropertyValues: TypePropertyValue[]
 }

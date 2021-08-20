@@ -6,6 +6,6 @@ export class GetAllProductsDTO {
     img: string | null
 }
 
-export class CategoryProductDTO extends GetAllProductsDTO{
-    typePropertyValues: {id: number, name: string}[]
+export class CategoryProductDTO extends GetAllProductsDTO {
+    typePropertyValues: { id: number, name: string }[]
 }
