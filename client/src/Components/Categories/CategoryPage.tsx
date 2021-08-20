@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { getType } from '../../DAL/type/typeAPI'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
-import { CategoryPageContent } from './Sections/CategoryPageContent'
-import { CategoryPageSidebar } from './Sections/CategoryPageSidebar'
+import { CategoryPageContent } from './Sections/Content/CategoryPageContent'
+import { CategoryPageSidebar } from './Sections/Sidebar/CategoryPageSidebar'
 
 export const CategoryPage: React.FC = () => {
 
@@ -18,7 +18,7 @@ export const CategoryPage: React.FC = () => {
     }, [])
 
     if (type === null) return null
-
+    console.log("Type:",type)
     return <div className={'category_page'}>
         <div className={'title'}>
             {type.name}
