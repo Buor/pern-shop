@@ -3,7 +3,7 @@ import Type from '../Entities/Type'
 import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
-import { GetAllProductsDTO } from '../../@types/DTO/productDTOs'
+import { CategoryProductDTO, GetAllProductsDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { CreateProductDTO } from '../DTO/productDTOs'
@@ -30,6 +30,15 @@ export class ProductService {
             discountCost: product.discountCost,
             name: product.name
         }))
+    }
+
+    async getAllProductsByType(typeId: number): Promise<CategoryProductDTO[]> {
+        const products = await Product.find({ where: { type: typeId } })
+        return products.map(product => {
+                let { name, cost, discountCost, img, count, typePropertyValues } = product
+                return { name, cost, discountCost, img, count, typePropertyValues }
+            }
+        )
     }
 
     async createProduct(createProductDTO: CreateProductDTO) {

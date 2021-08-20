@@ -1,11 +1,17 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common'
 import { ProductService } from '../Services/product.service'
 import { CreateProductDTO } from '../DTO/productDTOs'
+import { CategoryProductDTO } from '../../@types/DTO/productDTOs'
 
 @Controller('/product')
 export class ProductController {
 
     constructor(private productService: ProductService) {}
+
+    @Get('/all/type/:typeId')
+    async getAllProductsByType(@Param('typeId') typeId: string): Promise<CategoryProductDTO[]> {
+        return await this.productService.getAllProductsByType(+typeId)
+    }
 
     @Get('/all')
     async getAllProducts() {
