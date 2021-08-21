@@ -6,6 +6,7 @@ import { CategoryPageContent } from './Sections/Content/CategoryPageContent'
 import { CategoryPageSidebar } from './Sections/Sidebar/CategoryPageSidebar'
 import { CategoryProductDTO } from '../../../../@types/DTO/productDTOs'
 import { getCategoryProducts } from '../../DAL/products/productsAPI'
+import CategoryPageOrder from './Sections/Content/CategoryPageOrder'
 
 export const CategoryPage: React.FC = () => {
 
@@ -46,11 +47,7 @@ export const CategoryPage: React.FC = () => {
             {type.name}
         </div>
         <div className='category_settings'>
-            <select name='category_order' id='category_order'
-                    onChange={e => changeOrder(e.target.value as 'asc' | 'desc')} value={order}>
-                <option value='desc'>Descending Price</option>
-                <option value='asc'>Ascending Price</option>
-            </select>
+            <CategoryPageOrder changeOrder={changeOrder} value={order}/>
         </div>
         <div className='category_wrapper'>
             <CategoryPageSidebar typeProperties={type.typeProperties} />
