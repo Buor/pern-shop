@@ -17,3 +17,5 @@ ReactDOM.render(
 )
 
 export type RootState = ReturnType<typeof store.getState>
+//@ts-ignore
+window.store = store;
