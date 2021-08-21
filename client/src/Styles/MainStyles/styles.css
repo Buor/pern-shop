@@ -666,6 +666,9 @@ header.main_header .header_wrapper .btn_shopping_card img {
     display: none;
   }
 }
+.category_page .category_wrapper section.content {
+  width: 100%;
+}
 .category_page .category_wrapper section.content .product_wrapper {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -11,7 +11,7 @@ export const CategoryPageContent: React.FC<Props> = ({products}) => {
         <div className='product_wrapper'>
             {/*Mock data*/}
             {/*{Array(7).fill(null).map(() => <ContentProduct/>)}*/}
-            {products.map(product => <ContentProduct product={product}/>)}
+            {products.map(product => <ContentProduct key={product.name} product={product}/>)}
         </div>
     </section>
 }
