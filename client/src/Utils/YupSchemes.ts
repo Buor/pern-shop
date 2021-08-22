@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
 const emailReg = /(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/;
-const passwordReg = /[a-zA-Z0-9_.+-]+/;
 
 export const LoginSchema = Yup.object().shape({
     email: Yup.string()

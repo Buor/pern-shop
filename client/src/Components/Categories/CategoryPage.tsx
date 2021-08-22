@@ -32,7 +32,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     const filteredProducts = useMemo(() => {
         if(filters.length === 0) return products
-        return products.filter(product => product.typePropertyValues.some(typePropValue => filters.includes(typePropValue.id)))
+        return products.filter(product => product.typePropertyValues.every(typePropValue => filters.includes(typePropValue.id)))
     }, [filters, products])
 
     const getProductsFromServer = useRef(async () => {

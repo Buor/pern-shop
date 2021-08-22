@@ -109,8 +109,14 @@ a {
   opacity: 0.8;
 }
 
-.login_page {
-  margin-top: 20px;
+.login_form {
+  z-index: 25;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -122,7 +128,8 @@ a {
           justify-content: center;
   width: 100%;
 }
-.login_page form {
+.login_form form {
+  background-color: white;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -141,26 +148,26 @@ a {
   -webkit-box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
   box-shadow: -1px 0px 7px 0px rgba(50, 50, 50, 0.7);
 }
-.login_page form button {
+.login_form form button {
   padding: 10px 15px;
   background-color: #00a046;
   border-radius: 5px;
   color: white;
   font-size: 18px;
 }
-.login_page form button:hover {
+.login_form form button:hover {
   background-color: #0bc000;
 }
-.login_page form .title_first {
+.login_form form .title_first {
   margin: 10px 0;
 }
-.login_page form .title_second {
+.login_form form .title_second {
   margin-top: 10px;
 }
-.login_page form .deco_gray {
+.login_form form .deco_gray {
   width: 107.5%;
 }
-.login_page form .input_wrapper {
+.login_form form .input_wrapper {
   width: 100%;
   margin-bottom: 15px;
   display: -webkit-box;
@@ -171,12 +178,12 @@ a {
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.login_page form .input_wrapper .input_desc {
+.login_form form .input_wrapper .input_desc {
   text-indent: 10px;
   color: black;
   opacity: 0.8;
 }
-.login_page form .input_wrapper input {
+.login_form form .input_wrapper input {
   border: 1px solid gray;
   border-radius: 5px;
   font-size: 16px;
@@ -185,16 +192,16 @@ a {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.login_page form .input_wrapper .input_error_message {
+.login_form form .input_wrapper .input_error_message {
   margin-top: 5px;
   text-indent: 3px;
   color: red;
 }
-.login_page form .input_wrapper:last-child {
+.login_form form .input_wrapper:last-child {
   margin-bottom: 80px;
   background-color: #0be100;
 }
-.login_page form .login_error_message {
+.login_form form .login_error_message {
   color: red;
   margin-bottom: 10px;
 }
