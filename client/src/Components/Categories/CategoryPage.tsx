@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { getType } from '../../DAL/type/typeAPI'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
-import { CategoryPageContent } from './Sections/Content/CategoryPageContent'
+import CategoryPageContent from './Sections/Content/CategoryPageContent'
 import { CategoryPageSidebar } from './Sections/Sidebar/CategoryPageSidebar'
 import { CategoryProductDTO } from '../../../../@types/DTO/productDTOs'
 import { getCategoryProducts } from '../../DAL/products/productsAPI'
@@ -31,8 +31,8 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     }, [])
 
     const filteredProducts = useMemo(() => {
-        if(filters.length === 0) return products
-        return products.filter(product => product.typePropertyValues.every(typePropValue => filters.includes(typePropValue.id)))
+        if (filters.length === 0) return products
+        return products.filter(product => product.typePropertyValues.some(typePropValue => filters.includes(typePropValue.id)))
     }, [filters, products])
 
     const getProductsFromServer = useRef(async () => {
@@ -49,6 +49,8 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const resultProducts = useMemo(() => {
         return filteredProducts.sort(sortProducts(order))
     }, [order, filteredProducts])
+
+    console.log(resultProducts)
 
     if (type === null || products === null) return null
 

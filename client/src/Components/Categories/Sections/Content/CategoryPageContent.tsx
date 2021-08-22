@@ -6,10 +6,23 @@ interface Props {
     products: CategoryProductDTO[]
 }
 
-export const CategoryPageContent: React.FC<Props> = ({products}) => {
+const getAllProductsIds = (products: CategoryProductDTO[]) => {
+    return products.map(product => product.id).sort((a,b) => a - b).join(',')
+}
+
+const CategoryPageContent: React.FC<Props> = ({products}) => {
+    console.log('rerender!')
     return <section className='content'>
         <div className='product_wrapper'>
             {products.map(product => <ContentProduct key={product.name} product={product}/>)}
         </div>
     </section>
 }
+
+export default React.memo(CategoryPageContent, (prev, next) => {
+    if(prev.products.length === next.products.length) {
+        if(getAllProductsIds(prev.products) === getAllProductsIds(next.products))
+            return true
+    }
+    return false
+})
