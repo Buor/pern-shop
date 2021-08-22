@@ -719,6 +719,15 @@ header.main_header .header_wrapper .btn_shopping_card img {
 .category_page .category_wrapper section.content .product_wrapper .product .name {
   margin-top: 30px;
 }
+.category_page .category_wrapper section.content .product_wrapper .product .discount_price {
+  height: 15px;
+  padding-top: 5px;
+  text-decoration: line-through;
+}
+.category_page .category_wrapper section.content .product_wrapper .product .discount_price + .price {
+  margin-top: 10px;
+  color: #ff3377;
+}
 .category_page .category_wrapper section.content .product_wrapper .product .price {
   margin-top: 25px;
   font-size: 20px;
