@@ -710,9 +710,11 @@ header.main_header .header_wrapper .btn_shopping_card img {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
+  height: 100px;
 }
 .category_page .category_wrapper section.content .product_wrapper .product .image_wrapper img {
   max-width: 150px;
+  max-height: 125px;
 }
 .category_page .category_wrapper section.content .product_wrapper .product .name {
   margin-top: 30px;

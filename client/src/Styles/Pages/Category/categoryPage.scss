@@ -123,9 +123,11 @@
           .image_wrapper {
             margin-top: 20px;
             align-self: center;
-
+            height: 100px;
             img {
+
               max-width: 150px;
+              max-height: 125px;
             }
           }
 

@@ -9,8 +9,6 @@ interface Props {
 export const CategoryPageContent: React.FC<Props> = ({products}) => {
     return <section className='content'>
         <div className='product_wrapper'>
-            {/*Mock data*/}
-            {/*{Array(7).fill(null).map(() => <ContentProduct/>)}*/}
             {products.map(product => <ContentProduct key={product.name} product={product}/>)}
         </div>
     </section>
