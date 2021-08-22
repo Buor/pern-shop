@@ -17,7 +17,7 @@ export const SectionAll: React.FC = () => {
     return <section>
         <div className='title'>All products</div>
         <div className='items_wrapper'>
-            {products && products.map(product => <ProductItem {...product}/>)}
+            {products && products.map(product => <ProductItem key={product.name} {...product}/>)}
         </div>
     </section>
 }

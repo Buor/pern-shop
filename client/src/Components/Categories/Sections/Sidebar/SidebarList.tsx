@@ -25,7 +25,7 @@ const SidebarList: React.FC<Props> = ({ typeProperty: { name, typePropertyValues
                 </span>
             </div>
             <div className={'list_select' + (hidden ? " __hidden" : "")}>
-                {typePropertyValues.map(typePropValue => <SidebarListOption typePropValue={typePropValue}/>)}
+                {typePropertyValues.map(typePropValue => <SidebarListOption key={typePropValue.id} typePropValue={typePropValue}/>)}
             </div>
         </div>
     )
