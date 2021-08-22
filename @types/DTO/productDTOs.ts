@@ -4,6 +4,7 @@ export class GetAllProductsDTO {
     count: number
     discountCost: number
     img: string | null
+    id: number
 }
 
 export class CategoryProductDTO extends GetAllProductsDTO {

@@ -35,8 +35,8 @@ export class ProductService {
     async getAllProductsByType(typeId: number): Promise<CategoryProductDTO[]> {
         const products = await Product.find({ where: { type: typeId } })
         return products.map(product => {
-                let { name, cost, discountCost, img, count, typePropertyValues } = product
-                return { name, cost, discountCost, img, count, typePropertyValues }
+                let { name, cost, discountCost, img, count, typePropertyValues, id } = product
+                return { name, cost, discountCost, img, count, typePropertyValues, id }
             }
         )
     }
