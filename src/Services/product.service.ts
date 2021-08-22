@@ -28,7 +28,8 @@ export class ProductService {
             img: product.img,
             cost: product.cost,
             discountCost: product.discountCost,
-            name: product.name
+            name: product.name,
+            id: product.id
         }))
     }
 
