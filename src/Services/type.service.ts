@@ -36,9 +36,7 @@ export class TypeService {
 
         //Check if this type already exists
         const type = await Type.findOne({ where: { name: createTypeDTO.name.toLowerCase() } })
-        console.log(type)
         if (type) {
-            console.log(type)
             throw new HttpException(`Type with name ${createTypeDTO.name} already exists!`, 400)
         }
 

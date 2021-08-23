@@ -13,7 +13,6 @@ export const sendRegisterData = (registerData: IRegisterRequest) => {
 
 export const getIsVerifiedReq = () => {
     let accessToken = getAccessToken()
-    console.log(accessToken)
     return axiosInstance.get('/auth/is-verify', {headers: {"Authorization": "Bearer " + accessToken}})
 }
 
@@ -28,7 +27,6 @@ export const login = async (loginData: ILoginRequestDTO) => {
         const responseData: ILoginResponseDTO = response.data
 
         setAccessToken(responseData.accessToken)
-        console.log(responseData)
         return true
     } catch (err) {
         if(err.response.status === 401) return "Wrong email or password"
@@ -39,7 +37,6 @@ export const login = async (loginData: ILoginRequestDTO) => {
 export const register = async (registerData: IRegisterRequest) => {
     try {
         const response = await sendRegisterData(registerData)
-        console.log(response)
     } catch (err) {
         console.log(err.response.data)
     }

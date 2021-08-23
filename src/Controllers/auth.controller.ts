@@ -47,7 +47,6 @@ export class AuthController {
     async login(@Body() reqBody, @Res() res) {
 
         const { email, password } = reqBody
-        console.log(email, password)
 
         const user = await this.userRepository.findOne({ email })
         if (!user) {

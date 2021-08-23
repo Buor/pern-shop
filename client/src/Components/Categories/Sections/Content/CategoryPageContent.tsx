@@ -11,7 +11,6 @@ const getAllProductsIds = (products: CategoryProductDTO[]) => {
 }
 
 const CategoryPageContent: React.FC<Props> = ({products}) => {
-    console.log('rerender!')
     return <section className='content'>
         <div className='product_wrapper'>
             {products.map(product => <ContentProduct key={product.name} product={product}/>)}

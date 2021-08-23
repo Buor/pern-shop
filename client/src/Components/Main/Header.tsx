@@ -79,7 +79,6 @@ const Header: React.FC<HeaderProps> = ({isAuth}) => {
 
 export default connect(
     (state: any) => {
-        console.log(state)
         return {isAuth: state.auth.isAuth}
     }
 )(Header)

@@ -6,7 +6,6 @@ import MainPage from './Components/Main/MainPage/MainPage'
 import CategoryPage from './Components/Categories/CategoryPage'
 
 const App: React.FC = () => {
-    console.log('a')
     return (
         <>
             <Header />

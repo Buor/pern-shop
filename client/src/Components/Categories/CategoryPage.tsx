@@ -50,8 +50,6 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
         return filteredProducts.sort(sortProducts(order))
     }, [order, filteredProducts])
 
-    console.log(resultProducts)
-
     if (type === null || products === null) return null
 
     return <div className={'category_page'}>

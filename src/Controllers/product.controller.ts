@@ -15,7 +15,6 @@ export class ProductController {
 
     @Get('/all')
     async getAllProducts() {
-        console.log('here')
         return await this.productService.getAllProducts()
     }
 
@@ -26,7 +25,6 @@ export class ProductController {
 
     @Post()
     async createProduct(@Body() createProductDTO: CreateProductDTO) {
-        console.log(createProductDTO)
         return await this.productService.createProduct(createProductDTO);
     }
 }
