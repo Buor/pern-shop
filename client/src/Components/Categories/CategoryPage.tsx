@@ -8,6 +8,7 @@ import { CategoryProductDTO } from '../../../../@types/DTO/productDTOs'
 import { getCategoryProducts } from '../../DAL/products/productsAPI'
 import CategoryPageOrder from './Sections/Content/CategoryPageOrder'
 import { connect } from 'react-redux'
+import CategoryPagePagination from './Sections/Content/CategoryPagePagination'
 
 interface Props {
     filters: number[]
@@ -25,6 +26,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const [type, setType] = useState<GetTypeDTO | null>(null)
     const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const [products, setProducts] = useState<CategoryProductDTO[]>([])
+    const productsCount = useRef<number>(0)
 
     useEffect(() => {
         getProductsFromServer.current()
@@ -63,6 +65,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
             <CategoryPageSidebar typeProperties={type.typeProperties} />
             <CategoryPageContent products={resultProducts} />
         </div>
+        <CategoryPagePagination productsCount={5}/>
     </div>
 }
 
