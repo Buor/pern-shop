@@ -6,16 +6,17 @@ import { CategoryProductDTO } from '../../@types/DTO/productDTOs'
 @Controller('/product')
 export class ProductController {
 
-    constructor(private productService: ProductService) {}
-
-    @Get('/all/type/:typeId')
-    async getAllProductsByType(@Param('typeId') typeId: string): Promise<CategoryProductDTO[]> {
-        return await this.productService.getAllProductsByType(+typeId)
+    constructor(private productService: ProductService) {
     }
 
     @Get('/all/type/:typeId/count')
     async getAllProductsCountByType(@Param('typeId') typeId: string): Promise<number> {
         return await this.productService.getAllProductsCountByType(+typeId)
+    }
+
+    @Get('/all/type/:typeId/page/:pageNumber')
+    async getProductsByType(@Param('typeId') typeId: string, @Param('pageNumber') pageNumber: number): Promise<CategoryProductDTO[]> {
+        return await this.productService.getProductsByType(+typeId, +pageNumber)
     }
 
     @Get('/all')
@@ -30,6 +31,6 @@ export class ProductController {
 
     @Post()
     async createProduct(@Body() createProductDTO: CreateProductDTO) {
-        return await this.productService.createProduct(createProductDTO);
+        return await this.productService.createProduct(createProductDTO)
     }
 }
