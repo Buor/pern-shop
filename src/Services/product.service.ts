@@ -33,13 +33,25 @@ export class ProductService {
         }))
     }
 
-    async getAllProductsByType(typeId: number): Promise<CategoryProductDTO[]> {
-        const products = await Product.find({ where: { type: typeId } })
+    async getProductsByType(typeId: number, pageNumber: number): Promise<CategoryProductDTO[]> {
+        if(Number.isNaN(pageNumber) || Number.isNaN(typeId))
+            throw new HttpException(`Wrong typeId or pageNumber!`, 400)
+
+        const products = await Product.find({
+            where: { type: typeId },
+            take: 10,
+            skip: (pageNumber - 1) * 10
+        })
         return products.map(product => {
                 let { name, cost, discountCost, img, count, typePropertyValues, id } = product
                 return { name, cost, discountCost, img, count, typePropertyValues, id }
             }
         )
+    }
+
+    async getAllProductsCountByType(typeId: number): Promise<number> {
+        const products = await Product.find({ where: { type: typeId } })
+        return products.length
     }
 
     async createProduct(createProductDTO: CreateProductDTO) {

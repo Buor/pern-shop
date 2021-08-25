@@ -11,11 +11,9 @@ const getAllProductsIds = (products: CategoryProductDTO[]) => {
 }
 
 const CategoryPageContent: React.FC<Props> = ({products}) => {
-    return <section className='content'>
-        <div className='product_wrapper'>
+    return <div className='product_wrapper'>
             {products.map(product => <ContentProduct key={product.name} product={product}/>)}
         </div>
-    </section>
 }
 
 export default React.memo(CategoryPageContent, (prev, next) => {
