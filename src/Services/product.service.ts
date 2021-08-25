@@ -42,6 +42,11 @@ export class ProductService {
         )
     }
 
+    async getAllProductsCountByType(typeId: number): Promise<number> {
+        const products = await Product.find({ where: { type: typeId } })
+        return products.length
+    }
+
     async createProduct(createProductDTO: CreateProductDTO) {
 
         //Check if product with given name exists

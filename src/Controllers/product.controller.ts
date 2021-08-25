@@ -13,6 +13,11 @@ export class ProductController {
         return await this.productService.getAllProductsByType(+typeId)
     }
 
+    @Get('/all/type/:typeId/count')
+    async getAllProductsCountByType(@Param('typeId') typeId: string): Promise<number> {
+        return await this.productService.getAllProductsCountByType(+typeId)
+    }
+
     @Get('/all')
     async getAllProducts() {
         return await this.productService.getAllProducts()
