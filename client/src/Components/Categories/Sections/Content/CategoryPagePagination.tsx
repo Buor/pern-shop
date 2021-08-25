@@ -1,22 +1,24 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import img_right_arrow from './../../../../Styles/Images/Icons/right_arrow.svg'
 
 interface Props {
     productsCount: number,
-    currentPage?: number
+    currentPage?: number,
+    setCurrentPageNumber: Function
 }
 
-const CategoryPagePagination: React.FC<Props> = ({ productsCount, currentPage = 1 }) => {
+const CategoryPagePagination: React.FC<Props> = ({ setCurrentPageNumber, productsCount, currentPage = 1 }) => {
 
     //Mock
     const pageItems = Array(10).fill(null).map((_, i) => i + 1)
-    console.log("Page items", pageItems)
     const goToPageByNumber = (pageNumber: number) => {
-        console.log("Go to " + pageNumber)
+        setCurrentPageNumber(pageNumber)
     }
 
+    console.log('Products count: ', productsCount)
+
     return (
-        <div className={'category_pagination'}>
+        <section className={'category_pagination'}>
             <button className={'btn_arrow'}>
                 <img src={img_right_arrow} alt='left' />
             </button>
@@ -28,7 +30,7 @@ const CategoryPagePagination: React.FC<Props> = ({ productsCount, currentPage = 
             <button className={'btn_arrow'}>
                 <img src={img_right_arrow} alt='right' />
             </button>
-        </div>
+        </section>
     )
 }
 
