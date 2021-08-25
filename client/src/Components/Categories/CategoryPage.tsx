@@ -74,7 +74,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
             <CategoryPageSidebar typeProperties={type.typeProperties} />
             <section className='content'>
                 <CategoryPageContent products={resultProducts} />
-                <CategoryPagePagination setCurrentPageNumber={setCurrentPageNumber} productsCount={productsCount.current} />
+                <CategoryPagePagination currentPage={currentPageNumber} setCurrentPageNumber={setCurrentPageNumber} productsCount={productsCount.current} />
             </section>
         </div>
     </div>

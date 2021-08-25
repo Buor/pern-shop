@@ -11,6 +11,7 @@ const CategoryPagePagination: React.FC<Props> = ({ setCurrentPageNumber, product
 
     //Mock
     const pageItems = Array(10).fill(null).map((_, i) => i + 1)
+
     const goToPageByNumber = (pageNumber: number) => {
         setCurrentPageNumber(pageNumber)
     }
