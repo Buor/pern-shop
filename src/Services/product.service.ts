@@ -39,8 +39,8 @@ export class ProductService {
 
         const products = await Product.find({
             where: { type: typeId },
-            take: 10,
-            skip: (pageNumber - 1) * 10
+            take: 50,
+            skip: (pageNumber - 1) * 50
         })
         return products.map(product => {
                 let { name, cost, discountCost, img, count, typePropertyValues, id } = product
