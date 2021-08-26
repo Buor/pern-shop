@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import img_right_arrow from './../../../../Styles/Images/Icons/right_arrow.svg'
+import { generatePaginationList } from '../../../../Utils/Functions/generatePaginationList'
 
 interface Props {
     productsCount: number,
@@ -8,9 +9,9 @@ interface Props {
 }
 
 const CategoryPagePagination: React.FC<Props> = ({ setCurrentPageNumber, productsCount, currentPage = 1 }) => {
-
+    console.log(productsCount)
     //Mock
-    const pageItems = Array(10).fill(null).map((_, i) => i + 1)
+    const pageItems = useMemo(() => generatePaginationList(productsCount, currentPage), [productsCount, currentPage])
 
     const goToPageByNumber = (pageNumber: number) => {
         setCurrentPageNumber(pageNumber)
@@ -25,7 +26,8 @@ const CategoryPagePagination: React.FC<Props> = ({ setCurrentPageNumber, product
             </button>
             <div className={'page_item_wrapper'}>
                 {pageItems.map(item => {
-                    return <div className={'page_item' + (item === currentPage ? " page_item_current" : "")} onClick={() => goToPageByNumber(item)}>{item}</div>
+                    return <div className={'page_item' + (item === currentPage ? ' page_item_current' : '')}
+                                onClick={() => goToPageByNumber(item)}>{item}</div>
                 })}
             </div>
             <button className={'btn_arrow'}>

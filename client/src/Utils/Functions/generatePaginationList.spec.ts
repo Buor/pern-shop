@@ -9,10 +9,13 @@ describe("Testing generatePaginationList function", () => {
     it('middle check 2', () => {
         expect(generatePaginationList(2015,8).toString()).toBe([4,5,6,7,8,9,10,11,12].toString())
     })
-    it('few pages check', () => {
+    it('few pages check 1', () => {
         expect(generatePaginationList(107,3).toString()).toBe([1,2,3].toString())
     })
+    it('few pages check 2', () => {
+        expect(generatePaginationList(420,8).toString()).toBe([1,2,3,4,5,6,7,8,9].toString())
+    })
     it('empty check', () => {
-        expect(generatePaginationList(21,1).toString()).toBe([].toString())
+        expect(generatePaginationList(21,1).toString()).toBe([1].toString())
     })
 })
