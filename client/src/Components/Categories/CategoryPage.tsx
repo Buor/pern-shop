@@ -27,6 +27,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const [order, setOrder] = useState<'asc' | 'desc'>('asc')
     const [products, setProducts] = useState<CategoryProductDTO[]>([])
     const productsCount = useRef<number>(0)
+    const pageSize = useRef<number>(10)
     const [currentPageNumber, setCurrentPageNumber] = useState<number>(1)
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number) => {
         if (!typeId) return
         productsCount.current = await getCategoryProductsCount(typeId)
-        let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber)
+        let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber, pageSize.current)
         setProducts(productsData)
     })
 
@@ -74,7 +75,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
             <CategoryPageSidebar typeProperties={type.typeProperties} />
             <section className='content'>
                 <CategoryPageContent products={resultProducts} />
-                <CategoryPagePagination currentPage={currentPageNumber} setCurrentPageNumber={setCurrentPageNumber} productsCount={productsCount.current} />
+                <CategoryPagePagination pageSize={pageSize.current} currentPage={currentPageNumber} setCurrentPageNumber={setCurrentPageNumber} productsCount={productsCount.current} />
             </section>
         </div>
     </div>
