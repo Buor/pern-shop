@@ -25,7 +25,7 @@ const CategoryPagePagination: React.FC<Props> = ({ setCurrentPageNumber, product
             </button>
             <div className={'page_item_wrapper'}>
                 {pageItems.map(item => {
-                    return <div className={'page_item' + (item === currentPage ? " page_item_current" : "")} onClick={e => goToPageByNumber(item)}>{item}</div>
+                    return <div className={'page_item' + (item === currentPage ? " page_item_current" : "")} onClick={() => goToPageByNumber(item)}>{item}</div>
                 })}
             </div>
             <button className={'btn_arrow'}>
