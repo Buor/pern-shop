@@ -1,17 +1,16 @@
 import { NextFunction, Response } from 'express'
 import { verify } from 'jsonwebtoken'
-import { Injectable, NestMiddleware } from '@nestjs/common'
+import { HttpException, Injectable, NestMiddleware } from '@nestjs/common'
 import { ProjectRequest } from '../../../@types/types'
 
 @Injectable()
 export class AuthorizeMiddleware implements NestMiddleware{
     use(req: ProjectRequest, res: Response, next: NextFunction) {
-
         try {
             const accessToken = req.headers.authorization?.split(' ')[1];
-            
+
             if (!accessToken) {
-                return res.status(401).json(false);
+                throw 'Error'
             }
 
             const payload: any = verify(accessToken, (process.env.ACCESS_TOKEN_SECRET as string) || 'ihifHf38v8W&*v2');
@@ -19,8 +18,7 @@ export class AuthorizeMiddleware implements NestMiddleware{
             req.user = payload.user;
             next();
         } catch (err) {
-            console.log(err)
-            res.status(403).json({msg: "Not Authorize"});
+            throw new HttpException(`Authorization failed!`, 401)
         }
     }
 }
