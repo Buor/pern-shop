@@ -15,8 +15,9 @@ export class AuthController {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(UserData)
-        private readonly userDataRepository: Repository<UserData>,
-    ) {}
+        private readonly userDataRepository: Repository<UserData>
+    ) {
+    }
 
     @Get('/is-verify')
     async isVerify() {
@@ -66,8 +67,8 @@ export class AuthController {
         const responseDTO: ILoginResponseDTO = {
             accessToken,
             userData: {
-                email: user.email,
-            },
+                email: user.email
+            }
         }
 
         return res.json(responseDTO)
@@ -83,12 +84,11 @@ export class AuthController {
             const salt = await genSalt(10)
             const bcryptPassword = await hash(password, salt)
 
-
             //Creating UserData
             let userData = this.userDataRepository.create({
-                firstName: "",
-                phoneNumber: "",
-                secondName: "",
+                firstName: '',
+                phoneNumber: '',
+                secondName: '',
                 role: UserRole.User
             })
             await this.userDataRepository.save(userData)

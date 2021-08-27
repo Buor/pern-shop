@@ -3,7 +3,7 @@ import Type from '../Entities/Type'
 import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
-import { CategoryProductDTO, GetAllProductsDTO } from '../../@types/DTO/productDTOs'
+import { CategoryProductDTO, GetAllProductsDTO, ProductDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { CreateProductDTO } from '../DTO/productDTOs'
@@ -11,7 +11,7 @@ import { CreateProductDTO } from '../DTO/productDTOs'
 @Injectable()
 export class ProductService {
 
-    async getProduct(value: string) {
+    async getProduct(value: string): Promise<ProductDTO> {
         let product: Product
         if (Number.isInteger(+value))
             product = await Product.findOne(+value)
@@ -19,7 +19,8 @@ export class ProductService {
             product = await Product.findOne({ where: { name: value } })
 
         if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
-        return product
+        const { name, cost, count, discountCost, img, id } = product
+        return { name, cost, count, discountCost, img, id }
     }
 
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
@@ -35,7 +36,7 @@ export class ProductService {
     }
 
     async getProductsByType(typeId: number, pageNumber: number, pageSize: number = 50): Promise<CategoryProductDTO[]> {
-        if(Number.isNaN(pageNumber) || Number.isNaN(typeId))
+        if (Number.isNaN(pageNumber) || Number.isNaN(typeId))
             throw new HttpException(`Wrong typeId or pageNumber!`, 400)
 
         const products = await Product.find({

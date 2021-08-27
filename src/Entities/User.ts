@@ -18,7 +18,9 @@ export default class User extends BaseEntity {
     @JoinColumn()
     userData: UserData
 
-    @OneToOne(() => Basket, basket => basket.user)
+    @OneToOne(() => Basket, basket => basket.user, {
+        eager: true
+    })
     @JoinColumn()
     basket: Basket
 
