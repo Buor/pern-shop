@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common'
 import User from '../Entities/User'
 import Product from '../Entities/Product'
 import Basket from '../Entities/Basket'
+import { ProductDTO } from '../../@types/DTO/productDTOs'
 
 @Injectable()
 export class BasketService {
@@ -25,5 +26,18 @@ export class BasketService {
         await Basket.save(basket)
 
         return true
+    }
+
+    async getProductsFromUserBasket(userId: number): Promise<ProductDTO[]> {
+        const user = await User.findOne(userId)
+        const basket = await Basket.findOne(user.basket.id)
+        return basket.products.map(product => ({
+            id: product.id,
+            cost: product.cost,
+            count: product.count,
+            img: product.img,
+            discountCost: product.discountCost,
+            name: product.name
+        }))
     }
 }
