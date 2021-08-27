@@ -19,6 +19,7 @@ export class ProductService {
             product = await Product.findOne({ where: { name: value } })
 
         if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
+        return product
     }
 
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
