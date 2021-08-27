@@ -11,6 +11,6 @@ import { getConfigModules, getRouteModules } from '../Utils/mainConfig'
 export class MainModule implements NestModule {
     configure(consumer: MiddlewareConsumer): any {
         consumer.apply(AuthorizeMiddleware)
-            .forRoutes('/auth/is-verify', 'rating')
+            .forRoutes('/auth/is-verify', 'rating', 'basket')
     }
 }

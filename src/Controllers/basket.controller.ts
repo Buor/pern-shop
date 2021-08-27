@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Put } from '@nestjs/common'
+import { Body, Controller, Put, Req, Res } from '@nestjs/common'
 import { BasketService } from '../Services/basket.service'
 import { AddProductToBasketDTO } from '../../@types/DTO/basketDTOs'
 
@@ -8,7 +8,7 @@ export class BasketController {
     }
 
     @Put()
-    async addProductToBasket(@Body() reqBody: AddProductToBasketDTO) {
-        return await this.basketService.addProductToBasket(reqBody)
+    async addProductToBasket(@Body() {productId}: AddProductToBasketDTO, @Req() req, @Res() res) {
+        res.json(await this.basketService.addProductToBasket(productId, req.user.id))
     }
 }

@@ -1,12 +1,11 @@
 import { HttpException, Injectable } from '@nestjs/common'
-import { AddProductToBasketDTO } from '../../@types/DTO/basketDTOs'
 import User from '../Entities/User'
 import Product from '../Entities/Product'
 import Basket from '../Entities/Basket'
 
 @Injectable()
 export class BasketService {
-    async addProductToBasket({ productId, userId }: AddProductToBasketDTO): Promise<boolean> {
+    async addProductToBasket(productId: string, userId: number): Promise<boolean> {
         const user = await User.findOne(userId)
         if (!user)
             throw new HttpException(`User with id ${userId} doesn't exist!`, 400)
