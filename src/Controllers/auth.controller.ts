@@ -7,6 +7,7 @@ import { generateAccessToken, generateRefreshToken } from '../Utils/jwtGenerator
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { InjectRepository } from '@nestjs/typeorm'
 import UserData, { UserRole } from '../Entities/UserData'
+import Basket from '../Entities/Basket'
 
 @Controller('/auth')
 export class AuthController {
@@ -93,7 +94,16 @@ export class AuthController {
             })
             await this.userDataRepository.save(userData)
 
-            let newUser = this.userRepository.create({ email, password: bcryptPassword, userData })
+            //Creating user basket
+            const basket = await Basket.create().save()
+
+            //Creating user
+            let newUser = this.userRepository.create({
+                email,
+                password: bcryptPassword,
+                userData,
+                basket
+            })
 
             await this.userRepository.save(newUser)
 
