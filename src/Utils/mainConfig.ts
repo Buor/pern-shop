@@ -19,6 +19,7 @@ import { TypeModule } from '../Modules/type.module'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { UserModule } from '../Modules/user.module'
+import { BasketModule } from '../Modules/basket.module'
 
 export function getRouteModules() {
     return [
@@ -27,7 +28,8 @@ export function getRouteModules() {
         RatingModule,
         TypeModule,
         ProductModule,
-        UserModule
+        UserModule,
+        BasketModule
     ]
 }
 

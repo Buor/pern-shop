@@ -1,15 +1,17 @@
 import { BaseEntity, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import User from "./User";
-import Product from "./Product";
+import User from './User'
+import Product from './Product'
 
 @Entity('basket')
 export default class Basket extends BaseEntity {
-    @PrimaryGeneratedColumn({type: "integer"})
-    id: number;
+    @PrimaryGeneratedColumn({ type: 'integer' })
+    id: number
 
     @OneToOne(() => User, user => user.basket)
     user: User
 
-    @ManyToMany(() => Product, product => product.baskets)
+    @ManyToMany(() => Product, product => product.baskets, {
+        eager: true
+    })
     products: Product[]
 }

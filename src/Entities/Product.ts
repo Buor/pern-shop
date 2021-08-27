@@ -55,7 +55,7 @@ export default class Product extends BaseEntity {
     })
     type: Type
 
-    @ManyToMany(() => Basket, basket => basket.products, { eager: true })
+    @ManyToMany(() => Basket, basket => basket.products)
     @JoinTable()
     baskets: Basket[]
 
