@@ -1,15 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import img_cross from './../../Styles/Images/Icons/cross.svg'
 import BasketProduct from './BasketProduct/BasketProduct'
 import { ProductDTO } from '../../../../@types/DTO/productDTOs'
+import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
+import { connect } from 'react-redux'
+import { getProductsFromUserBasket } from '../../DAL/basket/basketAPI'
 
 interface Props {
     closeFunc: Function,
+    localProducts: ProductDTO[]
 }
 
-const Basket: React.FC<Props> = ({ closeFunc }) => {
+const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
 
+    const isVerified = useIsVerified()
     const [products, setProducts] = useState<ProductDTO[]>([])
+
+    useEffect(() => {
+
+        const fetchProductsFromServer = async () => {
+            const fetchedProducts = await getProductsFromUserBasket()
+            setProducts(fetchedProducts)
+        }
+
+        const fetchProductsFromClient = () => {
+            setProducts(localProducts)
+        }
+
+        if (isVerified === 'true')
+            fetchProductsFromServer()
+        else if (isVerified === 'false')
+            fetchProductsFromClient()
+    }, [isVerified, localProducts])
+
+    if (isVerified === 'pending') return null
 
     return (
         <div className={'basket_wrapper'} onClick={(e) => closeFunc()}>
@@ -37,4 +61,7 @@ const Basket: React.FC<Props> = ({ closeFunc }) => {
     )
 }
 
-export default Basket
+export default connect(
+    (state: any) => ({ products: state.basket.products }),
+    {}
+)(Basket)
