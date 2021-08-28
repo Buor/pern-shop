@@ -17,5 +17,6 @@ ReactDOM.render(
 )
 
 export type RootState = ReturnType<typeof store.getState>
+//todo remove on deploy
 //@ts-ignore
 window.store = store;

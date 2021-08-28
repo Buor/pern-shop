@@ -62,6 +62,6 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
 }
 
 export default connect(
-    (state: any) => ({ products: state.basket.products }),
+    (state: any) => ({ localProducts: state.basket.products }),
     {}
 )(Basket)

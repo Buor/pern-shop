@@ -3,6 +3,7 @@ import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
 import imgNoImage from './../../../Styles/Images/Common/noImage.png'
 import imgCross from './../../../Styles/Images/Icons/cross.svg'
 import ProductCounter from './ProductCounter'
+
 interface Props extends ProductDTO {
 
 }

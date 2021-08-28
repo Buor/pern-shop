@@ -22,6 +22,7 @@ export const basketReducer: Reducer<typeof initialState> = (state = initialState
 }
 
 export const addProduct = (product: ProductDTO) => {
+    console.log('here')
     return {product, type: ADD_PRODUCT}
 }
 export const removeProduct = (product: ProductDTO) => {
