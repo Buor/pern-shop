@@ -2,6 +2,7 @@
 @import '../../MainStyles/ProjectMixins/projectMixins';
 
 .basket_wrapper {
+  z-index: 20;
   position: absolute;
   top: 0;
   right: 0;
@@ -14,66 +15,148 @@
   align-items: center;
 
   .basket {
+    width: 50%;
     position: absolute;
+    background-color: white;
+    border-radius: 15px;
 
     .head {
-      .basket_title {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      align-items: center;
 
+      .basket_title {
+        padding: 20px 0;
+        text-indent: 20px;
+        position: relative;
+        font-size: 24px;
+        width: 100%;
       }
 
       .btn_close {
+        width: 25px;
+        height: 25px;
 
+        img {
+          width: inherit;
+          height: inherit;
+        }
+      }
+
+      &::after {
+        @include deco_gray_line;
+        position: absolute;
+        content: "";
+        bottom: 0;
+        left: 0;
       }
     }
 
     .products_wrapper {
-      .product {
-        .product_head {
-          .head_image {
+      .product_wrapper {
+        position: relative;
+        padding: 20px 0;
 
-          }
+        .product {
+          padding: 0 20px;
 
-          .name {
+          .product_head {
+            display: flex;
+            align-items: center;
+            flex: 1 1 100%;
 
-          }
+            .head_image {
+              max-width: 125px;
+            }
 
-          .btn_delete {
+            .name {
+              flex: 1 1 100%;
+              padding: 0 25px;
+            }
 
-          }
+            .btn_delete {
 
-          .cross_image {
+              position: relative;
+              justify-self: flex-end;
 
-          }
-        }
+              width: 20px;
+              height: 20px;
+              .cross_image {
 
-        .product_tail {
-          .counter {
-
-          }
-
-          .cost {
-
-          }
-        }
-
-        .basket_footer {
-          .continue_shopping {
-
-          }
-
-          .submit_area {
-            .all_cost {
+                width: inherit;
+                height: inherit;
+              }
 
             }
 
-            .btn_place_order {
+          }
+
+          .product_tail {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            .counter {
+              display: flex;
+              align-items: center;
+
+              input {
+                font-size: 18px;
+                width: 75px;
+                border: 1px solid black;
+                border-radius: 7px;
+              }
+
+              button {
+                margin: 0 5px;
+                width: 20px;
+                height: 20px;
+
+                img {
+                  width: inherit;
+                  height: inherit;
+                }
+
+              }
+            }
+
+            .cost {
+              font-size: 18px;
+              text-align: end;
+              width: 100px;
+            }
+          }
+
+          .basket_footer {
+            .continue_shopping {
 
             }
+
+            .submit_area {
+              .all_cost {
+
+              }
+
+              .btn_place_order {
+
+              }
+            }
+
           }
 
         }
 
+        &::after {
+          @include deco_gray_line;
+          position: absolute;
+          content: "";
+          bottom: 0;
+          left: 0;
+        }
       }
+
     }
 
   }

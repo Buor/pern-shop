@@ -33,6 +33,8 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
             fetchProductsFromClient()
     }, [isVerified, localProducts])
 
+    console.log("Products: ", products)
+
     if (isVerified === 'pending') return null
 
     return (

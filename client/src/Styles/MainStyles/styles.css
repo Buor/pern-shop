@@ -71,6 +71,7 @@ button, input, textarea {
 }
 
 button {
+  padding: 0;
   cursor: pointer;
 }
 
@@ -828,6 +829,7 @@ header.main_header .header_wrapper .btn_shopping_card img {
 }
 
 .basket_wrapper {
+  z-index: 20;
   position: absolute;
   top: 0;
   right: 0;
@@ -845,5 +847,134 @@ header.main_header .header_wrapper .btn_shopping_card img {
           align-items: center;
 }
 .basket_wrapper .basket {
+  width: 50%;
   position: absolute;
+  background-color: white;
+  border-radius: 15px;
+}
+.basket_wrapper .basket .head {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 0 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.basket_wrapper .basket .head .basket_title {
+  padding: 20px 0;
+  text-indent: 20px;
+  position: relative;
+  font-size: 24px;
+  width: 100%;
+}
+.basket_wrapper .basket .head .btn_close {
+  width: 25px;
+  height: 25px;
+}
+.basket_wrapper .basket .head .btn_close img {
+  width: inherit;
+  height: inherit;
+}
+.basket_wrapper .basket .head::after {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: black;
+  opacity: 0.8;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper {
+  position: relative;
+  padding: 20px 0;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product {
+  padding: 0 20px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 100%;
+          flex: 1 1 100%;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_head .head_image {
+  max-width: 125px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_head .name {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 100%;
+          flex: 1 1 100%;
+  padding: 0 25px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_head .btn_delete {
+  position: relative;
+  justify-self: flex-end;
+  width: 20px;
+  height: 20px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_head .btn_delete .cross_image {
+  width: inherit;
+  height: inherit;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail .counter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail .counter input {
+  font-size: 18px;
+  width: 75px;
+  border: 1px solid black;
+  border-radius: 7px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail .counter button {
+  margin: 0 5px;
+  width: 20px;
+  height: 20px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail .counter button img {
+  width: inherit;
+  height: inherit;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper .product .product_tail .cost {
+  font-size: 18px;
+  text-align: end;
+  width: 100px;
+}
+.basket_wrapper .basket .products_wrapper .product_wrapper::after {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: black;
+  opacity: 0.8;
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
 }

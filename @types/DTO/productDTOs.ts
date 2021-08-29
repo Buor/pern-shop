@@ -2,7 +2,7 @@ export class ProductDTO {
     name: string
     cost: number
     count: number
-    discountCost: number
+    discountCost: number | null
     img: string | null
     id: number
 }
