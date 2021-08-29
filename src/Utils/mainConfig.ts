@@ -18,9 +18,19 @@ import { ProductModule } from '../Modules/product.module'
 import { TypeModule } from '../Modules/type.module'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
+import { UserModule } from '../Modules/user.module'
+import { BasketModule } from '../Modules/basket.module'
 
 export function getRouteModules() {
-    return [AuthModule, BrandModule, RatingModule, TypeModule, ProductModule]
+    return [
+        AuthModule,
+        BrandModule,
+        RatingModule,
+        TypeModule,
+        ProductModule,
+        UserModule,
+        BasketModule
+    ]
 }
 
 export function getConfigModules() {

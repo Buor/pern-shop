@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { ProductService } from '../Services/product.service'
 import { CreateProductDTO } from '../DTO/productDTOs'
-import { CategoryProductDTO } from '../../@types/DTO/productDTOs'
+import { CategoryProductDTO, ProductDTO } from '../../@types/DTO/productDTOs'
 
 @Controller('/product')
 export class ProductController {
@@ -27,7 +27,7 @@ export class ProductController {
     }
 
     @Get('/:id_or_name')
-    async getProduct(@Param('id_or_name') param: string) {
+    async getProduct(@Param('id_or_name') param: string): Promise<ProductDTO> {
         return await this.productService.getProduct(param)
     }
 

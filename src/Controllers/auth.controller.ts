@@ -7,6 +7,7 @@ import { generateAccessToken, generateRefreshToken } from '../Utils/jwtGenerator
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { InjectRepository } from '@nestjs/typeorm'
 import UserData, { UserRole } from '../Entities/UserData'
+import Basket from '../Entities/Basket'
 
 @Controller('/auth')
 export class AuthController {
@@ -15,8 +16,9 @@ export class AuthController {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(UserData)
-        private readonly userDataRepository: Repository<UserData>,
-    ) {}
+        private readonly userDataRepository: Repository<UserData>
+    ) {
+    }
 
     @Get('/is-verify')
     async isVerify() {
@@ -66,8 +68,8 @@ export class AuthController {
         const responseDTO: ILoginResponseDTO = {
             accessToken,
             userData: {
-                email: user.email,
-            },
+                email: user.email
+            }
         }
 
         return res.json(responseDTO)
@@ -83,17 +85,25 @@ export class AuthController {
             const salt = await genSalt(10)
             const bcryptPassword = await hash(password, salt)
 
-
             //Creating UserData
             let userData = this.userDataRepository.create({
-                firstName: "",
-                phoneNumber: "",
-                secondName: "",
+                firstName: '',
+                phoneNumber: '',
+                secondName: '',
                 role: UserRole.User
             })
             await this.userDataRepository.save(userData)
 
-            let newUser = this.userRepository.create({ email, password: bcryptPassword, userData })
+            //Creating user basket
+            const basket = await Basket.create().save()
+
+            //Creating user
+            let newUser = this.userRepository.create({
+                email,
+                password: bcryptPassword,
+                userData,
+                basket
+            })
 
             await this.userRepository.save(newUser)
 

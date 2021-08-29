@@ -1,0 +1,80 @@
+@import '../../MainStyles/vars';
+@import '../../MainStyles/ProjectMixins/projectMixins';
+
+.basket_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $col_gray_transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .basket {
+    position: absolute;
+
+    .head {
+      .basket_title {
+
+      }
+
+      .btn_close {
+
+      }
+    }
+
+    .products_wrapper {
+      .product {
+        .product_head {
+          .head_image {
+
+          }
+
+          .name {
+
+          }
+
+          .btn_delete {
+
+          }
+
+          .cross_image {
+
+          }
+        }
+
+        .product_tail {
+          .counter {
+
+          }
+
+          .cost {
+
+          }
+        }
+
+        .basket_footer {
+          .continue_shopping {
+
+          }
+
+          .submit_area {
+            .all_cost {
+
+            }
+
+            .btn_place_order {
+
+            }
+          }
+
+        }
+
+      }
+    }
+
+  }
+}

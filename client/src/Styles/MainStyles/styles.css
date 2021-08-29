@@ -826,3 +826,24 @@ header.main_header .header_wrapper .btn_shopping_card img {
 .category_page .category_wrapper section.category_pagination .page_item_wrapper .page_item.page_item_current {
   background-color: #0bc000;
 }
+
+.basket_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.basket_wrapper .basket {
+  position: absolute;
+}
