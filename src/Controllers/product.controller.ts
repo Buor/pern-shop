@@ -26,6 +26,11 @@ export class ProductController {
         return await this.productService.getAllProducts()
     }
 
+    @Get('/:id_or_name/count')
+    async getProductCount(@Param('id_or_name') idOrName: string): Promise<number> {
+        return await this.productService.getProductCount(idOrName)
+    }
+
     @Get('/:id_or_name')
     async getProduct(@Param('id_or_name') param: string): Promise<ProductDTO> {
         return await this.productService.getProduct(param)

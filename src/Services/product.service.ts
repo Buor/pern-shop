@@ -11,16 +11,26 @@ import { CreateProductDTO } from '../DTO/productDTOs'
 @Injectable()
 export class ProductService {
 
-    async getProduct(value: string): Promise<ProductDTO> {
-        let product: Product
+    async getProduct(idOrName: string): Promise<ProductDTO> {
+        let product: Product = await ProductService._getProduct(idOrName)
+        const { name, cost, count, discountCost, img, id } = product
+        return { name, cost, count, discountCost, img, id }
+    }
+
+    async getProductCount(idOrName: string): Promise<number> {
+        let product: Product = await ProductService._getProduct(idOrName)
+        return product.count
+    }
+
+    private static async _getProduct(value: string): Promise<Product> {
+        let product: Product;
         if (Number.isInteger(+value))
             product = await Product.findOne(+value)
         else
             product = await Product.findOne({ where: { name: value } })
 
         if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
-        const { name, cost, count, discountCost, img, id } = product
-        return { name, cost, count, discountCost, img, id }
+        return product
     }
 
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
