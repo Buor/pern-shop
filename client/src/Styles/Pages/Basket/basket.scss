@@ -98,7 +98,12 @@
             justify-content: flex-end;
             align-items: center;
 
+            .no_product {
+              color: red;
+            }
+
             .counter {
+              position: relative;
               display: flex;
               align-items: center;
 
@@ -118,7 +123,18 @@
                   width: inherit;
                   height: inherit;
                 }
-
+              }
+              .notification_max {
+                position: absolute;
+                bottom: -75%;
+                left: 50%;
+                transform: translateX(-50%);
+                color: red;
+              }
+              &.max {
+                input {
+                  border-color: red;
+                }
               }
             }
 

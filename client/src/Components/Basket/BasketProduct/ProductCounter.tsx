@@ -4,17 +4,18 @@ import imgMinus from './../../../Styles/Images/Icons/minus.svg'
 
 interface Props {
     productCount: number
-    setProductCount: Function
+    setProductCount: Function,
+    notificationMax: string
 }
 
-const ProductCounter: React.FC<Props> = ({ productCount, setProductCount }) => {
+const ProductCounter: React.FC<Props> = ({ notificationMax, productCount, setProductCount }) => {
 
     const changeProductCountByOne = (value: 1 | -1) => {
         setProductCount(productCount + value)
     }
 
     return (
-        <div className={'counter'}>
+        <div className={'counter' + (notificationMax ? ' max' : '')}>
             <button onClick={() => changeProductCountByOne(-1)}>
                 <img src={imgMinus} alt='minus' />
             </button>
@@ -22,6 +23,14 @@ const ProductCounter: React.FC<Props> = ({ productCount, setProductCount }) => {
             <button onClick={() => changeProductCountByOne(1)}>
                 <img src={imgPlus} alt='plus' />
             </button>
+            {
+                notificationMax
+                ? <div className={'notification_max'}>
+                    {notificationMax}
+                </div>
+                : null
+            }
+
         </div>
     )
 }
