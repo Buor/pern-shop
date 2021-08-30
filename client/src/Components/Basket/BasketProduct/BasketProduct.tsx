@@ -4,15 +4,16 @@ import imgNoImage from './../../../Styles/Images/Common/noImage.png'
 import imgCross from './../../../Styles/Images/Icons/cross.svg'
 import ProductCounter from './ProductCounter'
 
-interface Props extends ProductDTO {
+type TSetPurchasePriceFunc = (prev: number) => number
 
+interface Props extends ProductDTO {
+    setPurchasePrice: (callback: TSetPurchasePriceFunc) => void
 }
 
-const BasketProduct: React.FC<Props> = ({ img, id, count, cost, discountCost, name }) => {
+const BasketProduct: React.FC<Props> = ({ setPurchasePrice, img, id, count, cost, discountCost, name }) => {
 
     const [productCount, setProductCount] = useState(1)
     const [productCost, setProductCost] = useState(cost)
-    const [isFetching, setIsFetching] = useState(false)
     const [notificationMax, setNotificationMax] = useState('')
     const timer = useRef<number>(NaN)
     const firstLoad = useRef(true)
@@ -29,16 +30,33 @@ const BasketProduct: React.FC<Props> = ({ img, id, count, cost, discountCost, na
         },1000) as unknown as number
     },[productCount])
 
-    const changeProductCount = (value: string) => {
+    const changeProductsCount = (value: string | number) => {
         let numVal = +value
-        let newProductCount = numVal <= 0 ? 1 : numVal >= count ? count : numVal
-        if(newProductCount === count) {
+        console.log(numVal)
+        let newProductsCount
+
+        if(numVal <= 0) {
+            newProductsCount = 1
+        } else if(numVal >= count) {
+            newProductsCount = count
+        } else {
+            newProductsCount = numVal
+        }
+
+        if(newProductsCount === count) {
             setNotificationMax('Max')
         } else if(notificationMax !== '') {
             setNotificationMax('')
         }
-        setProductCount(newProductCount)
-        setProductCost(cost * newProductCount)
+        changeProductCost(productCount, newProductsCount)
+        setProductCount(newProductsCount)
+    }
+
+    const changeProductCost = (oldProductsCount: number,newProductsCount: number) => {
+        setPurchasePrice((prev) => {
+            return prev - oldProductsCount * cost + newProductsCount * cost
+        })
+        setProductCost(cost * newProductsCount)
     }
 
     return (
@@ -55,7 +73,7 @@ const BasketProduct: React.FC<Props> = ({ img, id, count, cost, discountCost, na
                 </div>
                 <div className='product_tail'>
                     <div className={'no_product'}></div>
-                    <ProductCounter notificationMax={notificationMax} productCount={productCount} setProductCount={changeProductCount}/>
+                    <ProductCounter notificationMax={notificationMax} productCount={productCount} setProductCount={changeProductsCount}/>
                     <div className='cost'>
                         {productCost - discountCost!} $
                     </div>

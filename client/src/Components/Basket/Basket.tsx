@@ -15,16 +15,25 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
 
     const isVerified = useIsVerified()
     const [products, setProducts] = useState<ProductDTO[]>([])
+    const [purchasePrice, setPurchasePrice] = useState(-1)
 
     useEffect(() => {
 
         const fetchProductsFromServer = async () => {
             const fetchedProducts = await getProductsFromUserBasket()
             setProducts(fetchedProducts)
+            changePurchasePrice(fetchedProducts)
         }
 
         const fetchProductsFromClient = () => {
             setProducts(localProducts)
+            changePurchasePrice(localProducts)
+        }
+
+        const changePurchasePrice = (products: ProductDTO[]) => {
+            setPurchasePrice(products.reduce((acc,product) => {
+                return acc + product.cost
+            },0))
         }
 
         if (isVerified === 'true')
@@ -35,10 +44,10 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
 
     console.log("Products: ", products)
 
-    if (isVerified === 'pending') return null
+    if (isVerified === 'pending' || purchasePrice === -1) return null
 
     return (
-        <div className={'basket_wrapper'} onClick={(e) => closeFunc()}>
+        <div className={'basket_wrapper'} onClick={() => closeFunc()}>
             <div className={'basket'} onClick={(e) => e.stopPropagation()}>
                 <div className={'head'}>
                     <div className={'basket_title'}>Basket</div>
@@ -47,14 +56,14 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
                     </button>
                 </div>
                 <div className='products_wrapper'>
-                    {products.map(product => <BasketProduct {...product} />)}
+                    {products.map(product => <BasketProduct setPurchasePrice={setPurchasePrice} {...product} />)}
                 </div>
                 <div className='basket_footer'>
-                    <button className='btn_continue_shopping'>
+                    <button className='btn_continue_shopping' onClick={() => closeFunc()}>
                         Continue shopping
                     </button>
                     <div className='submit_area'>
-                        <div className='all_cost'>4588$</div>
+                        <div className='all_cost'>{purchasePrice} $</div>
                         <button className={'btn_place_order'}>Place an order</button>
                     </div>
                 </div>
