@@ -83,6 +83,7 @@
 
               width: 20px;
               height: 20px;
+
               .cross_image {
 
                 width: inherit;
@@ -124,6 +125,7 @@
                   height: inherit;
                 }
               }
+
               .notification_max {
                 position: absolute;
                 bottom: -75%;
@@ -131,6 +133,7 @@
                 transform: translateX(-50%);
                 color: red;
               }
+
               &.max {
                 input {
                   border-color: red;
@@ -144,25 +147,8 @@
               width: 100px;
             }
           }
-
-          .basket_footer {
-            .continue_shopping {
-
-            }
-
-            .submit_area {
-              .all_cost {
-
-              }
-
-              .btn_place_order {
-
-              }
-            }
-
-          }
-
         }
+
 
         &::after {
           @include deco_gray_line;
@@ -170,6 +156,47 @@
           content: "";
           bottom: 0;
           left: 0;
+        }
+      }
+
+    }
+
+    .basket_footer {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .btn_continue_shopping {
+        background-color: $col_green_dark;
+        color: white;
+        border-radius: 7px;
+        padding: 12px;
+        height: fit-content;
+
+      }
+
+      .submit_area {
+        display: flex;
+        align-items: center;
+        background-color: $col_green_transparent;
+        border: 2px solid $col_green;
+        padding: 15px;
+        .all_cost {
+          font-size: 24px;
+        }
+
+        .btn_place_order {
+          padding: 10px 8px;
+          border-radius: 8px;
+          color: white;
+          background-color: $col_pink;
+          font-weight: 700;
+          font-size: 20px;
+          margin-left: 15px;
+          &:hover {
+            background-color: $col_pink_dark;
+          }
         }
       }
 

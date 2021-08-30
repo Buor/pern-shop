@@ -50,7 +50,7 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
                     {products.map(product => <BasketProduct {...product} />)}
                 </div>
                 <div className='basket_footer'>
-                    <button className='continue_shopping'>
+                    <button className='btn_continue_shopping'>
                         Continue shopping
                     </button>
                     <div className='submit_area'>
