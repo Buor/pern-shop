@@ -5,6 +5,7 @@ import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
 import { connect } from 'react-redux'
 import { getProductsFromUserBasket } from '../../DAL/basket/basketAPI'
+import imgSadSmile from './../../Styles/Images/Icons/sad_smile.svg'
 
 interface Props {
     closeFunc: Function,
@@ -31,9 +32,9 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
         }
 
         const changePurchasePrice = (products: ProductDTO[]) => {
-            setPurchasePrice(products.reduce((acc,product) => {
+            setPurchasePrice(products.reduce((acc, product) => {
                 return acc + product.cost
-            },0))
+            }, 0))
         }
 
         if (isVerified === 'true')
@@ -42,7 +43,7 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
             fetchProductsFromClient()
     }, [isVerified, localProducts])
 
-    console.log("Products: ", products)
+    console.log('Products: ', products)
 
     if (isVerified === 'pending' || purchasePrice === -1) return null
 
@@ -55,18 +56,31 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
                         <img src={img_cross} alt='exit' />
                     </button>
                 </div>
-                <div className='products_wrapper'>
-                    {products.map(product => <BasketProduct setPurchasePrice={setPurchasePrice} {...product} />)}
-                </div>
-                <div className='basket_footer'>
-                    <button className='btn_continue_shopping' onClick={() => closeFunc()}>
-                        Continue shopping
-                    </button>
-                    <div className='submit_area'>
-                        <div className='all_cost'>{purchasePrice} $</div>
-                        <button className={'btn_place_order'}>Place an order</button>
-                    </div>
-                </div>
+                {
+                    products.length
+                        ? <>
+                            <div className='products_wrapper'>
+                                {products.map(product => <BasketProduct
+                                    setPurchasePrice={setPurchasePrice} {...product} />)}
+                            </div>
+                            <div className='basket_footer'>
+                                <button className='btn_continue_shopping' onClick={() => closeFunc()}>
+                                    Continue shopping
+                                </button>
+                                <div className='submit_area'>
+                                    <div className='all_cost'>{purchasePrice} $</div>
+                                    <button className={'btn_place_order'}>Place an order</button>
+                                </div>
+                            </div>
+                        </>
+                        : <div className={'no_products'}>
+                            <img src={imgSadSmile} alt='No products' />
+                            <div className={'message'}>
+                                Basket is empty! You can change it any time!
+                            </div>
+                        </div>
+                }
+
             </div>
         </div>
     )

@@ -1040,3 +1040,26 @@ header.main_header .header_wrapper .btn_shopping_card img {
 .basket_wrapper .basket .basket_footer .submit_area .btn_place_order:hover {
   background-color: #cc295f;
 }
+.basket_wrapper .basket .no_products {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.basket_wrapper .basket .no_products img {
+  padding-top: 25px;
+  width: 100px;
+}
+.basket_wrapper .basket .no_products .message {
+  margin-top: 25px;
+  padding-bottom: 40px;
+}
