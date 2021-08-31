@@ -3,14 +3,19 @@ import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
 import imgNoImage from './../../../Styles/Images/Common/noImage.png'
 import imgCross from './../../../Styles/Images/Icons/cross.svg'
 import ProductCounter from './ProductCounter'
+import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../DAL/basket/basketAPI'
+import { connect } from 'react-redux'
+import { removeProduct } from '../../../Redux/basket/basketReducer'
 
 type TSetPurchasePriceFunc = (prev: number) => number
 
 interface Props extends ProductDTO {
     setPurchasePrice: (callback: TSetPurchasePriceFunc) => void
+    isVerified: "true" | "false",
+    removeProductLocal: Function
 }
 
-const BasketProduct: React.FC<Props> = ({ setPurchasePrice, img, id, count, cost, discountCost, name }) => {
+const BasketProduct: React.FC<Props> = ({removeProductLocal, isVerified, setPurchasePrice, img, id, count, cost, discountCost, name }) => {
 
     const [productCount, setProductCount] = useState(1)
     const [productCost, setProductCost] = useState(cost)
@@ -18,41 +23,47 @@ const BasketProduct: React.FC<Props> = ({ setPurchasePrice, img, id, count, cost
     const timer = useRef<number>(NaN)
     const firstLoad = useRef(true)
 
+    const deleteProductFromBasket = (productId: number) => {
+        if(isVerified === 'true')
+            deleteProductFromBasketOnServer(productId)
+        else if(isVerified === 'false'){
+            removeProductLocal(productId)
+        }
+    }
+
     useEffect(() => {
-        if(firstLoad.current) {
+        if (firstLoad.current) {
             firstLoad.current = false
             return
         }
 
         clearTimeout(timer.current)
         timer.current = setTimeout(() => {
-            console.log('a')
-        },1000) as unknown as number
-    },[productCount])
+        }, 1000) as unknown as number
+    }, [productCount])
 
     const changeProductsCount = (value: string | number) => {
         let numVal = +value
-        console.log(numVal)
         let newProductsCount
 
-        if(numVal <= 0) {
+        if (numVal <= 0) {
             newProductsCount = 1
-        } else if(numVal >= count) {
+        } else if (numVal >= count) {
             newProductsCount = count
         } else {
             newProductsCount = numVal
         }
 
-        if(newProductsCount === count) {
+        if (newProductsCount === count) {
             setNotificationMax('Max')
-        } else if(notificationMax !== '') {
+        } else if (notificationMax !== '') {
             setNotificationMax('')
         }
         changeProductCost(productCount, newProductsCount)
         setProductCount(newProductsCount)
     }
 
-    const changeProductCost = (oldProductsCount: number,newProductsCount: number) => {
+    const changeProductCost = (oldProductsCount: number, newProductsCount: number) => {
         setPurchasePrice((prev) => {
             return prev - oldProductsCount * cost + newProductsCount * cost
         })
@@ -66,14 +77,15 @@ const BasketProduct: React.FC<Props> = ({ setPurchasePrice, img, id, count, cost
                     <img src={img || imgNoImage} alt={name} className={'head_image'} />
                     <div className='name'>{name}</div>
                     <button className={'btn_delete'} onClick={() => {
-                        //todo implement
+                        deleteProductFromBasket(id)
                     }}>
-                        <img src={imgCross} alt='delete' className={'cross_image'}/>
+                        <img src={imgCross} alt='delete' className={'cross_image'} />
                     </button>
                 </div>
                 <div className='product_tail'>
                     <div className={'no_product'}></div>
-                    <ProductCounter notificationMax={notificationMax} productCount={productCount} setProductCount={changeProductsCount}/>
+                    <ProductCounter notificationMax={notificationMax} productCount={productCount}
+                                    setProductCount={changeProductsCount} />
                     <div className='cost'>
                         {productCost - discountCost!} $
                     </div>
@@ -83,4 +95,6 @@ const BasketProduct: React.FC<Props> = ({ setPurchasePrice, img, id, count, cost
     )
 }
 
-export default BasketProduct
+export default connect(() => ({}), {
+    removeProductLocal: removeProduct
+})(BasketProduct)

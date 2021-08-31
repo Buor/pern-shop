@@ -14,7 +14,7 @@ export const basketReducer: Reducer<typeof initialState> = (state = initialState
             return {...state, products: [...state.products, action.product]}
         }
         case REMOVE_PRODUCT: {
-            return {...state, products: state.products.filter(id => id !== action.product.id)}
+            return {...state, products: state.products.filter(product => product.id !== action.productId)}
         }
     }
 
@@ -22,9 +22,8 @@ export const basketReducer: Reducer<typeof initialState> = (state = initialState
 }
 
 export const addProduct = (product: ProductDTO) => {
-    console.log('here')
     return {product, type: ADD_PRODUCT}
 }
-export const removeProduct = (product: ProductDTO) => {
-    return {product, type: REMOVE_PRODUCT}
+export const removeProduct = (productId: number) => {
+    return {productId, type: REMOVE_PRODUCT}
 }

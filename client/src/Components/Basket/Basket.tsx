@@ -61,7 +61,7 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
                         ? <>
                             <div className='products_wrapper'>
                                 {products.map(product => <BasketProduct
-                                    setPurchasePrice={setPurchasePrice} {...product} />)}
+                                    setPurchasePrice={setPurchasePrice} {...product} isVerified={isVerified}/>)}
                             </div>
                             <div className='basket_footer'>
                                 <button className='btn_continue_shopping' onClick={() => closeFunc()}>
