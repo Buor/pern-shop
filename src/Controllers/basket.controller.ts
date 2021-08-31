@@ -19,6 +19,6 @@ export class BasketController {
 
     @Delete('/:productId')
     async deleteProductFromBasket(@Req() req, @Res() res, @Param('productId') productId: string): Promise<boolean> {
-        return await this.basketService.deleteProductFromBasket(req.user.id, productId)
+        return res.json(await this.basketService.deleteProductFromBasket(req.user.id, productId))
     }
 }

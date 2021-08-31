@@ -29,8 +29,7 @@ export class BasketService {
     }
 
     async getProductsFromUserBasket(userId: number): Promise<ProductDTO[]> {
-        const user = await User.findOne(userId)
-        const basket = await Basket.findOne(user.basket.id)
+        const basket = await BasketService._getBasketByUserId(userId)
         return basket.products.map(product => ({
             id: product.id,
             cost: product.cost,
@@ -46,9 +45,15 @@ export class BasketService {
         if(!Number.isInteger(numProductId))
             throw new HttpException(`Product id ${productId} is not valid!`,400)
 
-        const basket = await Basket.findOne({where: {user: userId}})
+        const basket = await BasketService._getBasketByUserId(userId)
+
         basket.products = basket.products.filter(product => product.id !== +productId)
         await Basket.save(basket)
         return true
+    }
+
+    private static async _getBasketByUserId(userId: number) {
+        const user = await User.findOne(userId)
+        return await Basket.findOne(user.basket.id)
     }
 }
