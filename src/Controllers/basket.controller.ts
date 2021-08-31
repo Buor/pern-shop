@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, Req, Res } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Put, Req, Res } from '@nestjs/common'
 import { BasketService } from '../Services/basket.service'
 import { AddProductToBasketDTO } from '../../@types/DTO/basketDTOs'
 
@@ -13,7 +13,12 @@ export class BasketController {
     }
 
     @Put()
-    async addProductToBasket(@Body() {productId}: AddProductToBasketDTO, @Req() req, @Res() res) {
+    async addProductToBasket(@Body() { productId }: AddProductToBasketDTO, @Req() req, @Res() res) {
         return res.json(await this.basketService.addProductToBasket(productId, req.user.id))
+    }
+
+    @Delete('/:productId')
+    async deleteProductFromBasket(@Req() req, @Res() res, @Param('productId') productId: string): Promise<boolean> {
+        return await this.basketService.deleteProductFromBasket(req.user.id, productId)
     }
 }

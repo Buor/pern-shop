@@ -40,4 +40,15 @@ export class BasketService {
             name: product.name
         }))
     }
+
+    async deleteProductFromBasket(userId: number, productId: string): Promise<boolean> {
+        const numProductId = +productId
+        if(!Number.isInteger(numProductId))
+            throw new HttpException(`Product id ${productId} is not valid!`,400)
+
+        const basket = await Basket.findOne({where: {user: userId}})
+        basket.products = basket.products.filter(product => product.id !== +productId)
+        await Basket.save(basket)
+        return true
+    }
 }
