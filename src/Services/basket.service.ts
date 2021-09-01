@@ -6,7 +6,7 @@ import { ProductDTO } from '../../@types/DTO/productDTOs'
 
 @Injectable()
 export class BasketService {
-    async addProductToBasket(productId: string, userId: number): Promise<boolean> {
+    async addProductToBasket(productId: number, userId: number): Promise<boolean> {
         const user = await User.findOne(userId)
         if (!user)
             throw new HttpException(`User with id ${userId} doesn't exist!`, 400)
