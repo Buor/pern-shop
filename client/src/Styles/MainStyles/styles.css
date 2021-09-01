@@ -982,6 +982,9 @@ header.main_header .header_wrapper .btn_shopping_card img {
   text-align: end;
   width: 100px;
 }
+.basket_wrapper .basket .products_wrapper .product_wrapper.__removing {
+  background-color: gray;
+}
 .basket_wrapper .basket .products_wrapper .product_wrapper::after {
   width: 100%;
   height: 1px;

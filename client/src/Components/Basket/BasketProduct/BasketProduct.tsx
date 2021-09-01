@@ -32,15 +32,18 @@ const BasketProduct: React.FC<Props> = ({
     const [productCount, setProductCount] = useState(1)
     const [productCost, setProductCost] = useState(cost)
     const [notificationMax, setNotificationMax] = useState('')
+    const [isProductRemoving, setIsProductRemoving] = useState(false)
 
     const timer = useRef<number>(NaN)
     const firstLoad = useRef(true)
 
     const deleteProductFromBasket = async (productId: number) => {
         if (isVerified === 'true') {
+            setIsProductRemoving(true)
             const success = await deleteProductFromBasketOnServer(productId)
             if(success)
                 removeLocalProduct(id)
+            setIsProductRemoving(false)
         } else if (isVerified === 'false') {
             removeReduxProduct(productId)
         }
@@ -86,12 +89,13 @@ const BasketProduct: React.FC<Props> = ({
     }
 
     return (
-        <div className={'product_wrapper'}>
+        <div className={'product_wrapper' + (isProductRemoving ? ' __removing' : "")}>
             <div className={'product'}>
                 <div className={'product_head'}>
                     <img src={img || imgNoImage} alt={name} className={'head_image'} />
                     <div className='name'>{name}</div>
                     <button className={'btn_delete'} onClick={() => {
+                        if(isProductRemoving) return
                         deleteProductFromBasket(id)
                     }}>
                         <img src={imgCross} alt='delete' className={'cross_image'} />

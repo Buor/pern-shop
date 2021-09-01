@@ -147,8 +147,12 @@
               width: 100px;
             }
           }
+
         }
 
+        &.__removing {
+          background-color: gray;
+        }
 
         &::after {
           @include deco_gray_line;
