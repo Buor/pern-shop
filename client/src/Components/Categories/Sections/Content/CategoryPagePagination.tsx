@@ -18,10 +18,11 @@ const CategoryPagePagination: React.FC<Props> = ({ pageSize, setCurrentPageNumbe
     }
 
     const changePageByDirection = (direction: 'left' | 'right') => {
-        let pagesCount = productsCount / 50
-        if (direction === 'right' && currentPage + 1 < pagesCount)
+        let pagesCount = Math.ceil(productsCount / pageSize)
+        console.log('Pages count: ',pagesCount)
+        if (direction === 'right' && currentPage + 1 <= pagesCount)
             setCurrentPageNumber(currentPage + 1)
-        else if (direction === 'left' && currentPage - 1 > 0)
+        else if (direction === 'left' && currentPage - 1 >= 1)
             setCurrentPageNumber(currentPage - 1)
     }
 
