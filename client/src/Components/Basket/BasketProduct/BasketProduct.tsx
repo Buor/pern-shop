@@ -11,23 +11,38 @@ type TSetPurchasePriceFunc = (prev: number) => number
 
 interface Props extends ProductDTO {
     setPurchasePrice: (callback: TSetPurchasePriceFunc) => void
-    isVerified: "true" | "false",
-    removeProductLocal: Function
+    isVerified: 'true' | 'false',
+    removeReduxProduct: Function,
+    removeLocalProduct: (productId: number) => void
 }
 
-const BasketProduct: React.FC<Props> = ({removeProductLocal, isVerified, setPurchasePrice, img, id, count, cost, discountCost, name }) => {
+const BasketProduct: React.FC<Props> = ({
+                                            removeLocalProduct,
+                                            removeReduxProduct,
+                                            isVerified,
+                                            setPurchasePrice,
+                                            img,
+                                            id,
+                                            count,
+                                            cost,
+                                            discountCost,
+                                            name
+                                        }) => {
 
     const [productCount, setProductCount] = useState(1)
     const [productCost, setProductCost] = useState(cost)
     const [notificationMax, setNotificationMax] = useState('')
+
     const timer = useRef<number>(NaN)
     const firstLoad = useRef(true)
 
-    const deleteProductFromBasket = (productId: number) => {
-        if(isVerified === 'true')
-            deleteProductFromBasketOnServer(productId)
-        else if(isVerified === 'false'){
-            removeProductLocal(productId)
+    const deleteProductFromBasket = async (productId: number) => {
+        if (isVerified === 'true') {
+            const success = await deleteProductFromBasketOnServer(productId)
+            if(success)
+                removeLocalProduct(id)
+        } else if (isVerified === 'false') {
+            removeReduxProduct(productId)
         }
     }
 
@@ -96,5 +111,5 @@ const BasketProduct: React.FC<Props> = ({removeProductLocal, isVerified, setPurc
 }
 
 export default connect(() => ({}), {
-    removeProductLocal: removeProduct
+    removeReduxProduct: removeProduct
 })(BasketProduct)

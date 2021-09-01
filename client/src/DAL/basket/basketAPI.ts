@@ -12,7 +12,7 @@ export const addProductToBasket = (product: ProductDTO) => {
     axiosInstance.put('/basket', {productId: product.id}, {headers: {"Authorization": "Bearer " + accessToken}})
 }
 
-export const deleteProductFromBasket = (productId: number) => {
+export const deleteProductFromBasket = async (productId: number) => {
     let accessToken = getAccessToken()
-    return axiosInstance.delete(`/basket/${productId}`, {headers: {"Authorization": "Bearer " + accessToken}})
+    return (await axiosInstance.delete(`/basket/${productId}`, {headers: {"Authorization": "Bearer " + accessToken}})).data
 }

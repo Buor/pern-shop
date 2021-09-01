@@ -9,14 +9,18 @@ import imgSadSmile from './../../Styles/Images/Icons/sad_smile.svg'
 
 interface Props {
     closeFunc: Function,
-    localProducts: ProductDTO[]
+    reduxProducts: ProductDTO[]
 }
 
-const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
+const Basket: React.FC<Props> = ({ closeFunc, reduxProducts }) => {
 
     const isVerified = useIsVerified()
     const [products, setProducts] = useState<ProductDTO[]>([])
     const [purchasePrice, setPurchasePrice] = useState(-1)
+
+    const removeLocalProduct = (productId: number) => {
+        setProducts(prev => prev.filter(product => product.id !== productId))
+    }
 
     useEffect(() => {
 
@@ -27,8 +31,8 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
         }
 
         const fetchProductsFromClient = () => {
-            setProducts(localProducts)
-            changePurchasePrice(localProducts)
+            setProducts(reduxProducts)
+            changePurchasePrice(reduxProducts)
         }
 
         const changePurchasePrice = (products: ProductDTO[]) => {
@@ -41,7 +45,7 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
             fetchProductsFromServer()
         else if (isVerified === 'false')
             fetchProductsFromClient()
-    }, [isVerified, localProducts])
+    }, [isVerified, reduxProducts])
 
     console.log('Products: ', products)
 
@@ -61,7 +65,7 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
                         ? <>
                             <div className='products_wrapper'>
                                 {products.map(product => <BasketProduct
-                                    setPurchasePrice={setPurchasePrice} {...product} isVerified={isVerified}/>)}
+                                    removeLocalProduct={removeLocalProduct} setPurchasePrice={setPurchasePrice} {...product} isVerified={isVerified}/>)}
                             </div>
                             <div className='basket_footer'>
                                 <button className='btn_continue_shopping' onClick={() => closeFunc()}>
@@ -87,6 +91,6 @@ const Basket: React.FC<Props> = ({ closeFunc, localProducts }) => {
 }
 
 export default connect(
-    (state: any) => ({ localProducts: state.basket.products }),
+    (state: any) => ({ reduxProducts: state.basket.products }),
     {}
 )(Basket)
