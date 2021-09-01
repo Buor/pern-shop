@@ -7,9 +7,13 @@ import { CategoryProductDTO, GetAllProductsDTO, ProductDTO } from '../../@types/
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { CreateProductDTO } from '../DTO/productDTOs'
+import { Connection } from 'typeorm'
 
 @Injectable()
 export class ProductService {
+
+    constructor(private readonly connection: Connection) {
+    }
 
     async getProduct(idOrName: string): Promise<ProductDTO> {
         let product: Product = await ProductService._getProduct(idOrName)
@@ -23,7 +27,7 @@ export class ProductService {
     }
 
     private static async _getProduct(value: string): Promise<Product> {
-        let product: Product;
+        let product: Product
         if (Number.isInteger(+value))
             product = await Product.findOne(+value)
         else
@@ -45,20 +49,11 @@ export class ProductService {
         }))
     }
 
-    async getProductsByType(typeId: number, pageNumber: number, pageSize: number = 50): Promise<CategoryProductDTO[]> {
+    async getProductsByType(typeId: number, pageNumber: number, filters: string[], pageSize: number = 50, order: "ASC" | "DESC" = "ASC"): Promise<any> {
         if (Number.isNaN(pageNumber) || Number.isNaN(typeId))
             throw new HttpException(`Wrong typeId or pageNumber!`, 400)
 
-        const products = await Product.find({
-            where: { type: typeId },
-            take: pageSize,
-            skip: (pageNumber - 1) * pageSize
-        })
-        return products.map(product => {
-                let { name, cost, discountCost, img, count, typePropertyValues, id } = product
-                return { name, cost, discountCost, img, count, typePropertyValues, id }
-            }
-        )
+        return await this.connection.manager.query(ProductService._queryFilteredProductsForCatPage(pageSize,(pageNumber - 1) * pageSize,filters, order))
     }
 
     async getAllProductsCountByType(typeId: number): Promise<number> {
@@ -134,5 +129,12 @@ export class ProductService {
         }
     }
 
-
+    private static _queryFilteredProductsForCatPage(take: number, skip: number,filters: string[], order: "ASC" | "DESC") {
+        return `
+            SELECT DISTINCT "id", "cost", "discountCost", "img", "name", "count" from 
+            product LEFT JOIN product_type_property_values_type_property_value on product.id = "productId"
+            ${filters ? `WHERE ${filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ')}` : ""} 
+            ORDER BY "cost" ${order}
+            LIMIT ${take} OFFSET ${skip} `
+    }
 }

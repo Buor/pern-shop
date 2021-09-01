@@ -17,8 +17,12 @@ export class ProductController {
     @Get('/all/type/:typeId/page/:pageNumber')
     async getProductsByType(@Param('typeId') typeId: string,
                             @Param('pageNumber') pageNumber: number,
-                            @Query('pageSize') pageSize: number | undefined): Promise<CategoryProductDTO[]> {
-        return await this.productService.getProductsByType(+typeId, +pageNumber, pageSize)
+                            @Query('pageSize') pageSize: number | undefined,
+                            @Query('filters') filters: string[] | undefined,
+                            @Query('order') order: "ASC" | "DESC" | undefined
+                            ): Promise<CategoryProductDTO[]> {
+        console.log(order)
+        return await this.productService.getProductsByType(+typeId, +pageNumber, filters, pageSize, order)
     }
 
     @Get('/all')
