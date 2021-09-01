@@ -8,10 +8,18 @@ export const getProductsByIds = () => {
     return axiosInstance.get('/product')
 }
 
-export const getCategoryProducts = async (typeId: number, pageNumber: number, pageSize: number | undefined = undefined) => {
+export const getCategoryProducts = async (
+    typeId: number,
+    pageNumber: number,
+    filters: number[],
+    pageSize: number | undefined = undefined,
+    order: 'ASC' | 'DESC' | undefined = undefined
+) => {
     return (await axiosInstance.get(`/product/all/type/${typeId}/page/${pageNumber}`, {
         params: {
-            pageSize
+            pageSize,
+            filters,
+            order
         }
     })).data
 }

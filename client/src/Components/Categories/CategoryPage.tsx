@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { getType } from '../../DAL/type/typeAPI'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
@@ -14,17 +14,11 @@ interface Props {
     filters: number[]
 }
 
-const sortProducts = (order: 'asc' | 'desc') => (a: CategoryProductDTO, b: CategoryProductDTO) => {
-    if (order === 'asc')
-        return a.cost - b.cost
-    return b.cost - a.cost
-}
-
 const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     const history = useHistory()
     const [type, setType] = useState<GetTypeDTO | null>(null)
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc')
+    const [order, setOrder] = useState<'ASC' | 'DESC'>('ASC')
     const [products, setProducts] = useState<CategoryProductDTO[]>([])
     const productsCount = useRef<number>(0)
     const pageSize = useRef<number>(10)
@@ -39,28 +33,20 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     }, [])
 
     useEffect(() => {
-        getProductsFromServer.current(type?.id, currentPageNumber)
-    }, [currentPageNumber, type])
+        getProductsFromServer.current(type?.id, currentPageNumber, filters, order)
+    }, [currentPageNumber, type, filters, order])
 
-    const filteredProducts = useMemo(() => {
-        if (filters.length === 0) return products
-        return products.filter(product => product.typePropertyValues.some(typePropValue => filters.includes(typePropValue.id)))
-    }, [filters, products])
 
-    const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number) => {
+    const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number, filters: number[], order: "ASC" | "DESC") => {
         if (!typeId) return
         productsCount.current = await getCategoryProductsCount(typeId)
-        let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber, pageSize.current)
+        let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
         setProducts(productsData)
     })
 
-    const changeOrder = (value: 'asc' | 'desc') => {
+    const changeOrder = (value: 'ASC' | 'DESC') => {
         setOrder(value)
     }
-
-    const resultProducts = useMemo(() => {
-        return filteredProducts.sort(sortProducts(order))
-    }, [order, filteredProducts])
 
     if (type === null || products === null) return null
 
@@ -74,7 +60,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
         <div className='category_wrapper'>
             <CategoryPageSidebar typeProperties={type.typeProperties} />
             <section className='content'>
-                <CategoryPageContent products={resultProducts} />
+                <CategoryPageContent products={products} />
                 <CategoryPagePagination pageSize={pageSize.current} currentPage={currentPageNumber} setCurrentPageNumber={setCurrentPageNumber} productsCount={productsCount.current} />
             </section>
         </div>

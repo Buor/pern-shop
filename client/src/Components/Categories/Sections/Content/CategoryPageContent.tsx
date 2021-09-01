@@ -7,10 +7,6 @@ interface Props {
     products: CategoryProductDTO[]
 }
 
-const getAllProductsIds = (products: CategoryProductDTO[]) => {
-    return products.map(product => product.id).sort((a, b) => a - b).join(',')
-}
-
 const CategoryPageContent: React.FC<Props> = ({ products }) => {
 
     const isVerified = useIsVerified()
@@ -21,10 +17,4 @@ const CategoryPageContent: React.FC<Props> = ({ products }) => {
     </div>
 }
 
-export default React.memo(CategoryPageContent, (prev, next) => {
-    if (prev.products.length === next.products.length) {
-        if (getAllProductsIds(prev.products) === getAllProductsIds(next.products))
-            return true
-    }
-    return false
-})
+export default CategoryPageContent
