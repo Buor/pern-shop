@@ -56,9 +56,8 @@ export class ProductService {
         return await this.connection.manager.query(ProductService._queryFilteredProductsForCatPage(typeId, pageSize, (pageNumber - 1) * pageSize, filters, order))
     }
 
-    async getAllProductsCountByType(typeId: number): Promise<number> {
-        const products = await Product.find({ where: { type: typeId } })
-        return products.length
+    async getAllProductsCountByType(typeId: number, filters: string[]): Promise<number> {
+        return (await this.connection.manager.query(ProductService._queryCountOfProductsOnCatPage(typeId, filters)))[0].count
     }
 
     async createProduct(createProductDTO: CreateProductDTO) {
@@ -136,5 +135,14 @@ export class ProductService {
             WHERE "typeId" = ${typeId} ${filters && filters.length ? 'AND (' + filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ') + ')' : ''}
             ORDER BY "cost" ${order}
             LIMIT ${take} OFFSET ${skip} `
+    }
+
+    private static _queryCountOfProductsOnCatPage(typeId: number, filters: string[]) {
+        return `
+            SELECT COUNT(*) FROM
+                (SELECT DISTINCT "id" from 
+                product LEFT JOIN product_type_property_values_type_property_value on product.id = "productId"
+                WHERE "typeId" = ${typeId} ${filters && filters.length ? 'AND (' + filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ') + ')' : ''
+                }) d`
     }
 }

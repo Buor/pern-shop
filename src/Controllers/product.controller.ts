@@ -10,8 +10,9 @@ export class ProductController {
     }
 
     @Get('/all/type/:typeId/count')
-    async getAllProductsCountByType(@Param('typeId') typeId: string): Promise<number> {
-        return await this.productService.getAllProductsCountByType(+typeId)
+    async getAllProductsCountByType(@Param('typeId') typeId: string,
+                                    @Query('filters') filters: string[]): Promise<number> {
+        return await this.productService.getAllProductsCountByType(+typeId, filters)
     }
 
     @Get('/all/type/:typeId/page/:pageNumber')
