@@ -108,8 +108,8 @@ export class AuthController {
             await this.userRepository.save(newUser)
 
             res.json(true)
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            console.log(err)
         }
     }
 }

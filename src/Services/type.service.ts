@@ -57,7 +57,7 @@ export class TypeService {
                 }).save()
             }))
         } catch (e) {
-            console.log(e.message)
+            console.log(e)
             throw new HttpException(e.message, 400)
         }
 

@@ -21,7 +21,6 @@ export class ProductController {
                             @Query('filters') filters: string[] | undefined,
                             @Query('order') order: "ASC" | "DESC" | undefined
                             ): Promise<CategoryProductDTO[]> {
-        console.log(order)
         return await this.productService.getProductsByType(+typeId, +pageNumber, filters, pageSize, order)
     }
 

@@ -47,8 +47,6 @@ const Basket: React.FC<Props> = ({ closeFunc, reduxProducts }) => {
             fetchProductsFromClient()
     }, [isVerified, reduxProducts])
 
-    console.log('Products: ', products)
-
     if (isVerified === 'pending' || purchasePrice === -1) return null
 
     return (
