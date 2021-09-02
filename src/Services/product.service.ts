@@ -3,7 +3,7 @@ import Type from '../Entities/Type'
 import Brand from '../Entities/Brand'
 import ProductInfo from '../Entities/ProductInfo'
 import Product from '../Entities/Product'
-import { CategoryProductDTO, GetAllProductsDTO, ProductDTO } from '../../@types/DTO/productDTOs'
+import { GetAllProductsDTO, ProductDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../Entities/TypeProperty'
 import { TypePropertyValue } from '../Entities/TypePropertyValue'
 import { CreateProductDTO } from '../DTO/productDTOs'
@@ -133,7 +133,7 @@ export class ProductService {
         return `
             SELECT DISTINCT "id", "cost", "discountCost", "img", "name", "count" from 
             product LEFT JOIN product_type_property_values_type_property_value on product.id = "productId"
-            ${filters ? `WHERE ${filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ')}` : ""} 
+            ${filters && filters.length ? `WHERE ${filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ')}` : ""} 
             ORDER BY "cost" ${order}
             LIMIT ${take} OFFSET ${skip} `
     }
