@@ -34,8 +34,12 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     useEffect(() => {
         getProductsFromServer.current(type?.id, currentPageNumber, filters, order)
-    }, [currentPageNumber, type, filters, order])
+    }, [currentPageNumber, type, order])
 
+    useEffect(() => {
+        setCurrentPageNumber(1)
+        getProductsFromServer.current(type?.id, currentPageNumber, filters, order)
+    }, [filters])
 
     const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number, filters: number[], order: "ASC" | "DESC") => {
         if (!typeId) return
