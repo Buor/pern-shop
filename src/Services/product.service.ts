@@ -49,11 +49,11 @@ export class ProductService {
         }))
     }
 
-    async getProductsByType(typeId: number, pageNumber: number, filters: string[], pageSize: number = 50, order: "ASC" | "DESC" = "ASC"): Promise<any> {
+    async getProductsByType(typeId: number, pageNumber: number, filters: string[], pageSize: number = 50, order: 'ASC' | 'DESC' = 'ASC'): Promise<any> {
         if (Number.isNaN(pageNumber) || Number.isNaN(typeId))
             throw new HttpException(`Wrong typeId or pageNumber!`, 400)
 
-        return await this.connection.manager.query(ProductService._queryFilteredProductsForCatPage(pageSize,(pageNumber - 1) * pageSize,filters, order))
+        return await this.connection.manager.query(ProductService._queryFilteredProductsForCatPage(typeId, pageSize, (pageNumber - 1) * pageSize, filters, order))
     }
 
     async getAllProductsCountByType(typeId: number): Promise<number> {
@@ -129,11 +129,11 @@ export class ProductService {
         }
     }
 
-    private static _queryFilteredProductsForCatPage(take: number, skip: number,filters: string[], order: "ASC" | "DESC") {
+    private static _queryFilteredProductsForCatPage(typeId: number, take: number, skip: number, filters: string[], order: 'ASC' | 'DESC') {
         return `
             SELECT DISTINCT "id", "cost", "discountCost", "img", "name", "count" from 
             product LEFT JOIN product_type_property_values_type_property_value on product.id = "productId"
-            ${filters && filters.length ? `WHERE ${filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ')}` : ""} 
+            WHERE "typeId" = ${typeId} ${filters && filters.length ? 'AND (' + filters.map(filter => `"typePropertyValueId" = ${filter}`).join(' OR ') + ')' : ''}
             ORDER BY "cost" ${order}
             LIMIT ${take} OFFSET ${skip} `
     }

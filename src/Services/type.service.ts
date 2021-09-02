@@ -56,9 +56,9 @@ export class TypeService {
                     typePropertyValues
                 }).save()
             }))
-        } catch (e) {
-            console.log(e)
-            throw new HttpException(e.message, 400)
+        } catch (err) {
+            console.log(err.message)
+            throw new HttpException(err.message, 400)
         }
 
         //Create Type
@@ -74,8 +74,8 @@ export class TypeService {
             await this.connection.createQueryBuilder().delete().from(TypePropertyValue).execute()
             await this.connection.createQueryBuilder().delete().from(TypeProperty).execute()
             await this.connection.createQueryBuilder().delete().from(Type).execute()
-        } catch (e) {
-            console.log(e)
+        } catch (err) {
+            console.log(err)
         }
         return "All types successfully deleted!"
     }
