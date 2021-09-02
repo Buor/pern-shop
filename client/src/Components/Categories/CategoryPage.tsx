@@ -39,7 +39,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number, filters: number[], order: "ASC" | "DESC") => {
         if (!typeId) return
-        productsCount.current = await getCategoryProductsCount(typeId)
+        productsCount.current = await getCategoryProductsCount(typeId, filters)
         let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
         setProducts(productsData)
     })

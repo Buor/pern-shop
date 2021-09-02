@@ -24,6 +24,10 @@ export const getCategoryProducts = async (
     })).data
 }
 
-export const getCategoryProductsCount = async (typeId: number) => {
-    return (await axiosInstance.get(`/product/all/type/${typeId}/count`)).data
+export const getCategoryProductsCount = async (typeId: number, filters: number[]) => {
+    return (await axiosInstance.get(`/product/all/type/${typeId}/count`, {
+        params: {
+            filters
+        }
+    })).data
 }
