@@ -9,8 +9,8 @@ import shopping_cart from './../../Styles/Images/Icons/shopping_cart.svg'
 import user from './../../Styles/Images/Icons/user.svg'
 import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
 import { connect } from 'react-redux'
-import LoginForm from '../Auth/LoginForm'
-import Basket from '../Basket/Basket'
+import { LoginForm } from '../Auth/LoginForm'
+import { Basket } from '../Basket/Basket'
 
 interface HeaderProps {
     isAuth: boolean

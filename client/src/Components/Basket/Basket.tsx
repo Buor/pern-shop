@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import img_cross from './../../Styles/Images/Icons/cross.svg'
-import BasketProduct from './BasketProduct/BasketProduct'
+import { BasketProduct } from './BasketProduct/BasketProduct'
 import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
-import { connect } from 'react-redux'
 import { getProductsFromUserBasket } from '../../DAL/basket/basketAPI'
 import imgSadSmile from './../../Styles/Images/Icons/sad_smile.svg'
+import { useTypedSelector } from '../../Utils/CustomHooks/useTypedSelector'
 
 interface Props {
     closeFunc: Function,
-    reduxProducts: ProductDTO[]
 }
 
-const Basket: React.FC<Props> = ({ closeFunc, reduxProducts }) => {
+export const Basket: React.FC<Props> = ({ closeFunc }) => {
 
     const isVerified = useIsVerified()
     const [products, setProducts] = useState<ProductDTO[]>([])
     const [purchasePrice, setPurchasePrice] = useState(-1)
+    const reduxProducts = useTypedSelector(state => state.basket.products)
 
     const removeLocalProduct = (productId: number) => {
         setProducts(prev => prev.filter(product => product.id !== productId))
@@ -87,8 +87,3 @@ const Basket: React.FC<Props> = ({ closeFunc, reduxProducts }) => {
         </div>
     )
 }
-
-export default connect(
-    (state: any) => ({ reduxProducts: state.basket.products }),
-    {}
-)(Basket)

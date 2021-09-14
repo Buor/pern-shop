@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { ITypeProperty } from '../../../../../../@types/DTO/typeDTOs'
-import SidebarListOption from './SidebarListOption'
+import { SidebarListOption } from './SidebarListOption'
 
 interface Props {
     typeProperty: ITypeProperty,
 }
 
-const SidebarList: React.FC<Props> = ({ typeProperty: { name, typePropertyValues } }) => {
+export const SidebarList: React.FC<Props> = ({ typeProperty: { name, typePropertyValues } }) => {
 
     const [hidden, setHidden] = useState(false)
 
@@ -30,5 +30,3 @@ const SidebarList: React.FC<Props> = ({ typeProperty: { name, typePropertyValues
         </div>
     )
 }
-
-export default SidebarList

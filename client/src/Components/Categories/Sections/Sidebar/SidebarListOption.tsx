@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import { ITypePropertyValue } from '../../../../../../@types/DTO/typeDTOs'
-import { connect } from 'react-redux'
-import { addFilter, removeFilter } from '../../../../Redux/category/categoryPageReducer'
+import { useDispatch } from 'react-redux'
+import { CategoryPageActionCreators } from '../../../../Redux/category/actionCreators'
 
 interface Props {
-    typePropValue: ITypePropertyValue,
-    addFilter: typeof addFilter,
-    removeFilter: typeof removeFilter
+    typePropValue: ITypePropertyValue
 }
 
-const SidebarListOption: React.FC<Props> = ({typePropValue: {name, id}, addFilter, removeFilter}) => {
+export const SidebarListOption: React.FC<Props> = ({typePropValue: {name, id}}) => {
+
+    const dispatch = useDispatch()
 
     const [selected, setSelected] = useState(false)
 
     const toggleSelect = () => {
         if(selected)
-            removeFilter(id)
+            dispatch(CategoryPageActionCreators.addFilter(id))
         else
-            addFilter(id)
+            dispatch(CategoryPageActionCreators.removeFilter(id))
 
         setSelected(prev => !prev)
     }
@@ -28,8 +28,3 @@ const SidebarListOption: React.FC<Props> = ({typePropValue: {name, id}, addFilte
         </div>
     )
 }
-
-export default connect(() => ({}), {
-    addFilter,
-    removeFilter
-})(SidebarListOption)

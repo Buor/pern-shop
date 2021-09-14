@@ -1,28 +1,19 @@
-import {Reducer} from "redux"
+import { ECategoryActionType, ICategoryPageState, TCategoryPageAction } from './types'
 
-const ADD_FILTER = "ADD_FILTER"
-const REMOVE_FILTER = "REMOVE_FILTER"
-
-const initialState: {filters: number[]} = {
+const initialState: ICategoryPageState = {
     filters: []
 }
 
-export const categoryPageReducer: Reducer<typeof initialState> = (state = initialState, action: any) => {
+export const categoryPageReducer = (state = initialState, action: TCategoryPageAction): ICategoryPageState => {
     switch (action.type) {
-        case ADD_FILTER: {
+        case ECategoryActionType.ADD_FILTER: {
             return {...state, filters: [...state.filters, action.filterId]}
         }
-        case REMOVE_FILTER: {
+        case ECategoryActionType.REMOVE_FILTER: {
             return {...state, filters: state.filters.filter(id => id !== action.filterId)}
         }
+        default: {
+            return state
+        }
     }
-
-    return state
-}
-
-export const addFilter = (filterId: number) => {
-    return {filterId, type: ADD_FILTER}
-}
-export const removeFilter = (filterId: number) => {
-    return {filterId, type: REMOVE_FILTER}
 }

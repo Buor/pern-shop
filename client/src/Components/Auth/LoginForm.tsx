@@ -1,26 +1,25 @@
 import React, { useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { login } from '../../DAL/auth/authApi'
-import { connect } from 'react-redux'
-import { setIsAuth, setUserData } from '../../Redux/auth/authReducer'
+import { useDispatch } from 'react-redux'
 import { LoginSchema } from '../../Utils/YupSchemes'
 import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
+import { AuthActionCreators } from '../../Redux/auth/actionCreators'
 
 interface IProps {
-    setUserData: Function,
-    setIsAuth: Function,
     closeFunc: Function
 }
 
-const LoginForm: React.FC<IProps> = ({ setIsAuth, closeFunc }) => {
+export const LoginForm: React.FC<IProps> = ({ closeFunc }) => {
 
+    const dispatch = useDispatch()
     const isVerified = useIsVerified()
     const [loginError, setLoginError] = useState('')
 
     if (isVerified === 'pending' || isVerified === 'true') return null
 
     return (
-        <div className={'login_form'} onClick={e => closeFunc()}>
+        <div className={'login_form'} onClick={() => closeFunc()}>
             <Formik
                 initialValues={{
                     email: '',
@@ -36,7 +35,7 @@ const LoginForm: React.FC<IProps> = ({ setIsAuth, closeFunc }) => {
 
                     const result = await login(values)
                     if (result === true) {
-                        setIsAuth(true)
+                        dispatch(AuthActionCreators.setIsAuth(true))
                         closeFunc()
                         return
                     }
@@ -97,8 +96,3 @@ const LoginForm: React.FC<IProps> = ({ setIsAuth, closeFunc }) => {
 
     )
 }
-
-export default connect(() => ({}), {
-    setUserData,
-    setIsAuth
-})(LoginForm)

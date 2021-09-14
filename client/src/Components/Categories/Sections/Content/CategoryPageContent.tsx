@@ -1,6 +1,6 @@
 import React from 'react'
 import { CategoryProductDTO } from '../../../../../../@types/DTO/productDTOs'
-import ContentProduct from './ContentProduct'
+import { ContentProduct } from './ContentProduct'
 import useIsVerified from '../../../../Utils/CustomHooks/useIsVerified'
 
 interface Props {

@@ -4,21 +4,19 @@ import imgNoImage from './../../../Styles/Images/Common/noImage.png'
 import imgCross from './../../../Styles/Images/Icons/cross.svg'
 import ProductCounter from './ProductCounter'
 import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../DAL/basket/basketAPI'
-import { connect } from 'react-redux'
-import { removeProduct } from '../../../Redux/basket/basketReducer'
+import { useDispatch } from 'react-redux'
+import { BasketActionCreators } from '../../../Redux/basket/actionCreators'
 
 type TSetPurchasePriceFunc = (prev: number) => number
 
 interface Props extends ProductDTO {
     setPurchasePrice: (callback: TSetPurchasePriceFunc) => void
     isVerified: 'true' | 'false',
-    removeReduxProduct: Function,
     removeLocalProduct: (productId: number) => void
 }
 
-const BasketProduct: React.FC<Props> = ({
+export const BasketProduct: React.FC<Props> = ({
                                             removeLocalProduct,
-                                            removeReduxProduct,
                                             isVerified,
                                             setPurchasePrice,
                                             img,
@@ -28,6 +26,8 @@ const BasketProduct: React.FC<Props> = ({
                                             discountCost,
                                             name
                                         }) => {
+
+    const dispatch = useDispatch()
 
     const [productCount, setProductCount] = useState(1)
     const [productCost, setProductCost] = useState(cost)
@@ -45,7 +45,7 @@ const BasketProduct: React.FC<Props> = ({
                 removeLocalProduct(id)
             setIsProductRemoving(false)
         } else if (isVerified === 'false') {
-            removeReduxProduct(productId)
+            dispatch(BasketActionCreators.removeProduct(productId))
         }
     }
 
@@ -113,7 +113,3 @@ const BasketProduct: React.FC<Props> = ({
         </div>
     )
 }
-
-export default connect(() => ({}), {
-    removeReduxProduct: removeProduct
-})(BasketProduct)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ITypeProperty } from '../../../../../../@types/DTO/typeDTOs'
-import SidebarList from './SidebarList'
+import { SidebarList } from './SidebarList'
 
 interface Props {
     typeProperties: ITypeProperty[]

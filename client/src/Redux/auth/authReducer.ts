@@ -1,6 +1,4 @@
-import {Reducer} from "redux"
-
-type TAction = "SET_USER_DATA" | "SET_IS_AUTH"
+import { TAuthAction } from './types'
 
 const initialState = {
     userData: {
@@ -10,7 +8,9 @@ const initialState = {
     isAuth: false
 }
 
-export const authReducer: Reducer<typeof initialState> = (state = initialState, action: any) => {
+type AuthState = typeof initialState;
+
+export const authReducer = (state = initialState, action: TAuthAction): AuthState => {
     switch (action.type) {
         case "SET_USER_DATA": {
             return {...state, userData: action.userData}
@@ -18,15 +18,8 @@ export const authReducer: Reducer<typeof initialState> = (state = initialState, 
         case "SET_IS_AUTH": {
             return {...state, isAuth: action.isAuth}
         }
+        default: {
+            return state
+        }
     }
-
-    return state
-}
-
-export const setUserData = (userData: { name: string, email: string }) => {
-    return {userData, type: "SET_USER_DATA"}
-}
-
-export const setIsAuth = (isAuth: boolean) => {
-    return {isAuth, type: "SET_IS_AUTH"}
 }

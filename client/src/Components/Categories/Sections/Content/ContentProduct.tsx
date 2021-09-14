@@ -1,27 +1,35 @@
 import React from 'react'
 import { CategoryProductDTO, ProductDTO } from '../../../../../../@types/DTO/productDTOs'
 import imgNoProduct from './../../../../Styles/Images/Common/noImage.png'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addProductToBasket as addProductToServerBasket } from '../../../../DAL/basket/basketAPI'
-import { addProduct } from '../../../../Redux/basket/basketReducer'
+import { BasketActionCreators } from '../../../../Redux/basket/actionCreators'
 
 interface Props {
     product: CategoryProductDTO,
-    addProductToLocalBasket: Function,
     isVerified: 'true' | 'false'
 }
 
-const ContentProduct: React.FC<Props> = ({
-                                             isVerified,
-                                             addProductToLocalBasket,
-                                             product: { id, img, cost, discountCost, name, count, typePropertyValues }
-                                         }) => {
+export const ContentProduct: React.FC<Props> = ({
+                                                    isVerified,
+                                                    product: {
+                                                        id,
+                                                        img,
+                                                        cost,
+                                                        discountCost,
+                                                        name,
+                                                        count,
+                                                        typePropertyValues
+                                                    }
+                                                }) => {
+
+    const dispatch = useDispatch()
 
     const addProductToBasket = (product: ProductDTO) => {
         if (isVerified === 'true')
             addProductToServerBasket(product)
         else
-            addProductToLocalBasket(product)
+            dispatch(BasketActionCreators.addProduct(product))
     }
 
     return (
@@ -49,8 +57,3 @@ const ContentProduct: React.FC<Props> = ({
         </div>
     )
 }
-
-export default connect(() => ({}), {
-    addProductToLocalBasket: addProduct
-})(ContentProduct)
-
