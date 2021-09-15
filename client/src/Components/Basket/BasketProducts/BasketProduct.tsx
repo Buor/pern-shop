@@ -90,7 +90,8 @@ export const BasketProduct: React.FC<IProps> = ({
 
     const changeProductCost = (oldProductsCount: number, newProductsCount: number) => {
         setPurchasePrice((prev) => {
-            return prev - oldProductsCount * cost + newProductsCount * cost
+            let availableCost = discountCost ?? cost;
+            return prev - oldProductsCount * availableCost + newProductsCount * availableCost
         })
         setProductCost(cost * newProductsCount)
     }
@@ -113,7 +114,7 @@ export const BasketProduct: React.FC<IProps> = ({
                     <ProductCounter notificationMax={notificationMax} productCount={productCount}
                                     setProductCount={changeProductsCount} />
                     <div className='cost'>
-                        {productCost - discountCost!} $
+                        {`${(discountCost ?? productCost) * productCount} $`}
                     </div>
                 </div>
             </div>

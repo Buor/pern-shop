@@ -38,7 +38,8 @@ export const Basket: React.FC<Props> = ({ closeFunc }) => {
 
         const changePurchasePrice = (products: ProductDTO[]) => {
             setPurchasePrice(products.reduce((acc, product) => {
-                return acc + product.cost
+                let availableCost = product.discountCost ?? product.cost
+                return acc + availableCost
             }, 0))
         }
 
