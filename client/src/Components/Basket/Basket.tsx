@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import img_cross from './../../Styles/Images/Icons/cross.svg'
-import { BasketProduct } from './BasketProduct/BasketProduct'
 import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
 import { getProductsFromUserBasket } from '../../DAL/basket/basketAPI'
-import imgSadSmile from './../../Styles/Images/Icons/sad_smile.svg'
 import { useTypedSelector } from '../../Utils/CustomHooks/useTypedSelector'
+import { BasketProducts } from './BasketProducts/BasketProducts'
+import { NoProducts } from './NoProducts'
+import { BasketHead } from './BasketHead'
+import { BasketFooter } from './BasketFooter'
 
 interface Props {
     closeFunc: Function,
@@ -52,37 +53,21 @@ export const Basket: React.FC<Props> = ({ closeFunc }) => {
     return (
         <div className={'basket_wrapper'} onClick={() => closeFunc()}>
             <div className={'basket'} onClick={(e) => e.stopPropagation()}>
-                <div className={'head'}>
-                    <div className={'basket_title'}>Basket</div>
-                    <button className={'btn_close'} onClick={() => closeFunc()}>
-                        <img src={img_cross} alt='exit' />
-                    </button>
-                </div>
+                <BasketHead closeFunc={closeFunc} />
+
                 {
                     products.length
                         ? <>
-                            <div className='products_wrapper'>
-                                {products.map(product => <BasketProduct
-                                    removeLocalProduct={removeLocalProduct} setPurchasePrice={setPurchasePrice} {...product} isVerified={isVerified}/>)}
-                            </div>
-                            <div className='basket_footer'>
-                                <button className='btn_continue_shopping' onClick={() => closeFunc()}>
-                                    Continue shopping
-                                </button>
-                                <div className='submit_area'>
-                                    <div className='all_cost'>{purchasePrice} $</div>
-                                    <button className={'btn_place_order'}>Place an order</button>
-                                </div>
-                            </div>
+                            <BasketProducts
+                                products={products}
+                                isVerified={isVerified}
+                                setPurchasePrice={setPurchasePrice}
+                                removeLocalProduct={removeLocalProduct}
+                            />
+                            <BasketFooter closeFunc={closeFunc} purchasePrice={purchasePrice} />
                         </>
-                        : <div className={'no_products'}>
-                            <img src={imgSadSmile} alt='No products' />
-                            <div className={'message'}>
-                                Basket is empty! You can change it any time!
-                            </div>
-                        </div>
+                        : <NoProducts />
                 }
-
             </div>
         </div>
     )

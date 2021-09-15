@@ -1,31 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
+import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../DAL/basket/basketAPI'
+import { BasketActionCreators } from '../../../Redux/basket/actionCreators'
+import { IBasketProductProps } from './BasketProducts'
+
+import ProductCounter from './ProductCounter'
+
 import imgNoImage from './../../../Styles/Images/Common/noImage.png'
 import imgCross from './../../../Styles/Images/Icons/cross.svg'
-import ProductCounter from './ProductCounter'
-import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../DAL/basket/basketAPI'
-import { useDispatch } from 'react-redux'
-import { BasketActionCreators } from '../../../Redux/basket/actionCreators'
 
-type TSetPurchasePriceFunc = (prev: number) => number
-
-interface Props extends ProductDTO {
-    setPurchasePrice: (callback: TSetPurchasePriceFunc) => void
-    isVerified: 'true' | 'false',
-    removeLocalProduct: (productId: number) => void
+interface IProps extends IBasketProductProps {
+    product: ProductDTO
 }
 
-export const BasketProduct: React.FC<Props> = ({
-                                            removeLocalProduct,
-                                            isVerified,
-                                            setPurchasePrice,
-                                            img,
-                                            id,
-                                            count,
-                                            cost,
-                                            discountCost,
-                                            name
-                                        }) => {
+export const BasketProduct: React.FC<IProps> = ({
+                                                    removeLocalProduct,
+                                                    isVerified,
+                                                    setPurchasePrice,
+                                                    product: {
+                                                        img,
+                                                        id,
+                                                        count,
+                                                        cost,
+                                                        discountCost,
+                                                        name
+                                                    }
+                                                }) => {
 
     const dispatch = useDispatch()
 
@@ -37,17 +38,23 @@ export const BasketProduct: React.FC<Props> = ({
     const timer = useRef<number>(NaN)
     const firstLoad = useRef(true)
 
-    const deleteProductFromBasket = async (productId: number) => {
-        if (isVerified === 'true') {
-            setIsProductRemoving(true)
-            const success = await deleteProductFromBasketOnServer(productId)
-            if(success)
-                removeLocalProduct(id)
-            setIsProductRemoving(false)
-        } else if (isVerified === 'false') {
-            dispatch(BasketActionCreators.removeProduct(productId))
+    const deleteProductFromBasket = useMemo(() => {
+            if (isVerified === 'true')
+                return async function(productId: number) {
+                    setIsProductRemoving(true)
+                    const success = await deleteProductFromBasketOnServer(productId)
+                    if (success)
+                        removeLocalProduct(id)
+                    setIsProductRemoving(false)
+                }
+            else if (isVerified === 'false') {
+                return function(productId: number) {
+                    dispatch(BasketActionCreators.removeProduct(productId))
+                }
+            }
+            return function() {}
         }
-    }
+        , [isVerified])
 
     useEffect(() => {
         if (firstLoad.current) {
@@ -89,13 +96,13 @@ export const BasketProduct: React.FC<Props> = ({
     }
 
     return (
-        <div className={'product_wrapper' + (isProductRemoving ? ' __removing' : "")}>
+        <div className={'product_wrapper' + (isProductRemoving ? ' __removing' : '')}>
             <div className={'product'}>
                 <div className={'product_head'}>
                     <img src={img || imgNoImage} alt={name} className={'head_image'} />
                     <div className='name'>{name}</div>
                     <button className={'btn_delete'} onClick={() => {
-                        if(isProductRemoving) return
+                        if (isProductRemoving) return
                         deleteProductFromBasket(id)
                     }}>
                         <img src={imgCross} alt='delete' className={'cross_image'} />
