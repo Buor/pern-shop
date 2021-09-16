@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import img_right_arrow from './../../../../Styles/Images/Icons/right_arrow.svg'
-import { generatePaginationList } from '../../../../Utils/Functions/generatePaginationList'
+import img_right_arrow from '../../../../styles/images/icons/right_arrow.svg'
+import { generatePaginationList } from '../../../../utils/functions/generatePaginationList'
 
 interface Props {
     productsCount: number,

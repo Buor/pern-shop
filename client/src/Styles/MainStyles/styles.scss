@@ -1,12 +1,12 @@
 //CSS RESET
-@import "../Utils/Reset/reset.scss";
+@import "../utils/reset/reset.scss";
 //SET UP PROJECT BASE STYLES
 @import "baseStyles";
 //INCLUDE FONTS
 @import "fonts";
 //INCLUDE PAGES
-@import "../Pages/Auth/loginPage";
-@import "../Pages/Main/MainPage/mainPage";
-@import "../Pages/Main/header";
-@import "../Pages/Category/categoryPage";
-@import "../Pages/Basket/basket";
+@import "../pages/auth/loginPage";
+@import "../pages/main/mainPage/mainPage";
+@import "../pages/main/header";
+@import "../pages/category/categoryPage";
+@import "../pages/basket/basket";

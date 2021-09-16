@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ITypePropertyValue } from '../../../../../../@types/DTO/typeDTOs'
 import { useDispatch } from 'react-redux'
-import { CategoryPageActionCreators } from '../../../../Redux/category/actionCreators'
+import { CategoryPageActionCreators } from '../../../../redux/category/actionCreators'
 
 interface Props {
     typePropValue: ITypePropertyValue

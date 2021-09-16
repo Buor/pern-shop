@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { login } from '../../DAL/auth/authApi'
+import { login } from '../../dal/auth/authApi'
 import { useDispatch } from 'react-redux'
-import { LoginSchema } from '../../Utils/YupSchemes'
-import useIsVerified from '../../Utils/CustomHooks/useIsVerified'
-import { AuthActionCreators } from '../../Redux/auth/actionCreators'
+import { LoginSchema } from '../../utils/yupSchemes'
+import useIsVerified from '../../utils/customHooks/useIsVerified'
+import { AuthActionCreators } from '../../redux/auth/actionCreators'
 
 interface IProps {
     closeFunc: Function

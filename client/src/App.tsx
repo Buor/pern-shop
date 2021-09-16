@@ -1,9 +1,9 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Header from './Components/Main/Header'
-import UserPage from './Components/User/UserPage'
-import MainPage from './Components/Main/MainPage/MainPage'
-import CategoryPage from './Components/Categories/CategoryPage'
+import Header from './components/main/Header'
+import UserPage from './components/user/UserPage'
+import MainPage from './components/main/mainPage/MainPage'
+import CategoryPage from './components/categories/CategoryPage'
 
 const App: React.FC = () => {
     return (

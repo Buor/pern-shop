@@ -1,4 +1,4 @@
-@import '../../MainStyles/vars';
+@import '../../mainStyles/vars';
 
 @mixin btn_base($bgCol: transparent, $pt: 10px, $pr: 15px) {
   background-color: $bgCol;

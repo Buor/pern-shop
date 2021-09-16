@@ -1,9 +1,9 @@
 import React from 'react'
 import { CategoryProductDTO, ProductDTO } from '../../../../../../@types/DTO/productDTOs'
-import imgNoProduct from './../../../../Styles/Images/Common/noImage.png'
+import imgNoProduct from '../../../../styles/images/common/noImage.png'
 import { useDispatch } from 'react-redux'
-import { addProductToBasket as addProductToServerBasket } from '../../../../DAL/basket/basketAPI'
-import { BasketActionCreators } from '../../../../Redux/basket/actionCreators'
+import { addProductToBasket as addProductToServerBasket } from '../../../../dal/basket/basketAPI'
+import { BasketActionCreators } from '../../../../redux/basket/actionCreators'
 
 interface Props {
     product: CategoryProductDTO,
