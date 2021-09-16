@@ -1,25 +1,29 @@
-import { TAuthAction } from './types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
-    userData: {
-        name: "",
-        email: ""
-    },
-    isAuth: false
+interface IUserData {
+    name: string,
+    email: string
 }
 
-type AuthState = typeof initialState;
-
-export const authReducer = (state = initialState, action: TAuthAction): AuthState => {
-    switch (action.type) {
-        case "SET_USER_DATA": {
-            return {...state, userData: action.userData}
-        }
-        case "SET_IS_AUTH": {
-            return {...state, isAuth: action.isAuth}
-        }
-        default: {
-            return state
+const authSlice = createSlice({
+    name: 'auth',
+    initialState: {
+        userData: {
+            name: "",
+            email: ""
+        },
+        isAuth: false
+    },
+    reducers: {
+        setUserData(state, action: PayloadAction<IUserData>) {
+            state.userData = action.payload
+        },
+        setIsAuth(state, action: PayloadAction<boolean>) {
+            state.isAuth = action.payload
         }
     }
-}
+})
+
+export const {setUserData, setIsAuth} = authSlice.actions
+
+export default authSlice.reducer

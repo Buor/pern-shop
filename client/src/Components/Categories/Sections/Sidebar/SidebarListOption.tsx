@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ITypePropertyValue } from '../../../../../../@types/DTO/typeDTOs'
 import { useDispatch } from 'react-redux'
-import { CategoryPageActionCreators } from '../../../../redux/category/actionCreators'
+import { addFilter, removeFilter } from '../../../../redux/category/categoryPageReducer'
 
 interface Props {
     typePropValue: ITypePropertyValue
@@ -15,9 +15,9 @@ export const SidebarListOption: React.FC<Props> = ({typePropValue: {name, id}}) 
 
     const toggleSelect = () => {
         if(selected)
-            dispatch(CategoryPageActionCreators.addFilter(id))
+            dispatch(addFilter(id))
         else
-            dispatch(CategoryPageActionCreators.removeFilter(id))
+            dispatch(removeFilter(id))
 
         setSelected(prev => !prev)
     }

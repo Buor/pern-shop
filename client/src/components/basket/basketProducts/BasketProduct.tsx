@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
 import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../dal/basket/basketAPI'
-import { BasketActionCreators } from '../../../redux/basket/actionCreators'
 import { IBasketProductProps } from './BasketProducts'
 
 import ProductCounter from './ProductCounter'
 
 import imgNoImage from '../../../styles/images/common/noImage.png'
 import imgCross from '../../../styles/images/icons/cross.svg'
+import { removeProduct } from '../../../redux/basket/basketReducer'
 
 interface IProps extends IBasketProductProps {
     product: ProductDTO
@@ -49,7 +49,7 @@ export const BasketProduct: React.FC<IProps> = ({
                 }
             else if (isVerified === 'false') {
                 return function(productId: number) {
-                    dispatch(BasketActionCreators.removeProduct(productId))
+                    dispatch(removeProduct(productId))
                 }
             }
             return function() {}
