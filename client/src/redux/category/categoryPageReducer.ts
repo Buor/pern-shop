@@ -1,19 +1,20 @@
-import { ECategoryActionType, ICategoryPageState, TCategoryPageAction } from './types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState: ICategoryPageState = {
-    filters: []
-}
-
-export const categoryPageReducer = (state = initialState, action: TCategoryPageAction): ICategoryPageState => {
-    switch (action.type) {
-        case ECategoryActionType.ADD_FILTER: {
-            return {...state, filters: [...state.filters, action.filterId]}
-        }
-        case ECategoryActionType.REMOVE_FILTER: {
-            return {...state, filters: state.filters.filter(id => id !== action.filterId)}
-        }
-        default: {
-            return state
+const categorySlice = createSlice({
+    name: 'categoryPage',
+    initialState: {
+        filters: [] as number[]
+    },
+    reducers: {
+        addFilter(state, action: PayloadAction<number>) {
+            state.filters.push(action.payload)
+        },
+        removeFilter(state, action: PayloadAction<number>) {
+            state.filters = state.filters.filter(id => id !== action.payload)
         }
     }
-}
+})
+
+export const {addFilter, removeFilter} = categorySlice.actions
+
+export default categorySlice.reducer

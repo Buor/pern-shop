@@ -4,7 +4,7 @@ import { login } from '../../dal/auth/authApi'
 import { useDispatch } from 'react-redux'
 import { LoginSchema } from '../../utils/yupSchemes'
 import useIsVerified from '../../utils/customHooks/useIsVerified'
-import { AuthActionCreators } from '../../redux/auth/actionCreators'
+import { setIsAuth } from '../../redux/auth/authReducer'
 
 interface IProps {
     closeFunc: Function
@@ -35,7 +35,7 @@ export const LoginForm: React.FC<IProps> = ({ closeFunc }) => {
 
                     const result = await login(values)
                     if (result === true) {
-                        dispatch(AuthActionCreators.setIsAuth(true))
+                        dispatch(setIsAuth(true))
                         closeFunc()
                         return
                     }

@@ -1,16 +1,16 @@
-import {combineReducers, createStore} from "redux"
-import {authReducer} from "./auth/authReducer"
-import { categoryPageReducer } from './category/categoryPageReducer'
-import { basketReducer } from './basket/basketReducer'
+import authReducer from './auth/authReducer'
+import categoryPageReducer from './category/categoryPageReducer'
+import basketReducer from './basket/basketReducer'
+import { configureStore } from '@reduxjs/toolkit'
 
-const reducers = combineReducers({
-    auth: authReducer,
-    categoryPage: categoryPageReducer,
-    basket: basketReducer
-});
-
-const store = createStore(reducers);
+const store = configureStore({
+    reducer: {
+        auth: authReducer,
+        categoryPage: categoryPageReducer,
+        basket: basketReducer
+    }
+})
 
 export type RootState = ReturnType<typeof store.getState>
 
-export default store;
+export default store
