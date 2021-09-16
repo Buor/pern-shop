@@ -2,8 +2,8 @@ import React from 'react'
 import { CategoryProductDTO, ProductDTO } from '../../../../../../@types/DTO/productDTOs'
 import imgNoProduct from '../../../../styles/images/common/noImage.png'
 import { useDispatch } from 'react-redux'
-import { addProductToBasket as addProductToServerBasket } from '../../../../dal/basket/basketAPI'
 import { addProduct } from '../../../../redux/basket/basketReducer'
+import { BasketAPI } from '../../../../serverApi/basket/basketAPI'
 
 interface Props {
     product: CategoryProductDTO,
@@ -27,7 +27,7 @@ export const ContentProduct: React.FC<Props> = ({
 
     const addProductToBasket = (product: ProductDTO) => {
         if (isVerified === 'true')
-            addProductToServerBasket(product)
+            BasketAPI.addProductToBasket(product)
         else
             dispatch(addProduct(product))
     }

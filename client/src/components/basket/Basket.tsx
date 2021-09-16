@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import useIsVerified from '../../utils/customHooks/useIsVerified'
-import { getProductsFromUserBasket } from '../../dal/basket/basketAPI'
+import { BasketAPI } from '../../serverApi/basket/basketAPI'
 import { useTypedSelector } from '../../utils/customHooks/useTypedSelector'
 import { BasketProducts } from './basketProducts/BasketProducts'
 import { NoProducts } from './NoProducts'
@@ -26,7 +26,7 @@ export const Basket: React.FC<Props> = ({ closeFunc }) => {
     useEffect(() => {
 
         const fetchProductsFromServer = async () => {
-            const fetchedProducts = await getProductsFromUserBasket()
+            const fetchedProducts = await BasketAPI.getProductsFromUserBasket()
             setProducts(fetchedProducts)
             changePurchasePrice(fetchedProducts)
         }
@@ -43,6 +43,7 @@ export const Basket: React.FC<Props> = ({ closeFunc }) => {
             }, 0))
         }
 
+        //todo implement redux thunk logic
         if (isVerified === 'true')
             fetchProductsFromServer()
         else if (isVerified === 'false')

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAllProducts } from '../../../../dal/products/productsAPI'
+import { ProductsAPI } from '../../../../serverApi/products/productsAPI'
 import { GetAllProductsDTO } from '../../../../../../@types/DTO/productDTOs'
 import ProductItem from '../ProductItem'
 
@@ -9,7 +9,7 @@ export const SectionAll: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const allProducts: GetAllProductsDTO[] = (await getAllProducts()).data
+            const allProducts: GetAllProductsDTO[] = (await ProductsAPI.getAllProducts()).data
             setProducts(allProducts)
         })()
     }, [])

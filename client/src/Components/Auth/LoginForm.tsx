@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import { login } from '../../dal/auth/authApi'
 import { useDispatch } from 'react-redux'
 import { LoginSchema } from '../../utils/yupSchemes'
 import useIsVerified from '../../utils/customHooks/useIsVerified'
 import { setIsAuth } from '../../redux/auth/authReducer'
+import { AuthAPI } from '../../serverApi/auth/authApi'
 
 interface IProps {
     closeFunc: Function
@@ -33,7 +33,7 @@ export const LoginForm: React.FC<IProps> = ({ closeFunc }) => {
                         return
                     }
 
-                    const result = await login(values)
+                    const result = await AuthAPI.login(values)
                     if (result === true) {
                         dispatch(setIsAuth(true))
                         closeFunc()

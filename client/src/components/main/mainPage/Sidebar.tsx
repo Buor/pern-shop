@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { GetTypesDTO } from '../../../../../@types/DTO/typeDTOs'
-import { getTypes } from '../../../dal/type/typeAPI'
+import { TypeAPI } from '../../../serverApi/type/typeAPI'
 
 const Sidebar: React.FC = () => {
 
@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const types = await getTypes()
+            const types = await TypeAPI.getTypes()
             setTypes(types)
         })()
     }, [])

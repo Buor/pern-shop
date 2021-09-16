@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
-import { deleteProductFromBasket as deleteProductFromBasketOnServer } from '../../../dal/basket/basketAPI'
 import { IBasketProductProps } from './BasketProducts'
 
 import ProductCounter from './ProductCounter'
@@ -9,6 +8,7 @@ import ProductCounter from './ProductCounter'
 import imgNoImage from '../../../styles/images/common/noImage.png'
 import imgCross from '../../../styles/images/icons/cross.svg'
 import { removeProduct } from '../../../redux/basket/basketReducer'
+import { BasketAPI } from '../../../serverApi/basket/basketAPI'
 
 interface IProps extends IBasketProductProps {
     product: ProductDTO
@@ -42,7 +42,7 @@ export const BasketProduct: React.FC<IProps> = ({
             if (isVerified === 'true')
                 return async function(productId: number) {
                     setIsProductRemoving(true)
-                    const success = await deleteProductFromBasketOnServer(productId)
+                    const success = await BasketAPI.deleteProductFromBasket(productId)
                     if (success)
                         removeLocalProduct(id)
                     setIsProductRemoving(false)

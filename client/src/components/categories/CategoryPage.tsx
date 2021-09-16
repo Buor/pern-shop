@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { getType } from '../../dal/type/typeAPI'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
 import { CategoryProductDTO } from '../../../../@types/DTO/productDTOs'
-import { getCategoryProducts, getCategoryProductsCount } from '../../dal/products/productsAPI'
+import { ProductsAPI } from '../../serverApi/products/productsAPI'
 import CategoryPageOrder from './sections/content/CategoryPageOrder'
 import { connect } from 'react-redux'
 import { CategoryPageSidebar } from './sections/sidebar/CategoryPageSidebar'
 import CategoryPageContent from './sections/content/CategoryPageContent'
 import CategoryPagePagination from './sections/content/CategoryPagePagination'
+import { TypeAPI } from '../../serverApi/type/typeAPI'
 
 interface Props {
     filters: number[]
@@ -21,12 +21,12 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const [order, setOrder] = useState<'ASC' | 'DESC'>('ASC')
     const [products, setProducts] = useState<CategoryProductDTO[]>([])
     const productsCount = useRef<number>(0)
-    const pageSize = useRef<number>(10)
+    const pageSize = useRef<number>(50)
     const [currentPageNumber, setCurrentPageNumber] = useState<number>(1)
 
     useEffect(() => {
         const getTypeFromServer = async () => {
-            let typeData: GetTypeDTO = await getType(history.location.pathname.split('/').pop() as string)
+            let typeData: GetTypeDTO = await TypeAPI.getType(history.location.pathname.split('/').pop() as string)
             setType(typeData)
         }
         getTypeFromServer()
@@ -38,19 +38,17 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     useEffect(() => {
         setCurrentPageNumber(1)
-        getProductsFromServer.current(type?.id, currentPageNumber, filters, order)
+        getProductsFromServer.current(type?.id, 1, filters, order)
     }, [filters])
 
     const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number, filters: number[], order: "ASC" | "DESC") => {
         if (!typeId) return
-        productsCount.current = await getCategoryProductsCount(typeId, filters)
-        let productsData: CategoryProductDTO[] = await getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
+        productsCount.current = await ProductsAPI.getCategoryProductsCount(typeId, filters)
+        let productsData: CategoryProductDTO[] = await ProductsAPI.getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
         setProducts(productsData)
     })
 
-    const changeOrder = (value: 'ASC' | 'DESC') => {
-        setOrder(value)
-    }
+    const changeOrder = (value: 'ASC' | 'DESC') => setOrder(value)
 
     if (type === null || products === null) return null
 
