@@ -14,7 +14,7 @@ export const SidebarListOption: React.FC<Props> = ({typePropValue: {name, id}}) 
     const [selected, setSelected] = useState(false)
 
     const toggleSelect = () => {
-        if(selected)
+        if(!selected)
             dispatch(addFilter(id))
         else
             dispatch(removeFilter(id))
