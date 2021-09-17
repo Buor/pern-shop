@@ -10,8 +10,10 @@ interface Props {
 }
 
 const CategoryPagePagination: React.FC<Props> = ({ pageSize, setCurrentPageNumber, productsCount, currentPage = 1 }) => {
-    //Mock
+
     const pageItems = useMemo(() => generatePaginationList(productsCount, currentPage, pageSize), [productsCount, currentPage, pageSize])
+
+    if(pageItems.length === 1) return null
 
     const goToPageByNumber = (pageNumber: number) => {
         setCurrentPageNumber(pageNumber)
