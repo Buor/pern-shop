@@ -5,6 +5,7 @@ import { LoginSchema } from '../../utils/yupSchemes'
 import useIsVerified from '../../utils/customHooks/useIsVerified'
 import { setIsAuth } from '../../redux/auth/authReducer'
 import { AuthAPI } from '../../serverApi/auth/authApi'
+import { useHistory } from 'react-router-dom'
 
 interface IProps {
     closeFunc: Function
@@ -12,6 +13,7 @@ interface IProps {
 
 export const LoginForm: React.FC<IProps> = ({ closeFunc }) => {
 
+    const history = useHistory()
     const dispatch = useDispatch()
     const isVerified = useIsVerified()
     const [loginError, setLoginError] = useState('')
@@ -36,6 +38,7 @@ export const LoginForm: React.FC<IProps> = ({ closeFunc }) => {
                     const result = await AuthAPI.login(values)
                     if (result === true) {
                         dispatch(setIsAuth(true))
+                        history.push('/userPage')
                         closeFunc()
                         return
                     }
