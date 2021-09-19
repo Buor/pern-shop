@@ -12,8 +12,7 @@ interface Props {
 const CategoryPagePagination: React.FC<Props> = ({ pageSize, setCurrentPageNumber, productsCount, currentPage = 1 }) => {
 
     const pageItems = useMemo(() => generatePaginationList(productsCount, currentPage, pageSize), [productsCount, currentPage, pageSize])
-
-    if(pageItems.length === 1) return null
+    if(pageItems.length === 1 || pageItems.length === 0) return null
 
     const goToPageByNumber = (pageNumber: number) => {
         setCurrentPageNumber(pageNumber)
