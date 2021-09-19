@@ -1,0 +1,47 @@
+@mixin fontOutline() {
+  text-shadow: 1px 0 1px #000,
+  0 1px 1px #000,
+  -1px 0 1px #000,
+  0 -1px 1px #000;
+}
+
+.ui_card {
+  width: 200px;
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 25px;
+  border-radius: 25px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  text-align: center;
+  color: black;
+  @include fontOutline();
+
+  cursor: pointer;
+
+  perspective: 100px;
+  transition: transform 0.8s ease-in-out;
+
+  .title {
+    font-size: 26px;
+
+    border-bottom: 2px solid black;
+  }
+
+  .description {
+    margin-top: 20px;
+    padding: 10px;
+
+    font-size: 16px;
+  }
+
+  &:hover {
+    transform: rotateX(-10deg) rotateY(360deg) rotateZ(20deg);
+  }
+}
+
