@@ -22,10 +22,12 @@ export const Card: React.FC<IProps> = ({
 
                                        }) => {
     return (
-        <div className='ui_card' style={{ backgroundImage: `url(${backgroundUrl})`, width, height, color: textColor}}
-             onClick={() => onClick()}>
-            <div className='title' style={{borderColor: textColor}}>{title}</div>
-            <div className='description'>{description}</div>
+        <div className="ui_card_wrapper" style={{width, height}} onClick={() => onClick()}>
+            <div className='ui_card' style={{ backgroundImage: `url(${backgroundUrl})`, color: textColor}}>
+                <div className='title' style={{borderColor: textColor}}>{title}</div>
+                <div className='description'>{description}</div>
+            </div>
         </div>
+
     )
 }
