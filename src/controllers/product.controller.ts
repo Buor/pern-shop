@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { ProductService } from '../services/product.service'
 import { CreateProductDTO } from '../dto/productDTOs'
-import { CategoryProductDTO, ProductDTO } from '../../@types/DTO/productDTOs'
+import { ProductDTO } from '../../@types/DTO/productDTOs'
 
 @Controller('/product')
 export class ProductController {
@@ -21,7 +21,7 @@ export class ProductController {
                             @Query('pageSize') pageSize: number | undefined,
                             @Query('filters') filters: string[] | undefined,
                             @Query('order') order: "ASC" | "DESC" | undefined
-                            ): Promise<CategoryProductDTO[]> {
+                            ): Promise<ProductDTO[]> {
         return await this.productService.getProductsByType(+typeId, +pageNumber, filters, pageSize, order)
     }
 
@@ -36,8 +36,10 @@ export class ProductController {
     }
 
     @Get('/:id_or_name')
-    async getProduct(@Param('id_or_name') param: string): Promise<ProductDTO> {
-        return await this.productService.getProduct(param)
+    async getProduct(@Param('id_or_name') param: string, @Query('addTypePropValues') addTypePropValues?: string): Promise<ProductDTO> {
+        return await this.productService.getProduct(param, {
+            addTypePropValues
+        })
     }
 
     @Post()

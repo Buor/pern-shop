@@ -5,11 +5,8 @@ export class ProductDTO {
     discountCost: number | null
     img: string | null
     id: number
+    typePropertyValues?: { id: number, name: string }[]
 }
 
 export class GetAllProductsDTO extends ProductDTO {
-}
-
-export class CategoryProductDTO extends GetAllProductsDTO {
-    typePropertyValues: { id: number, name: string }[]
 }
