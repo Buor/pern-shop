@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GetTypeDTO } from '../../../../@types/DTO/typeDTOs'
-import { CategoryProductDTO } from '../../../../@types/DTO/productDTOs'
+import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import { ProductsAPI } from '../../serverApi/products/productsAPI'
 import CategoryPageOrder from './sections/content/CategoryPageOrder'
 import { connect } from 'react-redux'
@@ -19,7 +19,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const history = useHistory()
     const [type, setType] = useState<GetTypeDTO | null>(null)
     const [order, setOrder] = useState<'ASC' | 'DESC'>('ASC')
-    const [products, setProducts] = useState<CategoryProductDTO[]>([])
+    const [products, setProducts] = useState<ProductDTO[]>([])
     const productsCount = useRef<number>(0)
     const pageSize = useRef<number>(50)
     const [currentPageNumber, setCurrentPageNumber] = useState<number>(1)
@@ -44,7 +44,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
     const getProductsFromServer = useRef(async (typeId: number | undefined, pageNumber: number, filters: number[], order: "ASC" | "DESC") => {
         if (!typeId) return
         productsCount.current = await ProductsAPI.getCategoryProductsCount(typeId, filters)
-        let productsData: CategoryProductDTO[] = await ProductsAPI.getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
+        let productsData: ProductDTO[] = await ProductsAPI.getCategoryProducts(typeId, pageNumber,filters, pageSize.current, order )
         setProducts(productsData)
     })
 

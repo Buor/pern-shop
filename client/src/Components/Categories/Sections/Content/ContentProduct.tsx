@@ -1,12 +1,12 @@
 import React from 'react'
-import { CategoryProductDTO, ProductDTO } from '../../../../../../@types/DTO/productDTOs'
+import { ProductDTO } from '../../../../../../@types/DTO/productDTOs'
 import imgNoProduct from '../../../../styles/images/common/noImage.png'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../../../redux/basket/basketReducer'
 import { BasketAPI } from '../../../../serverApi/basket/basketAPI'
 
 interface Props {
-    product: CategoryProductDTO,
+    product: ProductDTO,
     isVerified: 'true' | 'false'
 }
 
