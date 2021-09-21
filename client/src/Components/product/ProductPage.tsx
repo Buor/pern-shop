@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ProductsAPI } from '../../serverApi/products/productsAPI'
 import { ProductDTO } from '../../../../@types/DTO/productDTOs'
+import styles from './productPage.module.scss'
+import { AllAboutProduct } from './AllAboutProduct'
+import { ProductStats } from './ProductStats'
 
 interface IProps {
 
@@ -10,6 +13,8 @@ interface IProps {
 export const ProductPage: React.FC<IProps> = () => {
     const history = useHistory()
     const [product,setProduct] = useState<ProductDTO | null>(null)
+    const [currentSection, setCurrentSection] = useState<"All about Product" | "Stats">('All about Product')
+
 
     useEffect(() => {
         const getDataFromServer = async () => {
@@ -21,10 +26,16 @@ export const ProductPage: React.FC<IProps> = () => {
     }, [])
 
     if(product === null) return null
-    console.log(product)
-    return (
-        <div>
 
+    return (
+        <div className={styles.root}>
+            <div className={styles.title}>{product.name}</div>
+            <nav>
+                <button onClick={() => setCurrentSection('All about Product')}>Все о товаре</button>
+                <button onClick={() => setCurrentSection('Stats')}>Характеристики</button>
+            </nav>
+            {currentSection === 'All about Product' && <AllAboutProduct product={product}/>}
+            {currentSection === 'Stats' && <ProductStats product={product}/>}
         </div>
     )
 }
