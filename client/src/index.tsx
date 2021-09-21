@@ -5,7 +5,6 @@ import {BrowserRouter} from "react-router-dom"
 import {Provider} from "react-redux"
 
 import './styles/mainStyles/styles.css'
-import './styles/globals.css'
 //@ts-ignore
 import store from './redux/store'
 
