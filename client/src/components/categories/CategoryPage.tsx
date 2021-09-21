@@ -52,7 +52,7 @@ const CategoryPage: React.FC<Props> = ({ filters }) => {
 
     if (type === null || products === null) return null
 
-    return <div className={'category_page'}>
+    return <div className={'category_page container'}>
         <div className={'title'}>
             {type.name}
         </div>

@@ -12,8 +12,8 @@ interface IProps {
 
 export const ProductPage: React.FC<IProps> = () => {
     const history = useHistory()
-    const [product,setProduct] = useState<ProductDTO | null>(null)
-    const [currentSection, setCurrentSection] = useState<"All about Product" | "Stats">('All about Product')
+    const [product, setProduct] = useState<ProductDTO | null>(null)
+    const [currentSection, setCurrentSection] = useState<'All about Product' | 'Stats'>('All about Product')
 
 
     useEffect(() => {
@@ -25,17 +25,21 @@ export const ProductPage: React.FC<IProps> = () => {
         getDataFromServer()
     }, [])
 
-    if(product === null) return null
+    if (product === null) return null
 
     return (
         <div className={styles.root}>
-            <div className={styles.title}>{product.name}</div>
-            <nav>
-                <button onClick={() => setCurrentSection('All about Product')}>Все о товаре</button>
-                <button onClick={() => setCurrentSection('Stats')}>Характеристики</button>
+            <div className={styles.title + ' container'}>{product.name}</div>
+            <nav className={styles.navWrapper}>
+                <div className={styles.navigation + ' container'}>
+                    <button className={styles.active} onClick={() => setCurrentSection('All about Product')}>Все о товаре</button>
+                    <button onClick={() => setCurrentSection('Stats')}>Характеристики</button>
+                </div>
             </nav>
-            {currentSection === 'All about Product' && <AllAboutProduct product={product}/>}
-            {currentSection === 'Stats' && <ProductStats product={product}/>}
+            <div className='container'>
+                {currentSection === 'All about Product' && <AllAboutProduct product={product} />}
+                {currentSection === 'Stats' && <ProductStats product={product} />}
+            </div>
         </div>
     )
 }

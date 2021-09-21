@@ -5,6 +5,7 @@ import {BrowserRouter} from "react-router-dom"
 import {Provider} from "react-redux"
 
 import './styles/mainStyles/styles.css'
+import './styles/globals.css'
 //@ts-ignore
 import store from './redux/store'
 
@@ -16,7 +17,7 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
-
+//todo remove
 export type RootState = ReturnType<typeof store.getState>
 //todo remove on deploy
 //@ts-ignore

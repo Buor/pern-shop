@@ -1,0 +1,95 @@
+@import 'src/styles/mainStyles/vars';
+
+@mixin borderWrapper() {
+  display: flex;
+  align-items: center;
+
+  padding: 12px 22px;
+  border: 1px solid $col_gray_transparent;
+  border-radius: 3px;
+}
+
+.root {
+  display: flex;
+  justify-content: space-between;
+
+  .imgWrapper {
+    flex: 0 1 48%;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .contentWrapper {
+    flex: 0 1 48%;
+
+    section+section {
+      margin-top: 15px;
+    }
+
+    .costSection {
+      position: relative;
+
+      @include borderWrapper();
+
+      .originalCost {
+        position: absolute;
+        top: -14px;
+        left: 20px;
+
+        background-color: white;
+        padding: 5px;
+        color: $col_gray_light;
+        text-decoration: line-through;
+      }
+
+      .cost {
+
+        font-size: 28px;
+
+        &.discount {
+          color: $col_pink;
+        }
+      }
+
+      .btnBuy {
+        margin-left: 25px;
+        padding: 10px;
+
+        display: flex;
+        align-items: center;
+
+        color: white;
+        background-color: $col_green_dark;
+
+        border-radius: 7px;
+        img {
+          width: 30px;
+          height: 30px;
+
+          filter: invert(1);
+
+          margin-right: 10px;
+        }
+
+        transition: 0.3s ease-in-out background-color;
+
+        &:hover {
+          background-color: $col_green  ;
+        }
+      }
+    }
+
+    .sellerSection {
+      @include borderWrapper();
+      justify-content: space-between;
+
+      img {
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}

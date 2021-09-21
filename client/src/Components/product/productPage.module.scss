@@ -1,3 +1,31 @@
-.root {
+@import 'src/styles/mainStyles/vars';
 
+.root {
+  .title {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 30px;
+  }
+  .navWrapper {
+    background-color: #dadada;
+
+    .navigation {
+      margin-bottom: 20px;
+
+      button {
+        display: inline-block;
+        padding: 20px 0;
+        .active, &:hover {
+          color: $col_pink;
+          box-shadow: inset 0 -2px 0 0 $col_pink;
+        }
+      }
+
+      button + button {
+        margin-left: 20px;
+      }
+    }
+  }
 }
+
+

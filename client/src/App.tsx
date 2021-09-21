@@ -10,14 +10,13 @@ const App: React.FC = () => {
     return (
         <>
             <Header />
-            <div className={'container'}>
                 <Switch>
                     <Route path={'/'} exact render={() => <MainPage />} />
                     <Route path={'/userPage'} render={() => <UserPage />} />
                     <Route path={'/category'} render={() => <CategoryPage />} />
                     <Route path={'/product'} render={() => <ProductPage />} />
                 </Switch>
-            </div>
+
         </>
     )
 }
