@@ -1,29 +1,45 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styles from './productBuy.module.scss'
 import imgCartIcon from '../../../styles/images/icons/shopping_cart.svg'
 import { GrayBorderUI } from '../../../utils/uiComponents/GrayBorderUI'
+import { useDispatch } from 'react-redux'
+import useIsVerified from '../../../utils/customHooks/useIsVerified'
+import { addProduct } from '../../../redux/basket/basketReducer'
+import { ProductContext } from '../ProductPage'
 
 interface IProps {
-    discountCost: number | null
-    cost: number
+
 }
 
-export const ProductBuyComponent: React.FC<IProps> = ({ discountCost, cost }) => {
+export const ProductBuyComponent: React.FC<IProps> = () => {
+    const isVerified = useIsVerified()
+    const dispatch = useDispatch()
+    const product = useContext(ProductContext)
+
+    const buyButtonHandler = () => {
+        if(isVerified) {
+
+        }
+        else {
+            dispatch(addProduct(product))
+        }
+    }
+
     return (
         <GrayBorderUI className={styles.costSection}>
             {
-                discountCost
+                product.discountCost
                     ? <>
-                        <div className={styles.originalCost}>{cost} $</div>
+                        <div className={styles.originalCost}>{product.cost} $</div>
                         <div className={styles.cost + ' ' + styles.discount}>
-                            {discountCost ?? cost} $
+                            {product.discountCost ?? product.cost} $
                         </div>
                     </>
                     : <div className={styles.cost}>
-                        {discountCost ?? cost} $
+                        {product.discountCost ?? product.cost} $
                     </div>
             }
-            <button className={styles.btnBuy}>
+            <button className={styles.btnBuy} onClick={buyButtonHandler}>
                 <img src={imgCartIcon} alt='cart' />
                 Купить
             </button>

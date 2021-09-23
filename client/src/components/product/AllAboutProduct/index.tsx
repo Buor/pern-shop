@@ -21,7 +21,7 @@ export const AllAboutProduct: React.FC<IProps> = ({ product }) => {
                 <img src={product.img ?? imgNoImage} alt={product.name} />
             </div>
             <div className={styles.contentWrapper}>
-                <ProductBuyComponent discountCost={product.discountCost} cost={product.cost}/>
+                <ProductBuyComponent/>
                 <GrayBorderUI>
                     <section className={styles.sellerSection}>
                         <span>Продавец: <strong>Tea Shop</strong></span>

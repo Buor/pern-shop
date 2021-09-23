@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
 import imgNoImage from './../../../styles/images/common/noImage.png'
 import { GrayBorderUI } from '../../../utils/uiComponents/GrayBorderUI'
 import styles from './productAside.module.scss'
 import { ProductBuyComponent } from '../components/ProductBuyComponent'
+import { ProductContext } from '../ProductPage'
 
 interface IProps {
-    product: ProductDTO
+
 }
 
-export const ProductAsideWrapper: React.FC<IProps> = ({ children, product }) => {
+export const ProductAsideWrapper: React.FC<IProps> = ({ children }) => {
+
+    const product = useContext(ProductContext)
+
     return (
         <div className={styles.root}>
             {children}
@@ -20,7 +24,7 @@ export const ProductAsideWrapper: React.FC<IProps> = ({ children, product }) => 
                         {product.name}
                     </div>
                 </GrayBorderUI>
-                <ProductBuyComponent discountCost={product.discountCost} cost={product.cost}/>
+                <ProductBuyComponent/>
             </aside>
         </div>
     )
