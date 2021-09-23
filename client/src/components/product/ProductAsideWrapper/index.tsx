@@ -5,10 +5,13 @@ interface IProps {
 
 }
 
-export const ProductAside: React.FC<IProps> = () => {
+export const ProductAsideWrapper: React.FC<IProps> = ({children}) => {
     return (
         <div className={styles.root}>
-            Product Aside
+            {children}
+            <aside>
+                Aside
+            </aside>
         </div>
     )
 }

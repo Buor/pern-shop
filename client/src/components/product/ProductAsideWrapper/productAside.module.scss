@@ -1,7 +1,7 @@
 .root {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
-  flex: 0 1 65%
-
+  aside {
+    flex: 0 1 30%;
+  }
 }

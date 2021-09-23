@@ -5,6 +5,7 @@ import { ProductDTO } from '../../../../@types/DTO/productDTOs'
 import styles from './productPage.module.scss'
 import { AllAboutProduct } from './AllAboutProduct'
 import { ProductStats } from './ProductStats'
+import { ProductAsideWrapper } from './ProductAsideWrapper'
 
 interface IProps {
 
@@ -38,7 +39,11 @@ export const ProductPage: React.FC<IProps> = () => {
             </nav>
             <div className='container'>
                 {currentSection === 'All about Product' && <AllAboutProduct product={product} />}
-                {currentSection === 'Stats' && <ProductStats product={product} />}
+                {currentSection === 'Stats' &&
+                <ProductAsideWrapper>
+                  <ProductStats product={product} />
+                </ProductAsideWrapper>
+                }
             </div>
         </div>
     )

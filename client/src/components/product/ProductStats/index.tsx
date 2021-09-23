@@ -1,5 +1,6 @@
 import React from 'react'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
+import styles from './productStats.module.scss'
 
 interface IProps {
     product: ProductDTO
@@ -7,8 +8,8 @@ interface IProps {
 
 export const ProductStats: React.FC<IProps> = ({product}) => {
     return (
-        <div>
-
+        <div className={styles.root}>
+            Product Stats
         </div>
     )
 }
