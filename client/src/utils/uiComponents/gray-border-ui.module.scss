@@ -1,0 +1,9 @@
+@import 'src/styles/mainStyles/vars';
+
+.root {
+  width: 100%;
+
+  padding: 12px 22px;
+  border: 1px solid $col_gray_transparent;
+  border-radius: 3px;
+}

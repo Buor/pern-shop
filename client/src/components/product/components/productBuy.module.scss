@@ -1,0 +1,56 @@
+@import 'src/styles/mainStyles/vars';
+
+.costSection {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .originalCost {
+    position: absolute;
+    top: -14px;
+    left: 20px;
+
+    background-color: white;
+    padding: 5px;
+    color: $col_gray_light;
+    text-decoration: line-through;
+  }
+
+  .cost {
+
+    font-size: 28px;
+
+    &.discount {
+      color: $col_pink;
+    }
+  }
+
+  .btnBuy {
+    margin-left: 25px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+
+    color: white;
+    background-color: $col_green_dark;
+
+    border-radius: 7px;
+    img {
+      width: 30px;
+      height: 30px;
+
+      filter: invert(1);
+
+      margin-right: 10px;
+    }
+
+    transition: 0.3s ease-in-out background-color;
+
+    &:hover {
+      background-color: $col_green  ;
+    }
+  }
+}

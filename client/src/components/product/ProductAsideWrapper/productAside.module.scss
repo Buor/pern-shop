@@ -3,5 +3,23 @@
   justify-content: space-between;
   aside {
     flex: 0 1 30%;
+
+    .productBox {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 75px;
+        margin-right: 20px;
+      }
+
+      .productName {
+
+      }
+    }
+
+    &>*:not(:first-child) {
+      margin-top: 15px;
+    }
   }
 }

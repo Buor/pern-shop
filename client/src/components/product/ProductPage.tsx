@@ -44,7 +44,7 @@ export const ProductPage: React.FC<IProps> = () => {
             <div className='container'>
                 {currentSection === 'All about Product' && <AllAboutProduct product={product} />}
                 {currentSection === 'Stats' &&
-                <ProductAsideWrapper>
+                <ProductAsideWrapper product={product}>
                   <ProductStats product={product} />
                 </ProductAsideWrapper>
                 }
