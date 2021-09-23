@@ -36,9 +36,12 @@ export class ProductController {
     }
 
     @Get('/:id_or_name')
-    async getProduct(@Param('id_or_name') param: string, @Query('addTypePropValues') addTypePropValues?: string): Promise<ProductDTO> {
+    async getProduct(@Param('id_or_name') param: string,
+                     @Query('withTypePropValues') withTypePropValues?: "true",
+                     @Query('withType') withType?: "true"): Promise<ProductDTO> {
         return await this.productService.getProduct(param, {
-            addTypePropValues
+            withTypePropValues,
+            withType
         })
     }
 

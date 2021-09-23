@@ -3,15 +3,11 @@ import Type from '../entities/Type'
 import Brand from '../entities/Brand'
 import ProductInfo from '../entities/ProductInfo'
 import Product from '../entities/Product'
-import { GetAllProductsDTO, ProductDTO } from '../../@types/DTO/productDTOs'
+import { GetAllProductsDTO, IGetProductOptions, ProductDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../entities/TypeProperty'
 import { TypePropertyValue } from '../entities/TypePropertyValue'
 import { CreateProductDTO } from '../dto/productDTOs'
 import { Connection } from 'typeorm'
-
-interface IGetProductOptions {
-    addTypePropValues?: string
-}
 
 @Injectable()
 export class ProductService {
@@ -21,10 +17,14 @@ export class ProductService {
 
     async getProduct(idOrName: string, options: IGetProductOptions): Promise<ProductDTO> {
         let product: Product = await ProductService._getProduct(idOrName)
+
         const productDTOValues = ProductService._productToProductDTO(product)
 
-        if(options.addTypePropValues === 'true') {
+        if(options.withTypePropValues === 'true') {
             productDTOValues.typePropertyValues = product.typePropertyValues
+        }
+        if(options.withType === 'true') {
+            productDTOValues.type = product.type
         }
 
         return productDTOValues
