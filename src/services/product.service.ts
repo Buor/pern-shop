@@ -20,11 +20,28 @@ export class ProductService {
 
         const productDTOValues = ProductService._productToProductDTO(product)
 
-        if(options.withTypePropValues === 'true') {
+        if (options.withType === 'true') {
+            productDTOValues.type = product.type
+        }
+        if (options.withTypePropValues === 'true') {
             productDTOValues.typePropertyValues = product.typePropertyValues
         }
-        if(options.withType === 'true') {
-            productDTOValues.type = product.type
+        if (options.withTypeProperties === 'true') {
+
+            let productSelection = await this.connection.createQueryBuilder(Product, 'product')
+                .leftJoinAndSelect('product.type', 'type')
+                .leftJoinAndSelect('type.typeProperties', 'typeProperty')
+                .leftJoinAndSelect('typeProperty.typePropertyValues', 'typePropertyValue')
+                .where('product.id = :id', { id: product.id })
+                .getOne()
+
+            let typePropValuesIds = product.typePropertyValues.map(typePropertyValue => typePropertyValue.id)
+            let filteredTypeProperties = productSelection.type.typeProperties.filter(typeProperty => typeProperty.typePropertyValues.some(typePropValue => typePropValuesIds.includes(typePropValue.id))).map(typeProperty => ({
+                ...typeProperty,
+                typePropertyValues: typeProperty.typePropertyValues.filter(typePropertyValue => typePropValuesIds.includes(typePropertyValue.id))
+            }))
+
+            productDTOValues.typeProperties = filteredTypeProperties
         }
 
         return productDTOValues

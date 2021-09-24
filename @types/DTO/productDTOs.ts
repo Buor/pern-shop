@@ -17,8 +17,9 @@ interface ITypePropertyValue {
 }
 
 export interface IGetProductOptions {
-    withTypePropValues?: "true",
-    withType?: "true"
+    withType?: 'true'
+    withTypeProperties?: 'true'
+    withTypePropValues?: 'true'
 }
 
 export class ProductDTO {
@@ -29,7 +30,9 @@ export class ProductDTO {
     img: string | null
     id: number
     type?: IType
+    typeProperties?: ITypeProperty[]
     typePropertyValues?: ITypePropertyValue[]
 }
 
-export class GetAllProductsDTO extends ProductDTO {}
+export class GetAllProductsDTO extends ProductDTO {
+}
