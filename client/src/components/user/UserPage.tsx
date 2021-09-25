@@ -7,7 +7,7 @@ const UserPage: React.FC = () => {
     if (!isVerified) return <div>"Error! You don't have permission to this page!"</div>;
 
     return (
-        <div>
+        <div className={'container'}>
             User page
         </div>
     )

@@ -3,7 +3,7 @@ import Type from '../entities/Type'
 import Brand from '../entities/Brand'
 import ProductInfo from '../entities/ProductInfo'
 import Product from '../entities/Product'
-import { GetAllProductsDTO, ProductDTO } from '../../@types/DTO/productDTOs'
+import { GetAllProductsDTO, IGetProductOptions, ProductDTO } from '../../@types/DTO/productDTOs'
 import { TypeProperty } from '../entities/TypeProperty'
 import { TypePropertyValue } from '../entities/TypePropertyValue'
 import { CreateProductDTO } from '../dto/productDTOs'
@@ -15,10 +15,36 @@ export class ProductService {
     constructor(private readonly connection: Connection) {
     }
 
-    async getProduct(idOrName: string): Promise<ProductDTO> {
+    async getProduct(idOrName: string, options: IGetProductOptions): Promise<ProductDTO> {
         let product: Product = await ProductService._getProduct(idOrName)
-        const { name, cost, count, discountCost, img, id } = product
-        return { name, cost, count, discountCost, img, id }
+
+        const productDTOValues = ProductService._productToProductDTO(product)
+
+        if (options.withType === 'true') {
+            productDTOValues.type = product.type
+        }
+        if (options.withTypePropValues === 'true') {
+            productDTOValues.typePropertyValues = product.typePropertyValues
+        }
+        if (options.withTypeProperties === 'true') {
+
+            let productSelection = await this.connection.createQueryBuilder(Product, 'product')
+                .leftJoinAndSelect('product.type', 'type')
+                .leftJoinAndSelect('type.typeProperties', 'typeProperty')
+                .leftJoinAndSelect('typeProperty.typePropertyValues', 'typePropertyValue')
+                .where('product.id = :id', { id: product.id })
+                .getOne()
+
+            let typePropValuesIds = product.typePropertyValues.map(typePropertyValue => typePropertyValue.id)
+            let filteredTypeProperties = productSelection.type.typeProperties.filter(typeProperty => typeProperty.typePropertyValues.some(typePropValue => typePropValuesIds.includes(typePropValue.id))).map(typeProperty => ({
+                ...typeProperty,
+                typePropertyValues: typeProperty.typePropertyValues.filter(typePropertyValue => typePropValuesIds.includes(typePropertyValue.id))
+            }))
+
+            productDTOValues.typeProperties = filteredTypeProperties
+        }
+
+        return productDTOValues
     }
 
     async getProductCount(idOrName: string): Promise<number> {
@@ -26,27 +52,9 @@ export class ProductService {
         return product.count
     }
 
-    private static async _getProduct(value: string): Promise<Product> {
-        let product: Product
-        if (Number.isInteger(+value))
-            product = await Product.findOne(+value)
-        else
-            product = await Product.findOne({ where: { name: value } })
-
-        if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
-        return product
-    }
-
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
         const allProducts = await Product.find()
-        return allProducts.map(product => ({
-            count: product.count,
-            img: product.img,
-            cost: product.cost,
-            discountCost: product.discountCost,
-            name: product.name,
-            id: product.id
-        }))
+        return allProducts.map(ProductService._productToProductDTO)
     }
 
     async getProductsByType(typeId: number, pageNumber: number, filters: string[], pageSize: number = 50, order: 'ASC' | 'DESC' = 'ASC'): Promise<any> {
@@ -126,6 +134,28 @@ export class ProductService {
         } catch (e) {
             throw new HttpException(e.message, 500)
         }
+    }
+
+    private static _productToProductDTO(product: Product): ProductDTO {
+        return {
+            count: product.count,
+            img: product.img,
+            cost: product.cost,
+            discountCost: product.discountCost,
+            name: product.name,
+            id: product.id
+        }
+    }
+
+    private static async _getProduct(value: string): Promise<Product> {
+        let product: Product
+        if (Number.isInteger(+value))
+            product = await Product.findOne(+value)
+        else
+            product = await Product.findOne({ where: { name: value } })
+
+        if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
+        return product
     }
 
     private static _queryFilteredProductsForCatPage(typeId: number, take: number, skip: number, filters: string[], order: 'ASC' | 'DESC') {

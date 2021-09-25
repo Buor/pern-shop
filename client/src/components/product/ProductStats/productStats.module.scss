@@ -1,0 +1,54 @@
+@import '/src/styles/mainStyles/vars';
+
+.root {
+  flex: 0 1 65%;
+  text-transform: capitalize;
+
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+
+    margin-bottom: 24px;
+    span {
+      color: $col_gray_light;
+    }
+  }
+
+  .typePropertiesWrapper {
+    width: 100%;
+
+    .typeProperty {
+      display: flex;
+      position: relative;
+
+      .typePropertyTitle {
+        max-width: 33.3333%;
+        font-size: 20px;
+        margin-bottom: 32px;
+      }
+
+      .separator {
+        position: relative;
+        margin: 0 15px;
+
+        flex: 0 1 50%;
+        border-top: 1px solid $col_gray_transparent;
+
+        top: 18px;
+      }
+
+      .typePropertyValuesWrapper {
+        flex: 1 0 33%;
+        margin-top: 3px;
+        .typePropertyValue {
+
+        }
+      }
+
+    }
+  }
+
+  .typeProperty + .typeProperty {
+    margin-top: 35px;
+  }
+}

@@ -1,10 +1,10 @@
 import React from 'react'
-import { CategoryProductDTO } from '../../../../../../@types/DTO/productDTOs'
+import { ProductDTO } from '../../../../../../@types/DTO/productDTOs'
 import { ContentProduct } from './ContentProduct'
 import useIsVerified from '../../../../utils/customHooks/useIsVerified'
 
 interface Props {
-    products: CategoryProductDTO[]
+    products: ProductDTO[]
 }
 
 const CategoryPageContent: React.FC<Props> = ({ products }) => {

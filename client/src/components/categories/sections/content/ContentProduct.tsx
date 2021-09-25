@@ -1,12 +1,13 @@
 import React from 'react'
-import { CategoryProductDTO, ProductDTO } from '../../../../../../@types/DTO/productDTOs'
+import { ProductDTO } from '../../../../../../@types/DTO/productDTOs'
 import imgNoProduct from '../../../../styles/images/common/noImage.png'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../../../redux/basket/basketReducer'
 import { BasketAPI } from '../../../../serverApi/basket/basketAPI'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
-    product: CategoryProductDTO,
+    product: ProductDTO,
     isVerified: 'true' | 'false'
 }
 
@@ -22,8 +23,9 @@ export const ContentProduct: React.FC<Props> = ({
                                                         typePropertyValues
                                                     }
                                                 }) => {
-
+    //todo move to ProductPage!
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const addProductToBasket = (product: ProductDTO) => {
         if (isVerified === 'true')
@@ -33,7 +35,7 @@ export const ContentProduct: React.FC<Props> = ({
     }
 
     return (
-        <div className='product' onClick={() => addProductToBasket({ id, img, cost, discountCost, name, count })}>
+        <div className='product' onClick={() => history.push(`/product/${id}`)}>
             <div className='head'></div>
             <div className='image_wrapper'>
                 <img

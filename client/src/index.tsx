@@ -16,7 +16,7 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
-
+//todo remove
 export type RootState = ReturnType<typeof store.getState>
 //todo remove on deploy
 //@ts-ignore

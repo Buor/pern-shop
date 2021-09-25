@@ -1,3 +1,27 @@
+interface IType {
+    id: number,
+    name: string,
+    typeLogo: string,
+    typeProperties: ITypeProperty[]
+}
+
+interface ITypeProperty {
+    id: number
+    name: string
+    typePropertyValues: ITypePropertyValue[]
+}
+
+interface ITypePropertyValue {
+    id: number,
+    name: string
+}
+
+export interface IGetProductOptions {
+    withType?: 'true'
+    withTypeProperties?: 'true'
+    withTypePropValues?: 'true'
+}
+
 export class ProductDTO {
     name: string
     cost: number
@@ -5,11 +29,10 @@ export class ProductDTO {
     discountCost: number | null
     img: string | null
     id: number
+    type?: IType
+    typeProperties?: ITypeProperty[]
+    typePropertyValues?: ITypePropertyValue[]
 }
 
 export class GetAllProductsDTO extends ProductDTO {
-}
-
-export class CategoryProductDTO extends GetAllProductsDTO {
-    typePropertyValues: { id: number, name: string }[]
 }
