@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ProductDTO } from '../../../../../@types/DTO/productDTOs'
 import styles from './allAboutProduct.module.scss'
 import imgNoImage from './../../../styles/images/common/noImage.png'
@@ -6,14 +6,16 @@ import imgTeaShopLogo from './../../../styles/images/icons/tea_shop_logo.png'
 import { useHistory } from 'react-router-dom'
 import { ProductBuyComponent } from '../components/ProductBuyComponent'
 import { GrayBorderUI } from '../../../utils/uiComponents/GrayBorderUI'
+import { ProductContext } from '../ProductPage'
 
 interface IProps {
-    product: ProductDTO
+
 }
 
-export const AllAboutProduct: React.FC<IProps> = ({ product }) => {
+export const AllAboutProduct: React.FC<IProps> = () => {
 
     const history = useHistory()
+    const product = useContext(ProductContext)
 
     return (
         <section className={styles.root}>

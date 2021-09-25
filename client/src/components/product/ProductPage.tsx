@@ -22,7 +22,7 @@ export const ProductPage: React.FC<IProps> = () => {
 
     useEffect(() => {
         const getDataFromServer = async () => {
-            let productData = await ProductsAPI.getProductById(history.location.pathname.split('/').pop() as string)
+            let productData = await ProductsAPI.getProductById(history.location.pathname.split('/').pop() as string, {withTypeProperties: "true"})
             setProduct(productData)
         }
 
@@ -37,7 +37,7 @@ export const ProductPage: React.FC<IProps> = () => {
                 <div className={styles.title + ' container'}>{product.name}</div>
                 <ProductNavigation setCurrentSection={setCurrentSection} currentSection={currentSection}/>
                 <div className='container'>
-                    {currentSection === 'All about Product' && <AllAboutProduct product={product} />}
+                    {currentSection === 'All about Product' && <AllAboutProduct />}
                     {currentSection === 'Stats' &&
                     <ProductAsideWrapper>
                       <ProductStats/>

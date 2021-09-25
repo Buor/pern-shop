@@ -1,13 +1,15 @@
 import axiosInstance from '../axiosInstance'
-import { ProductDTO } from '../../../../@types/DTO/productDTOs'
+import { IGetProductOptions, ProductDTO } from '../../../../@types/DTO/productDTOs'
 
 export class ProductsAPI {
 
-    static async getProductById(productId: string): Promise<ProductDTO> {
-        return (await axiosInstance.get(`/product/${productId}`, {params: {addTypePropValues: "true"}})).data as ProductDTO
+    static async getProductById(productId: string, options: IGetProductOptions): Promise<ProductDTO> {
+        return (await axiosInstance.get(`/product/${productId}`, {
+            params: options
+        })).data as ProductDTO
     }
 
-    static async getCategoryProducts (
+    static async getCategoryProducts(
         typeId: number,
         pageNumber: number,
         filters: number[],
