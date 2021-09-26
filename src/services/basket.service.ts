@@ -3,15 +3,21 @@ import User from '../entities/User'
 import Product from '../entities/Product'
 import Basket from '../entities/Basket'
 import { ProductDTO } from '../../@types/DTO/productDTOs'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class BasketService {
+
+    constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>) {
+    }
+
     async addProductToBasket(productId: number, userId: number): Promise<boolean> {
         const user = await User.findOne(userId)
         if (!user)
             throw new HttpException(`User with id ${userId} doesn't exist!`, 400)
 
-        const product = await Product.findOne(productId)
+        const product = await this.productRepository.findOne(productId)
         if (!product)
             throw new HttpException(`Product with id ${productId} doesn't exist!`, 400)
 
