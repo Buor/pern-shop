@@ -16,7 +16,9 @@ export class AuthController {
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         @InjectRepository(UserData)
-        private readonly userDataRepository: Repository<UserData>
+        private readonly userDataRepository: Repository<UserData>,
+        @InjectRepository(Basket)
+        private readonly basketRepository: Repository<Basket>
     ) {
     }
 
@@ -95,7 +97,8 @@ export class AuthController {
             await this.userDataRepository.save(userData)
 
             //Creating user basket
-            const basket = await Basket.create().save()
+            const basket = this.basketRepository.create()
+            await this.basketRepository.save(basket)
 
             //Creating user
             let newUser = this.userRepository.create({
@@ -104,7 +107,6 @@ export class AuthController {
                 userData,
                 basket
             })
-
             await this.userRepository.save(newUser)
 
             res.json(true)

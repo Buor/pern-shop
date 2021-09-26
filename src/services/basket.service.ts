@@ -4,12 +4,13 @@ import Product from '../entities/Product'
 import Basket from '../entities/Basket'
 import { ProductDTO } from '../../@types/DTO/productDTOs'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { FindOneOptions, Repository } from 'typeorm'
 
 @Injectable()
 export class BasketService {
 
-    constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>) {
+    constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>,
+                @InjectRepository(Basket) private readonly basketRepository: Repository<Basket>) {
     }
 
     async addProductToBasket(productId: number, userId: number): Promise<boolean> {
@@ -21,7 +22,7 @@ export class BasketService {
         if (!product)
             throw new HttpException(`Product with id ${productId} doesn't exist!`, 400)
 
-        const basket = await Basket.findOne(user.basket.id)
+        const basket = await this.basketRepository.findOne(user.basket.id)
         if (!basket)
             throw new HttpException(`User with id ${user.id} doesn't have basket!`, 400)
 
@@ -29,13 +30,18 @@ export class BasketService {
             return true
 
         basket.products.push(product)
-        await Basket.save(basket)
+        await this.basketRepository.save(basket)
 
         return true
     }
 
     async getProductsFromUserBasket(userId: number): Promise<ProductDTO[]> {
-        const basket = await BasketService._getBasketByUserId(userId)
+        const basket = await this._getBasketByUserId(userId)
+
+        if(!basket.products) {
+            throw new HttpException(`Basket have no products!`, 400)
+        }
+
         return basket.products.map(product => ({
             id: product.id,
             cost: product.cost,
@@ -48,18 +54,29 @@ export class BasketService {
 
     async deleteProductFromBasket(userId: number, productId: string): Promise<boolean> {
         const numProductId = +productId
-        if(!Number.isInteger(numProductId))
-            throw new HttpException(`Product id ${productId} is not valid!`,400)
+        if (!Number.isInteger(numProductId))
+            throw new HttpException(`Product id ${productId} is not valid!`, 400)
 
-        const basket = await BasketService._getBasketByUserId(userId)
+        const basket = await this._getBasketByUserId(userId)
 
         basket.products = basket.products.filter(product => product.id !== +productId)
-        await Basket.save(basket)
+        await this.basketRepository.save(basket)
         return true
     }
 
-    private static async _getBasketByUserId(userId: number) {
+    private async _getBasketByUserId(userId: number, options?: FindOneOptions<Basket>) {
         const user = await User.findOne(userId)
-        return await Basket.findOne(user.basket.id)
+
+        if (!user) {
+            throw new HttpException(`No user found with id ${userId}`, 400)
+        }
+
+        const basket = await this.basketRepository.findOne(user.basket.id, options)
+
+        if (!basket) {
+            throw new HttpException(`User with id ${user.id} have no basket!`, 500)
+        }
+
+        return basket
     }
 }

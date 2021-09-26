@@ -3,15 +3,13 @@ import User from './User'
 import Product from './Product'
 
 @Entity('basket')
-export default class Basket extends BaseEntity {
+export default class Basket {
     @PrimaryGeneratedColumn({ type: 'integer' })
     id: number
 
     @OneToOne(() => User, user => user.basket)
     user: User
 
-    @ManyToMany(() => Product, product => product.baskets, {
-        eager: true
-    })
+    @ManyToMany(() => Product, product => product.baskets)
     products: Product[]
 }
