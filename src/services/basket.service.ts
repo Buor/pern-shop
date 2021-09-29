@@ -39,7 +39,7 @@ export class BasketService {
         const basket = await this._getBasketByUserId(userId)
 
         if(!basket.products) {
-            throw new HttpException(`Basket have no products!`, 400)
+            return []
         }
 
         return basket.products.map(product => ({
@@ -69,6 +69,10 @@ export class BasketService {
 
         if (!user) {
             throw new HttpException(`No user found with id ${userId}`, 400)
+        }
+
+        if(!user.basket) {
+            throw new HttpException(`Eternal server error! User has no basket!`, 500)
         }
 
         const basket = await this.basketRepository.findOne(user.basket.id, options)

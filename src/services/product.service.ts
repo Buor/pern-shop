@@ -14,7 +14,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 export class ProductService {
 
     constructor(private readonly connection: Connection,
-                @InjectRepository(Product) private readonly productRepository: Repository<Product>) {
+                @InjectRepository(Product) private readonly productRepository: Repository<Product>,
+                @InjectRepository(Product) private readonly brandRepository: Repository<Brand>) {
     }
 
     async getProduct(id: number, options: IGetProductOptions): Promise<ProductDTO> {
@@ -82,7 +83,7 @@ export class ProductService {
         }
 
         //Check if brand exists
-        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
+        const brand = await this.brandRepository.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
         if (!brand) {
             throw new HttpException(`Brand ${createProductDTO.brand} not found!`, 400)
         }
