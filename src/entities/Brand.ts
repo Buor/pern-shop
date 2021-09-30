@@ -1,9 +1,9 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 import Product from './Product'
 import Type from './Type'
 
 @Entity('brand')
-export default class Brand extends BaseEntity {
+export default class Brand {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
 

@@ -7,26 +7,31 @@ import { GetAllProductsDTO, IGetProductOptions, ProductDTO } from '../../@types/
 import { TypeProperty } from '../entities/TypeProperty'
 import { TypePropertyValue } from '../entities/TypePropertyValue'
 import { CreateProductDTO } from '../dto/productDTOs'
-import { Connection } from 'typeorm'
+import { Connection, FindOneOptions, Repository } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
 
 @Injectable()
 export class ProductService {
 
-    constructor(private readonly connection: Connection) {
+    constructor(private readonly connection: Connection,
+                @InjectRepository(Product) private readonly productRepository: Repository<Product>,
+                @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>,
+                @InjectRepository(ProductInfo) private readonly productInfoRepository: Repository<ProductInfo>,
+                @InjectRepository(Type) private readonly typeRepository: Repository<Type>,
+                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>) {
     }
 
-    async getProduct(idOrName: string, options: IGetProductOptions): Promise<ProductDTO> {
-        let product: Product = await ProductService._getProduct(idOrName)
-
-        const productDTOValues = ProductService._productToProductDTO(product)
+    async getProduct(id: number, options: IGetProductOptions): Promise<ProductDTO> {
 
         if (options.withType === 'true') {
-            productDTOValues.type = product.type
+            return await this._getProduct(id, { relations: ['type'] })
         }
         if (options.withTypePropValues === 'true') {
-            productDTOValues.typePropertyValues = product.typePropertyValues
+            return await this._getProduct(id, { relations: ['typePropertyValues'] })
         }
         if (options.withTypeProperties === 'true') {
+
+            let product = await this._getProduct(id, { relations: ['typePropertyValues', 'type'] })
 
             let productSelection = await this.connection.createQueryBuilder(Product, 'product')
                 .leftJoinAndSelect('product.type', 'type')
@@ -41,20 +46,24 @@ export class ProductService {
                 typePropertyValues: typeProperty.typePropertyValues.filter(typePropertyValue => typePropValuesIds.includes(typePropertyValue.id))
             }))
 
-            productDTOValues.typeProperties = filteredTypeProperties
+            let productDTO = { ...product } as ProductDTO
+            delete productDTO.type
+            delete productDTO.typePropertyValues
+            productDTO.typeProperties = filteredTypeProperties
+
+            return productDTO
         }
 
-        return productDTOValues
+
     }
 
-    async getProductCount(idOrName: string): Promise<number> {
-        let product: Product = await ProductService._getProduct(idOrName)
+    async getProductCount(id: number): Promise<number> {
+        let product: Product = await this._getProduct(id)
         return product.count
     }
 
     async getAllProducts(): Promise<GetAllProductsDTO[]> {
-        const allProducts = await Product.find()
-        return allProducts.map(ProductService._productToProductDTO)
+        return await this.productRepository.find()
     }
 
     async getProductsByType(typeId: number, pageNumber: number, filters: string[], pageSize: number = 50, order: 'ASC' | 'DESC' = 'ASC'): Promise<any> {
@@ -71,19 +80,19 @@ export class ProductService {
     async createProduct(createProductDTO: CreateProductDTO) {
 
         //Check if product with given name exists
-        const product = await Product.findOne({ where: { name: createProductDTO.name } })
+        const product = await this.productRepository.findOne({ where: { name: createProductDTO.name } })
         if (product) {
             throw new HttpException(`Product with name ${createProductDTO.name} already exists!`, 400)
         }
 
         //Check if brand exists
-        const brand = await Brand.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
+        const brand = await this.brandRepository.findOne({ where: { brand: createProductDTO.brand.toLowerCase() } })
         if (!brand) {
             throw new HttpException(`Brand ${createProductDTO.brand} not found!`, 400)
         }
 
         //Check if type exists
-        const type = await Type.findOne({ where: { name: createProductDTO.type.toLowerCase() } })
+        const type = await this.typeRepository.findOne({ where: { name: createProductDTO.type.toLowerCase() } })
         if (!type) {
             throw new HttpException(`Type ${createProductDTO.type} not found!`, 400)
         }
@@ -101,7 +110,7 @@ export class ProductService {
                 throw new HttpException(`There is no '${property.name}' type property on '${type.name}' type! Maybe you were looking for ${typeProperties.map(prop => '\'' + prop.name + '\'').slice(0, 6).join(',')}?`, 400)
             }
 
-            const typeProperty = await TypeProperty.findOne(prop.id)
+            const typeProperty = await this.typePropertyRepository.findOne(prop.id)
 
             //Check if typePropertyValue exists on typeProperty
             const typePropertyValue = typeProperty.typePropertyValues.find(typePropertyValue => typePropertyValue.name === property.value.toLowerCase())
@@ -113,14 +122,15 @@ export class ProductService {
         }
 
         try {
-            //Create product infos
-            const productInfos = await Promise.all(createProductDTO.productInfos.map(info => ProductInfo.create({
+            //Create product infos and save them
+            const productInfos = createProductDTO.productInfos.map(info => this.productInfoRepository.create({
                     name: info.name,
                     description: info.description
-                }).save()
-            ))
+                }))
 
-            return await Product.create({
+            await Promise.all(productInfos.map(productInfo => this.productInfoRepository.save(productInfo)))
+
+            const newProduct = this.productRepository.create({
                 name: createProductDTO.name,
                 cost: createProductDTO.cost,
                 discountCost: createProductDTO.discountCost,
@@ -130,31 +140,24 @@ export class ProductService {
                 type,
                 productInfos,
                 typePropertyValues
-            }).save()
+            })
+
+            await this.productRepository.save(newProduct)
+            return newProduct
+
         } catch (e) {
             throw new HttpException(e.message, 500)
         }
     }
 
-    private static _productToProductDTO(product: Product): ProductDTO {
-        return {
-            count: product.count,
-            img: product.img,
-            cost: product.cost,
-            discountCost: product.discountCost,
-            name: product.name,
-            id: product.id
-        }
-    }
-
-    private static async _getProduct(value: string): Promise<Product> {
+    private async _getProduct(id: number, options?: FindOneOptions<Product>): Promise<Product> {
         let product: Product
-        if (Number.isInteger(+value))
-            product = await Product.findOne(+value)
+        if (Number.isInteger(id))
+            product = await this.productRepository.findOne(+id, options)
         else
-            product = await Product.findOne({ where: { name: value } })
+            throw new HttpException(`Id ${id} is not an integer!`, 400)
 
-        if (!product) throw new HttpException(`Can't find product with id or name \'${value}\'!`, 400)
+        if (!product) throw new HttpException(`Can't find product with id or name \'${id}\'!`, 400)
         return product
     }
 

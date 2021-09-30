@@ -3,28 +3,32 @@ import Type from '../entities/Type'
 import { TypeProperty } from '../entities/TypeProperty'
 import { TypePropertyValue } from '../entities/TypePropertyValue'
 import { GetTypesDTO } from '../../@types/DTO/typeDTOs'
-import { Connection } from 'typeorm'
+import { Repository } from 'typeorm'
 import { CreateTypeDTO, UpdateTypeDTO } from '../dto/typeDTOs'
+import { InjectRepository } from '@nestjs/typeorm'
 
 @Injectable()
 export class TypeService {
 
-    constructor(private readonly connection: Connection) {}
+    constructor(@InjectRepository(Type) private readonly typeRepository: Repository<Type>,
+                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>,
+                @InjectRepository(TypePropertyValue) private readonly typePropValueRepository: Repository<TypePropertyValue>) {
+    }
 
     async getType(value: number | string) {
         let type: Type;
 
         if (Number.isInteger(+value))
-            type = await Type.findOne(value)
+            type = await this.typeRepository.findOne(value)
         else
-            type = await Type.findOne({ where: { name: value } })
+            type = await this.typeRepository.findOne({ where: { name: value } })
 
         if(!type) throw new HttpException(`Type with id or name ${value} not found!`,400)
         return type
     }
 
     async getTypes(): Promise<GetTypesDTO[]> {
-        const types = await Type.find()
+        const types = await this.typeRepository.find()
         return types.map(type => ({
             name: type.name,
             typeLogo: type.typeLogo,
@@ -35,7 +39,7 @@ export class TypeService {
     async createType(createTypeDTO: CreateTypeDTO) {
 
         //Check if this type already exists
-        const type = await Type.findOne({ where: { name: createTypeDTO.name.toLowerCase() } })
+        const type = await this.typeRepository.findOne({ where: { name: createTypeDTO.name.toLowerCase() } })
         if (type) {
             throw new HttpException(`Type with name ${createTypeDTO.name} already exists!`, 400)
         }
@@ -47,14 +51,16 @@ export class TypeService {
 
                 //Create typePropertyValues in db
                 const typePropertyValues = await Promise.all(property.typePropertyValues.map(async propertyValue => {
-                    return await TypePropertyValue.create({ name: propertyValue.toLowerCase() }).save()
+                    let newTypePropValue = this.typePropValueRepository.create({ name: propertyValue.toLowerCase() })
+                    return await this.typePropValueRepository.save(newTypePropValue)
                 }))
 
                 //Create typeProperty
-                return await TypeProperty.create({
+                const newTypeProperty = await this.typePropertyRepository.create({
                     name: property.name.toLowerCase(),
                     typePropertyValues
-                }).save()
+                })
+                return await this.typePropertyRepository.save(newTypeProperty)
             }))
         } catch (err) {
             console.log(err.message)
@@ -62,22 +68,13 @@ export class TypeService {
         }
 
         //Create Type
-        return await Type.create({
+        const newType = this.typeRepository.create({
             name: createTypeDTO.name.toLowerCase(),
             typeLogo: createTypeDTO.typeLogo,
             typeProperties
-        }).save()
-    }
+        })
 
-    async deleteTypes() {
-        try {
-            await this.connection.createQueryBuilder().delete().from(TypePropertyValue).execute()
-            await this.connection.createQueryBuilder().delete().from(TypeProperty).execute()
-            await this.connection.createQueryBuilder().delete().from(Type).execute()
-        } catch (err) {
-            console.log(err)
-        }
-        return "All types successfully deleted!"
+        return await this.typeRepository.save(newType)
     }
 
     async updateType(updateTypeDTO: UpdateTypeDTO, id: number) {
@@ -85,7 +82,7 @@ export class TypeService {
             throw new HttpException(`ID ${id} is not valid!`, 400)
         }
 
-        let type = await Type.findOne(id)
+        let type = await this.typeRepository.findOne(id, {relations: ['typeProperties', 'typeProperties.typePropertyValues']})
 
         if (!type) {
             throw new HttpException(`Cannot find type with id ${id}!`, 400)
@@ -98,23 +95,29 @@ export class TypeService {
         if (updateTypeDTO.typeProperties) {
             for (let typeProp of updateTypeDTO.typeProperties) {
                 //Find type Prop
-                let typeProperty = type.typeProperties.find(typeProperty => typeProperty.name === typeProp.name.toLowerCase())
+                let typePropertyIdx = type.typeProperties.findIndex(typeProperty => typeProperty.name === typeProp.name.toLowerCase())
+                let typeProperty: TypeProperty;
 
-                if (!typeProperty) {
-                    typeProperty = TypeProperty.create({
+                if (typePropertyIdx !== -1) {
+                    typeProperty = type.typeProperties[typePropertyIdx]
+                    type.typeProperties.splice(typePropertyIdx, 1)
+                } else {
+                    typeProperty = this.typePropertyRepository.create({
                         name: typeProp.name.toLowerCase(),
                         typePropertyValues: []
                     })
                 }
 
                 for (let typeValue of typeProp.typePropertyValues) {
-                    typeProperty.typePropertyValues.push(await TypePropertyValue.create({ name: typeValue.toLowerCase() }).save())
+                    let newTypePropValue = await this.typePropValueRepository.create({ name: typeValue.toLowerCase() })
+                    await this.typePropValueRepository.save(newTypePropValue)
+                    typeProperty.typePropertyValues.push(newTypePropValue)
                 }
 
-                type.typeProperties.push(await TypeProperty.save(typeProperty))
+                type.typeProperties.push(await this.typePropertyRepository.save(typeProperty))
             }
         }
 
-        return await Type.save(type)
+        return await this.typeRepository.save(type)
     }
 }
