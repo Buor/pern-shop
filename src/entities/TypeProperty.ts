@@ -15,7 +15,6 @@ export class TypeProperty extends BaseEntity {
     type: Type
 
     @OneToMany(() => TypePropertyValue, typePropertyValue => typePropertyValue.typeProperty, {
-        eager: true,
         onDelete: "CASCADE"
     })
     typePropertyValues: TypePropertyValue[]

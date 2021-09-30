@@ -16,7 +16,8 @@ export class ProductService {
     constructor(private readonly connection: Connection,
                 @InjectRepository(Product) private readonly productRepository: Repository<Product>,
                 @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>,
-                @InjectRepository(ProductInfo) private readonly productInfoRepository: Repository<ProductInfo>) {
+                @InjectRepository(ProductInfo) private readonly productInfoRepository: Repository<ProductInfo>,
+                @InjectRepository(Type) private readonly typeRepository: Repository<Type>) {
     }
 
     async getProduct(id: number, options: IGetProductOptions): Promise<ProductDTO> {
@@ -90,7 +91,7 @@ export class ProductService {
         }
 
         //Check if type exists
-        const type = await Type.findOne({ where: { name: createProductDTO.type.toLowerCase() } })
+        const type = await this.typeRepository.findOne({ where: { name: createProductDTO.type.toLowerCase() } })
         if (!type) {
             throw new HttpException(`Type ${createProductDTO.type} not found!`, 400)
         }
