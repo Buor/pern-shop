@@ -10,11 +10,12 @@ import { FindOneOptions, Repository } from 'typeorm'
 export class BasketService {
 
     constructor(@InjectRepository(Product) private readonly productRepository: Repository<Product>,
-                @InjectRepository(Basket) private readonly basketRepository: Repository<Basket>) {
+                @InjectRepository(Basket) private readonly basketRepository: Repository<Basket>,
+                @InjectRepository(User) private readonly userRepository: Repository<User>) {
     }
 
     async addProductToBasket(productId: number, userId: number): Promise<boolean> {
-        const user = await User.findOne(userId)
+        const user = await this.userRepository.findOne(userId)
         if (!user)
             throw new HttpException(`User with id ${userId} doesn't exist!`, 400)
 
@@ -65,7 +66,7 @@ export class BasketService {
     }
 
     private async _getBasketByUserId(userId: number, options?: FindOneOptions<Basket>) {
-        const user = await User.findOne(userId)
+        const user = await this.userRepository.findOne(userId)
 
         if (!user) {
             throw new HttpException(`No user found with id ${userId}`, 400)
