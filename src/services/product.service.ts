@@ -17,7 +17,8 @@ export class ProductService {
                 @InjectRepository(Product) private readonly productRepository: Repository<Product>,
                 @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>,
                 @InjectRepository(ProductInfo) private readonly productInfoRepository: Repository<ProductInfo>,
-                @InjectRepository(Type) private readonly typeRepository: Repository<Type>) {
+                @InjectRepository(Type) private readonly typeRepository: Repository<Type>,
+                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>) {
     }
 
     async getProduct(id: number, options: IGetProductOptions): Promise<ProductDTO> {
@@ -109,7 +110,7 @@ export class ProductService {
                 throw new HttpException(`There is no '${property.name}' type property on '${type.name}' type! Maybe you were looking for ${typeProperties.map(prop => '\'' + prop.name + '\'').slice(0, 6).join(',')}?`, 400)
             }
 
-            const typeProperty = await TypeProperty.findOne(prop.id)
+            const typeProperty = await this.typePropertyRepository.findOne(prop.id)
 
             //Check if typePropertyValue exists on typeProperty
             const typePropertyValue = typeProperty.typePropertyValues.find(typePropertyValue => typePropertyValue.name === property.value.toLowerCase())

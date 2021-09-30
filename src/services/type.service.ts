@@ -10,7 +10,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 @Injectable()
 export class TypeService {
 
-    constructor(@InjectRepository(Type) private readonly typeRepository: Repository<Type>) {
+    constructor(@InjectRepository(Type) private readonly typeRepository: Repository<Type>,
+                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>) {
     }
 
     async getType(value: number | string) {
@@ -53,10 +54,11 @@ export class TypeService {
                 }))
 
                 //Create typeProperty
-                return await TypeProperty.create({
+                const newTypeProperty = await this.typePropertyRepository.create({
                     name: property.name.toLowerCase(),
                     typePropertyValues
-                }).save()
+                })
+                return await this.typePropertyRepository.save(newTypeProperty)
             }))
         } catch (err) {
             console.log(err.message)
@@ -98,7 +100,7 @@ export class TypeService {
                     typeProperty = type.typeProperties[typePropertyIdx]
                     type.typeProperties.splice(typePropertyIdx, 1)
                 } else {
-                    typeProperty = TypeProperty.create({
+                    typeProperty = this.typePropertyRepository.create({
                         name: typeProp.name.toLowerCase(),
                         typePropertyValues: []
                     })
@@ -108,7 +110,7 @@ export class TypeService {
                     typeProperty.typePropertyValues.push(await TypePropertyValue.create({ name: typeValue.toLowerCase() }).save())
                 }
 
-                type.typeProperties.push(await TypeProperty.save(typeProperty))
+                type.typeProperties.push(await this.typePropertyRepository.save(typeProperty))
             }
         }
 
