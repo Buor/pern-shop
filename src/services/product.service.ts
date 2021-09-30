@@ -15,7 +15,8 @@ export class ProductService {
 
     constructor(private readonly connection: Connection,
                 @InjectRepository(Product) private readonly productRepository: Repository<Product>,
-                @InjectRepository(Product) private readonly brandRepository: Repository<Brand>) {
+                @InjectRepository(Brand) private readonly brandRepository: Repository<Brand>,
+                @InjectRepository(ProductInfo) private readonly productInfoRepository: Repository<ProductInfo>) {
     }
 
     async getProduct(id: number, options: IGetProductOptions): Promise<ProductDTO> {
@@ -119,12 +120,13 @@ export class ProductService {
         }
 
         try {
-            //Create product infos
-            const productInfos = await Promise.all(createProductDTO.productInfos.map(info => ProductInfo.create({
+            //Create product infos and save them
+            const productInfos = createProductDTO.productInfos.map(info => this.productInfoRepository.create({
                     name: info.name,
                     description: info.description
-                }).save()
-            ))
+                }))
+
+            await Promise.all(productInfos.map(productInfo => this.productInfoRepository.save(productInfo)))
 
             const newProduct = this.productRepository.create({
                 name: createProductDTO.name,
