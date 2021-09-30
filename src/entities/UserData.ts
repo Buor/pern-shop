@@ -1,5 +1,5 @@
-import { BaseEntity, Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
-import User from "./User";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import User from './User'
 
 export enum UserRole {
     User = "User",
@@ -7,7 +7,7 @@ export enum UserRole {
 }
 
 @Entity('user_data')
-export default class UserData extends BaseEntity {
+export default class UserData {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
 
