@@ -1,9 +1,9 @@
-import { BaseEntity, Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import Product from './Product'
 import { TypeProperty } from './TypeProperty'
 
 @Entity()
-export class TypePropertyValue extends BaseEntity{
+export class TypePropertyValue {
     @PrimaryGeneratedColumn({type: "integer"})
     id: number;
 

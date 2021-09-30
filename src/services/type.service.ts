@@ -11,7 +11,8 @@ import { InjectRepository } from '@nestjs/typeorm'
 export class TypeService {
 
     constructor(@InjectRepository(Type) private readonly typeRepository: Repository<Type>,
-                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>) {
+                @InjectRepository(TypeProperty) private readonly typePropertyRepository: Repository<TypeProperty>,
+                @InjectRepository(TypePropertyValue) private readonly typePropValueRepository: Repository<TypePropertyValue>) {
     }
 
     async getType(value: number | string) {
@@ -50,7 +51,8 @@ export class TypeService {
 
                 //Create typePropertyValues in db
                 const typePropertyValues = await Promise.all(property.typePropertyValues.map(async propertyValue => {
-                    return await TypePropertyValue.create({ name: propertyValue.toLowerCase() }).save()
+                    let newTypePropValue = this.typePropValueRepository.create({ name: propertyValue.toLowerCase() })
+                    return await this.typePropValueRepository.save(newTypePropValue)
                 }))
 
                 //Create typeProperty
@@ -107,7 +109,9 @@ export class TypeService {
                 }
 
                 for (let typeValue of typeProp.typePropertyValues) {
-                    typeProperty.typePropertyValues.push(await TypePropertyValue.create({ name: typeValue.toLowerCase() }).save())
+                    let newTypePropValue = await this.typePropValueRepository.create({ name: typeValue.toLowerCase() })
+                    await this.typePropValueRepository.save(newTypePropValue)
+                    typeProperty.typePropertyValues.push(newTypePropValue)
                 }
 
                 type.typeProperties.push(await this.typePropertyRepository.save(typeProperty))
